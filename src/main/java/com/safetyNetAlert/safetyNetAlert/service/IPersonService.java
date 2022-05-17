@@ -1,5 +1,5 @@
 package com.safetyNetAlert.safetyNetAlert.service;
 
-public class IPersonService {
+public interface IPersonService {
 
 }
