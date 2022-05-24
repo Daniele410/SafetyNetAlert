@@ -16,4 +16,8 @@ public class PersonRepository {
 		this.listPerson.add(person);
 	}
 
+	public List<Person> getAllPersons() {
+		return this.listPerson;
+	}
+
 }

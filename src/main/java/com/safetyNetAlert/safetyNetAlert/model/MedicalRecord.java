@@ -1,5 +1,7 @@
 package com.safetyNetAlert.safetyNetAlert.model;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -7,7 +9,8 @@ public class MedicalRecord {
 	private String firstName;
 	private String lastName;
 	private String birthdate;
-	private String medications;
+	private List<String> medications;
+	private List<String> allergies;
 
 //	public MedicalRecord(String firstName, String lastName, String birthdate, String medications, String allergies) {
 //		super();
