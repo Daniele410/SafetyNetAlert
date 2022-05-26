@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
@@ -22,11 +24,11 @@ public class MedicalRecordController {
 		return new ResponseEntity<>(medicalRecordRepository.getAllMedicalRecords(), HttpStatus.OK);
 	}
 	
-//	@PostMapping
-//	public ResponseEntity<MedicalRecord> addMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
-//		medicalRecordRepository.addMedicalRecord(medicalRecord);
-//		return new ResponseEntity<>(medicalRecord, HttpStatus.CREATED);
-//	}
+	@PostMapping(value = "/medicalRecords/getAll")
+	public ResponseEntity<MedicalRecord> addMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
+		medicalRecordRepository.addMedicalRecord(medicalRecord);
+		return new ResponseEntity<>(medicalRecord, HttpStatus.CREATED);
+	}
 	
 	
 }
