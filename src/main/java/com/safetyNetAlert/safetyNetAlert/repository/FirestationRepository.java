@@ -15,5 +15,9 @@ public class FirestationRepository {
 	public void addFirestation(Firestation firestation) {
 		this.listFirestation.add(firestation);
 	}
+	
+	public List<Firestation> getAllFirestation(){
+		return this.listFirestation;
+	}
 
 }

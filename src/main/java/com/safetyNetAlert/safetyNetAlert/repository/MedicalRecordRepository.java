@@ -17,4 +17,8 @@ public class MedicalRecordRepository {
 		this.listMedicalRecord.add(medicalRecord);
 	}
 	
+	public List<MedicalRecord> getAllMedicalRecords(){
+		return this.listMedicalRecord;
+	}
+	
 }
