@@ -105,10 +105,8 @@ public class JsonReaderImpl implements IDataReader {
 				medicalRecord = mapper.treeToValue(nodeMedicalRecord,
 				        MedicalRecord.class);
 			} catch (JsonProcessingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

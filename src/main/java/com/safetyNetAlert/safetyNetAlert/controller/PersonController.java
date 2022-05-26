@@ -19,17 +19,19 @@ public class PersonController {
 	@Autowired
 	private PersonRepository personRepository;
 	
-	@GetMapping(value = "/persons/getAll")
+	@GetMapping(value = "/person")
 	public ResponseEntity<List<Person>> getAllPersons() {
 				
 		return new ResponseEntity<>(personRepository.getAllPersons(), HttpStatus.OK);
 	}
 	
-	@PostMapping
+	@PostMapping(value = "/person")
 	public ResponseEntity<Person> addPerson(@RequestBody Person person) {
 		personRepository.addPerson(person);
 		return new ResponseEntity<>(person, HttpStatus.CREATED);
 	}
+	
+	
 	
 	
 	
