@@ -16,6 +16,13 @@ public interface IPersonService {
 	Person getPersonByPhone(String phone);
 	Person getPersonByEmail(String email);
 	
+	Person deletePerson(Person person);
+	
+	Person updatePerson(Person person);
+	
+	Person addPerson(Person person);
+
+	
 	
 	
 }

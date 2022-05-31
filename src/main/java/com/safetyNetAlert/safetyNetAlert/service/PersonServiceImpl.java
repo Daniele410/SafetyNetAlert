@@ -80,4 +80,25 @@ public class PersonServiceImpl implements IPersonService {
 		
 	}
 
+	@Override
+	public Person deletePerson(Person person) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Person updatePerson(Person person) {
+		// Vérifier si la Person existe
+		
+		personRepository.updatePerson(person);
+
+		return null;
+	}
+
+	@Override
+	public Person addPerson(Person person) {
+		this.personRepository.addPerson(person);
+		return person;
+	}
+
 }

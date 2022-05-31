@@ -14,45 +14,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetyNetAlert.safetyNetAlert.model.Person;
-import com.safetyNetAlert.safetyNetAlert.repository.PersonRepository;
-import com.safetyNetAlert.safetyNetAlert.service.PersonServiceImpl;
+import com.safetyNetAlert.safetyNetAlert.service.IPersonService;
 
 @RestController
 public class PersonController {
 
-	@Autowired
-	private PersonRepository personRepository;
 	
 	@Autowired
-	PersonServiceImpl personServiceImpl;
+	IPersonService personService;
 	
 	
 	@GetMapping(value = "/person")
 	public ResponseEntity<List<Person>> getAllPersons() {
 				
-		return new ResponseEntity<>(personRepository.getAllPersons(), HttpStatus.OK);
+		return new ResponseEntity<>(personService.getPersons(), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/person/{firstName}")
 	public ResponseEntity<List<Person>> getAllPersons(@PathVariable("firstName") String firstName) {
-		return new ResponseEntity<>(personRepository.getAllPersons(), HttpStatus.OK);
+		return new ResponseEntity<>(personService.getPersons(), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/person")
 	public ResponseEntity<Person> addPerson(@RequestBody Person person) {
-		personRepository.addPerson(person);
+		personService.addPerson(person);
 		return new ResponseEntity<>(person, HttpStatus.CREATED);
 	}
 	
 	 @PutMapping(value = "/person")
-	    public ResponseEntity<Person> updatePerson(@PathVariable("firstName") String personFirstName, @RequestBody Person person) {
-	        personServiceImpl.updatePerson(personFirstName, person);
-	        return new ResponseEntity<>(personServiceImpl.getPersonByFirstName(personFirstName), HttpStatus.OK);
+	    public ResponseEntity<Person> updatePerson( @RequestBody Person person) {
+	        return new ResponseEntity<>(personService.updatePerson(person), HttpStatus.OK);
 	    }
 	    //The function receives a DELETE request, delete the Person with the specified FirstName.
 	    @DeleteMapping({"person/firstName"})
 	    public ResponseEntity<Person> deleteTodo(@PathVariable("firstName") String firstName) {
-	        personServiceImpl.deletePerson(firstName);
+	        //personService.deletePerson(firstName);
 	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	    }
 	
