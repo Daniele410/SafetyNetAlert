@@ -26,20 +26,27 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 		return medicalRecords;
 	}
 
+	/**
+	 * Check if there is already
+	 */
 	@Override
 	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) {
-		
-		// Vérifier si la Person existe
-		medicalRecordRepository.updatePerson(medicalRecord);
+		medicalRecordRepository.updateMedicalRecord(medicalRecord);
 		return null;
 	}
 
+	/**
+	 * // Add New Medical Record
+	 */
 	@Override
 	public MedicalRecord addMedicalRecord(MedicalRecord medicalRecord) {
 		this.medicalRecordRepository.addMedicalRecord(medicalRecord);
 		return medicalRecord;
 	}
 
+	/*
+	 * Delete it if it is present
+	 */
 	@Override
 	public MedicalRecord deleteMedicalRecord(MedicalRecord medicalRecord) {
 		// TODO Auto-generated method stub

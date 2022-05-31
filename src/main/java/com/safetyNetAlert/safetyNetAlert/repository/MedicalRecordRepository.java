@@ -21,7 +21,7 @@ public class MedicalRecordRepository {
 		return this.listMedicalRecord;
 	}
 
-	public void updatePerson(MedicalRecord medicalRecord) {
+	public void updateMedicalRecord(MedicalRecord medicalRecord) {
 
 		MedicalRecord medicalRecordToUpdate = findByFirstNameAndLastName(medicalRecord.getFirstName(),
 				medicalRecord.getLastName());
