@@ -20,4 +20,8 @@ public class PersonRepository {
 		return this.listPerson;
 	}
 
+	public Person findByFirstName(String firstName) {
+		return this.findByFirstName(firstName);
+	}
+
 }

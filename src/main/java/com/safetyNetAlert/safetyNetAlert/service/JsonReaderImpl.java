@@ -60,7 +60,7 @@ public class JsonReaderImpl implements IDataReader {
 	private void loadPersons() {
 		JsonNode nodePersons = root.path("persons");
 		for (JsonNode nodePerson : nodePersons) {
-			System.out.println("récupération de la personne " + nodePerson.path("firstName").asText());
+
 			Person person = new Person();
 			person.setFirstName(nodePerson.path("firstName").asText());
 			person.setLastName(nodePerson.path("lastName").asText());
@@ -81,9 +81,8 @@ public class JsonReaderImpl implements IDataReader {
 	private void loadFirestations() {
 		JsonNode nodeFirestations = root.path("firestations");
 		for (JsonNode nodeFirestation : nodeFirestations) {
-			System.out.println("récupération de l'address " + nodeFirestation.path("address").asText());
-			Firestation firestation = new Firestation();
 
+			Firestation firestation = new Firestation();
 			firestation.setAddress(nodeFirestation.path("address").asText());
 			firestation.setStation(nodeFirestation.path("station").asText());
 
@@ -99,11 +98,10 @@ public class JsonReaderImpl implements IDataReader {
 	private void loadMedicalRecords() {
 		JsonNode nodeMedicalRecords = root.path("medicalrecords");
 		for (JsonNode nodeMedicalRecord : nodeMedicalRecords) {
+
 			MedicalRecord medicalRecord = new MedicalRecord();
-			
 			try {
-				medicalRecord = mapper.treeToValue(nodeMedicalRecord,
-				        MedicalRecord.class);
+				medicalRecord = mapper.treeToValue(nodeMedicalRecord, MedicalRecord.class);
 			} catch (JsonProcessingException e) {
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {

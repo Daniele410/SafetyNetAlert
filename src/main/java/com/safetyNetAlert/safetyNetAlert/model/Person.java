@@ -1,5 +1,10 @@
 package com.safetyNetAlert.safetyNetAlert.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "persons")
 public class Person {
 	
 	private String firstName;
@@ -64,6 +69,12 @@ public class Person {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	@Override
+	public String toString() {
+		return "Person [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
+				+ ", zip=" + zip + ", phone=" + phone + ", email=" + email + "]";
 	}
 
 
