@@ -21,7 +21,7 @@ public class PersonController {
 
 	
 	@Autowired
-	IPersonService personService;
+	private IPersonService personService;
 	
 	
 	@GetMapping(value = "/person")
@@ -45,9 +45,11 @@ public class PersonController {
 	    public ResponseEntity<Person> updatePerson( @RequestBody Person person) {
 	        return new ResponseEntity<>(personService.updatePerson(person), HttpStatus.OK);
 	    }
+	 
+	 
 	    //The function receives a DELETE request, delete the Person with the specified FirstName.
 	    @DeleteMapping({"person/firstName"})
-	    public ResponseEntity<Person> deleteTodo(@PathVariable("firstName") String firstName) {
+	    public ResponseEntity<Person> deletePerson(@PathVariable("firstName") String firstName) {
 	        //personService.deletePerson(firstName);
 	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	    }

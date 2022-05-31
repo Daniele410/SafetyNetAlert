@@ -9,4 +9,8 @@ List <MedicalRecord> getMedicalRecords();
 
 MedicalRecord deleteMedicalRecord(MedicalRecord medicalRecord);
 
+MedicalRecord addMedicalRecord(MedicalRecord medicalRecord);
+
+MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord);
+
 }
