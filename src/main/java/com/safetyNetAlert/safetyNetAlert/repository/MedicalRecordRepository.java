@@ -30,6 +30,12 @@ public class MedicalRecordRepository {
 		// mise à jour de la personne grâce à l'index dans la liste
 		listMedicalRecord.set(index, medicalRecord);
 	}
+	
+	public void deleteMedicalRecord(MedicalRecord medicalRecord) {
+		MedicalRecord medicalRecordToDelete = findByFirstNameAndLastName(medicalRecord.getFirstName(),medicalRecord.getLastName());
+		int index = listMedicalRecord.indexOf(medicalRecordToDelete);
+		listMedicalRecord.remove(index);
+	}
 
 	private MedicalRecord findByFirstNameAndLastName(String firstName, String lastName) {
 
@@ -42,5 +48,7 @@ public class MedicalRecordRepository {
 		} else
 			return null;
 	}
+
+	
 
 }

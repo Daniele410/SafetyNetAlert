@@ -72,6 +72,7 @@ public class PersonServiceImpl implements IPersonService {
 
 	@Override
 	public Person deletePerson(Person person) {
+		personRepository.deletePerson(person);
 		return null;
 	}
 

@@ -49,7 +49,7 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 	 */
 	@Override
 	public MedicalRecord deleteMedicalRecord(MedicalRecord medicalRecord) {
-		// TODO Auto-generated method stub
+		medicalRecordRepository.deleteMedicalRecord(medicalRecord);
 		return null;
 	}
 

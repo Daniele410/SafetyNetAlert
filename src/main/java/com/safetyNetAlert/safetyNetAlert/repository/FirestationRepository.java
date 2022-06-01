@@ -30,6 +30,14 @@ public class FirestationRepository {
 		// mise à jour de la personne grâce à l'index dans la liste
 		listFirestation.set(index, firestation);
 	}
+	
+	public void deleteFirestation(Firestation firestation) {
+		Firestation firestationToDelete = findByAddressAndStation(firestation.getAddress(),firestation.getStation());
+		int index = listFirestation.indexOf(firestationToDelete);
+		listFirestation.remove(index);
+			
+			
+	}
 
 	private Firestation findByAddressAndStation(String address, String station) {
 

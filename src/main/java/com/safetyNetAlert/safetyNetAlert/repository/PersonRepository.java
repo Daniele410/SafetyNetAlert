@@ -26,14 +26,21 @@ public class PersonRepository {
 	}
 
 	public void updatePerson(Person person) {
-
 		Person personToUpdate = findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
-
 		int index = listPerson.indexOf(personToUpdate);
 		// mise à jour de la personne grâce à l'index dans la liste
 		listPerson.set(index, person);
 	}
 
+	public void deletePerson(Person person) {
+		Person personToDelete = findByFirstNameAndLastName(person.getFirstName(),person.getLastName());
+		int index = listPerson.indexOf(personToDelete);
+		listPerson.remove(index);
+			
+			
+	}
+	
+	
 	private Person findByFirstNameAndLastName(String firstName, String lastName) {
 
 		Optional<Person> personToFind = listPerson.stream()
@@ -51,5 +58,4 @@ public class PersonRepository {
 		} else
 			return null;
 	}
-
 }

@@ -40,7 +40,7 @@ public class FirestationServiceImpl implements IFirestationService{
 	
 	@Override
 	public Firestation deleteFirestation(Firestation firestation) {
-		// TODO Auto-generated method stub
+		firestationRepository.deleteFirestation(firestation);
 		return null;
 	}
 

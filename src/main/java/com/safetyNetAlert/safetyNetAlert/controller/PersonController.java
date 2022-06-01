@@ -19,41 +19,37 @@ import com.safetyNetAlert.safetyNetAlert.service.IPersonService;
 @RestController
 public class PersonController {
 
-	
 	@Autowired
 	private IPersonService personService;
-	
-	
+
 	@GetMapping(value = "/person")
 	public ResponseEntity<List<Person>> getAllPersons() {
-				
+
 		return new ResponseEntity<>(personService.getPersons(), HttpStatus.OK);
 	}
-	
+
 	@GetMapping(value = "/person/{firstName}")
 	public ResponseEntity<List<Person>> getAllPersons(@PathVariable("firstName") String firstName) {
 		return new ResponseEntity<>(personService.getPersons(), HttpStatus.OK);
 	}
-	
+
 	@PostMapping(value = "/person")
 	public ResponseEntity<Person> addPerson(@RequestBody Person person) {
 		personService.addPerson(person);
 		return new ResponseEntity<>(person, HttpStatus.CREATED);
 	}
+
+	@PutMapping(value = "/person")
+	public ResponseEntity<Person> updatePerson(@RequestBody Person person) {
+		return new ResponseEntity<>(personService.updatePerson(person), HttpStatus.OK);
+	}
+
+	// The function receives a DELETE request, delete the Person with the specified
+	// FirstName and LastName.
 	
-	 @PutMapping(value = "/person")
-	    public ResponseEntity<Person> updatePerson( @RequestBody Person person) {
-	        return new ResponseEntity<>(personService.updatePerson(person), HttpStatus.OK);
-	    }
-	 
-	 
-	    //The function receives a DELETE request, delete the Person with the specified FirstName.
-	    @DeleteMapping({"person/firstName"})
-	    public ResponseEntity<Person> deletePerson(@PathVariable("firstName") String firstName) {
-	        //personService.deletePerson(firstName);
-	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	    }
-	
-	
-	
+	@DeleteMapping(value = "/person")
+	public ResponseEntity<Person> deletePerson(@RequestBody Person person) {
+		return new ResponseEntity<>(personService.deletePerson(person), HttpStatus.OK);
+	}
+
 }
