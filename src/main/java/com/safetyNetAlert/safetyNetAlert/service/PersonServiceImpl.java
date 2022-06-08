@@ -3,17 +3,25 @@ package com.safetyNetAlert.safetyNetAlert.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 import com.safetyNetAlert.safetyNetAlert.repository.PersonRepository;
 
 @Service
 public class PersonServiceImpl implements IPersonService {
 
+	static final Logger logger = LogManager.getLogger(PersonServiceImpl.class);
+
 	@Autowired
 	PersonRepository personRepository;
+	
+	@Autowired
+	PersonInfoDto personInfoDto;
 
 	public PersonServiceImpl(PersonRepository personRepository) {
 		this.personRepository = personRepository;
@@ -23,6 +31,7 @@ public class PersonServiceImpl implements IPersonService {
 	public List<Person> getPersons() {
 		List<Person> persons = new ArrayList<>();
 		personRepository.getAllPersons().forEach(persons::add);
+		logger.info("Getting all persons");
 		return persons;
 	}
 
@@ -72,7 +81,10 @@ public class PersonServiceImpl implements IPersonService {
 
 	@Override
 	public Person deletePerson(Person person) {
+		//rechercher si la personne existe
+		//si elle n'existe pas alors on throw une exception, PersonNotFoundException
 		personRepository.deletePerson(person);
+		logger.info("Deleting the person with keyname : " + person);
 		return null;
 	}
 
@@ -81,7 +93,7 @@ public class PersonServiceImpl implements IPersonService {
 		// Vérifier si la Person existe
 
 		personRepository.updatePerson(person);
-
+		logger.info("Saving the person : " + person);
 		return null;
 	}
 
@@ -90,5 +102,10 @@ public class PersonServiceImpl implements IPersonService {
 		this.personRepository.addPerson(person);
 		return person;
 	}
+
+	
+
+
+	
 
 }

@@ -72,6 +72,11 @@ public class Person {
 				+ ", zip=" + zip + ", phone=" + phone + ", email=" + email + "]";
 	}
 
+	public Object getInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
     

@@ -16,34 +16,39 @@ public class FirestationRepository {
 	public void addFirestation(Firestation firestation) {
 		this.listFirestation.add(firestation);
 	}
-	
-	public List<Firestation> getAllFirestation(){
+
+	public List<Firestation> getAllFirestation() {
 		return this.listFirestation;
 	}
-	
+
 	public void updateFirestation(Firestation firestation) {
 
-		Firestation firestationToUpdate = findByAddressAndStation(firestation.getAddress(),
-				firestation.getStation());
+		Firestation firestationToUpdate = findByAddressAndStation(firestation.getAddress(), firestation.getStation());
 
 		int index = listFirestation.indexOf(firestationToUpdate);
 		// mise à jour de la personne grâce à l'index dans la liste
 		listFirestation.set(index, firestation);
 	}
-	
+
 	public void deleteFirestation(Firestation firestation) {
 		Firestation firestationToDelete = findByAddressAndStation(firestation.getAddress(),firestation.getStation());
 		int index = listFirestation.indexOf(firestationToDelete);
 		listFirestation.remove(index);
-			
-			
-	}
+		//cas ou firestation avec adresse = null et station != null => on supprime toutes les firestations
+		if (firestation.getAddress() == null && firestation.getStation()!=null) {
+			listFirestation.remove(index);
+		}
+		//cas ou firestation avec adresse != null et station != null =>
+		else if(firestation.getAddress() != null && firestation.getStation()!=null) {
+			listFirestation.remove(index);
+		// cas ou firestation avec adresse != null et station = null =>
+		} else {listFirestation.remove(index);}
+		}
 
 	private Firestation findByAddressAndStation(String address, String station) {
 
-		Optional<Firestation> firestationToFind = listFirestation.stream()
-				.filter(firestation -> (firestation.getAddress().equals(address))
-						&& (firestation.getStation().equals(station)))
+		Optional<Firestation> firestationToFind = listFirestation.stream().filter(
+				firestation -> (firestation.getAddress().equals(address)) && (firestation.getStation().equals(station)))
 				.findFirst();
 		if (firestationToFind.isPresent()) {
 			return firestationToFind.get();

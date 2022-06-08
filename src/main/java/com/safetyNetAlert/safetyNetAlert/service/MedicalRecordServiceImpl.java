@@ -12,6 +12,8 @@ import com.safetyNetAlert.safetyNetAlert.repository.MedicalRecordRepository;
 @Service
 public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
+	
+	
 	@Autowired
 	MedicalRecordRepository medicalRecordRepository;
 

@@ -3,6 +3,7 @@ package com.safetyNetAlert.safetyNetAlert.repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -58,4 +59,20 @@ public class PersonRepository {
 		} else
 			return null;
 	}
+	
+	public List<Person> getPersonsByCity(String city) {
+		
+		return this.listPerson
+				.stream()
+				.filter(person -> person.getCity().equals(city))
+				.collect(Collectors.toList());
+	}
+	
+	public List <Person> getPersonByFirstNameAndLastName(String firstName, String lastName){
+		return this.listPerson
+				.stream()
+				.filter(person -> person.getInfo().equals(findByFirstNameAndLastName(firstName, lastName)))
+				.collect(Collectors.toList());
+	}
+	
 }

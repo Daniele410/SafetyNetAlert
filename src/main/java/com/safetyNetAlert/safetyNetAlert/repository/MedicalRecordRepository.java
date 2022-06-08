@@ -37,7 +37,7 @@ public class MedicalRecordRepository {
 		listMedicalRecord.remove(index);
 	}
 
-	private MedicalRecord findByFirstNameAndLastName(String firstName, String lastName) {
+	public MedicalRecord findByFirstNameAndLastName(String firstName, String lastName) {
 
 		Optional<MedicalRecord> medicalRecordToFind = listMedicalRecord.stream()
 				.filter(medicalRecord -> (medicalRecord.getFirstName().equals(firstName))
