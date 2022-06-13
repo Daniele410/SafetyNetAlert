@@ -1,37 +1,33 @@
 package com.safetyNetAlert.safetyNetAlert.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
+public class FloodDto {
 
-@Repository
-public class PersonInfoDto  {
-
-	public PersonInfoDto() {
-		super();
-	}
-
+	private String address;
 	private String firstName;
 	private String lastName;
-	private String address;
+	private String phone;
 	private int age;
-	private String email;
 	private List<String> medications;
 	private List<String> allergies;
 	
-	private List<PersonInfoDto> listPersonInfoDto= new ArrayList<>();
-	
-	public PersonInfoDto(String firstName, String lastName, String address, int age, String email,
-			List<String> medications, List<String> allergies) {
+	public FloodDto(String address, String firstName, String lastName, String phone, int age, List<String> medications,
+			List<String> allergies) {
 		super();
+		this.address = address;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.address = address;
+		this.phone = phone;
 		this.age = age;
-		this.email = email;
 		this.medications = medications;
 		this.allergies = allergies;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -45,23 +41,17 @@ public class PersonInfoDto  {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getAddress() {
-		return address;
+	public String getPhone() {
+		return phone;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	public int getAge() {
 		return age;
 	}
 	public void setAge(int age) {
 		this.age = age;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
 	}
 	public List<String> getMedications() {
 		return medications;
@@ -76,11 +66,5 @@ public class PersonInfoDto  {
 		this.allergies = allergies;
 	}
 	
-	public void addPersonInfoDto(PersonInfoDto personInfoDto) {
-		this.listPersonInfoDto.add(personInfoDto);
-		
-	}
-	
-
 	
 }

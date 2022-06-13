@@ -94,7 +94,7 @@ public class PersonServiceImpl implements IPersonService {
 
 		personRepository.updatePerson(person);
 		logger.info("Saving the person : " + person);
-		return null;
+		return this.updatePerson(person);
 	}
 
 	@Override

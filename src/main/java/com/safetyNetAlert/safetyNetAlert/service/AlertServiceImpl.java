@@ -24,6 +24,9 @@ public class AlertServiceImpl implements IAlertService {
 
 	@Autowired
 	private FirestationRepository firestationRepository;
+	
+	@Autowired
+	PersonInfoDto personInfoDto;
 
 	@Autowired
 	AgeCalculator ageCalculator;
@@ -32,15 +35,13 @@ public class AlertServiceImpl implements IAlertService {
 		return personRepository.getPersonsByCity(city).stream().map(p -> p.getEmail()).collect(Collectors.toList());
 	}
 
+	@Override
 	public List<PersonInfoDto> getPersonInfo(String firstName, String lastName) {
-
 		return personRepository.getPersonByFirstNameAndLastName(firstName, lastName).stream().map(p -> {
 			MedicalRecord medicalRecord = medicalRecordRepository.findByFirstNameAndLastName(firstName, lastName);
 			int age = ageCalculator.calculate(medicalRecord.getBirthdate());
 			return new PersonInfoDto(p.getFirstName(), p.getLastName(), p.getAddress(), age, p.getEmail(),
-					medicalRecord.getAllergies(), medicalRecord.getMedications());
-
-		}).collect(Collectors.toList());
+					medicalRecord.getAllergies(), medicalRecord.getMedications());}).collect(Collectors.toList());
 
 	}
 	

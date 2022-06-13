@@ -5,12 +5,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 
 @Repository
 public class PersonRepository {
+	
+	@Autowired
+	PersonInfoDto personInfoDto;
 
 	private List<Person> listPerson = new ArrayList<>();
 
@@ -71,7 +76,7 @@ public class PersonRepository {
 	public List <Person> getPersonByFirstNameAndLastName(String firstName, String lastName){
 		return this.listPerson
 				.stream()
-				.filter(person -> person.getInfo().equals(findByFirstNameAndLastName(firstName, lastName)))
+				.filter(person -> person.getPersonInfo(firstName, lastName).equals(getPersonByFirstNameAndLastName(firstName, lastName)))
 				.collect(Collectors.toList());
 	}
 	

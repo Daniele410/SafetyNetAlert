@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,15 +28,11 @@ public class PersonController {
 
 	@GetMapping(value = "/person")
 	public ResponseEntity<List<Person>> getAllPersons() {
-		logger.info("list()");
+		logger.info("GET /person called");
 		return new ResponseEntity<>(personService.getPersons(), HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/person/{firstName}")
-	public ResponseEntity<List<Person>> getAllPersons(@PathVariable("firstName") String firstName) {
-		
-		return new ResponseEntity<>(personService.getPersons(), HttpStatus.OK);
-	}
+	
 
 	@PostMapping(value = "/person")
 	public ResponseEntity<Person> addPerson(@RequestBody Person person) {
