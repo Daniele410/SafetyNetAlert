@@ -1,9 +1,5 @@
 package com.safetyNetAlert.safetyNetAlert.model;
 
-import java.util.List;
-
-import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
-
 public class Person {
 	
 	
@@ -78,13 +74,7 @@ public class Person {
 				+ ", zip=" + zip + ", phone=" + phone + ", email=" + email + "]";
 	}
 
-	public List<PersonInfoDto> getPersonInfo(String firstName, String lastName) {
-		return this.getPersonInfo(firstName, lastName);
-	}
-
-
-
 	
-	
+
     
 }

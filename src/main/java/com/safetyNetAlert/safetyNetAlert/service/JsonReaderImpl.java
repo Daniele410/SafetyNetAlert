@@ -13,14 +13,12 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 import com.safetyNetAlert.safetyNetAlert.model.Firestation;
 import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 import com.safetyNetAlert.safetyNetAlert.repository.FirestationRepository;
 import com.safetyNetAlert.safetyNetAlert.repository.MedicalRecordRepository;
 import com.safetyNetAlert.safetyNetAlert.repository.PersonRepository;
-import com.safetyNetAlert.safetyNetAlert.utils.AgeCalculator;
 
 @Service
 public class JsonReaderImpl implements IDataReader {
@@ -40,11 +38,6 @@ public class JsonReaderImpl implements IDataReader {
 	@Autowired
 	private MedicalRecordRepository medicalRecordRepository;
 
-	@Autowired
-	PersonInfoDto personInfoDto;
-
-	@Autowired
-	AgeCalculator ageCalculator;
 
 	public JsonReaderImpl(@Value("${data.jsonFilePath}") String jsonFilePath) {
 		this.jsonFilePath = jsonFilePath;
@@ -57,7 +50,6 @@ public class JsonReaderImpl implements IDataReader {
 			loadPersons();
 			loadFirestations();
 			loadMedicalRecords();
-			loadPersonInfoDto();
 		} catch (FileNotFoundException e) {
 		}
 	}
@@ -122,23 +114,4 @@ public class JsonReaderImpl implements IDataReader {
 		}
 	}
 
-	private void loadPersonInfoDto() {
-		JsonNode nodePersonInfoDtos = root.path("personInfo");
-		for (JsonNode nodePersonInfoDto : nodePersonInfoDtos) {
-
-			PersonInfoDto personInfoDto = new PersonInfoDto();
-			try {
-				personInfoDto = mapper.treeToValue(nodePersonInfoDto, PersonInfoDto.class);
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			}
-
-			personInfoDto.addPersonInfoDto(personInfoDto);
-
-		}
-	}
-			
-	
 }

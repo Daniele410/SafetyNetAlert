@@ -22,10 +22,6 @@ public class AlertController {
 	@Autowired
 	private IAlertService alertService;
 
-	@GetMapping(value = "/toto")
-	public ResponseEntity<String> helloWorld() {
-		return new ResponseEntity<>("hello world", HttpStatus.OK);
-	}
 
 	@GetMapping(value = "/communityEmail")
 	public ResponseEntity<List<String>> getCommunityEmail(@RequestParam String city) {
@@ -38,20 +34,22 @@ public class AlertController {
 	}
 		}
 
-//	@GetMapping(value = "/personInfo")
-//	public ResponseEntity<PersonInfoDto> getPersonInfo(@RequestParam String firstName, @RequestParam String lastName) {
-//		if (firstName.isBlank() || lastName.isBlank()) {
-//			logger.error("Firstname or Lastname blank");
-//			return new ResponseEntity<PersonInfoDto>(HttpStatus.NOT_FOUND);
-//		} else {
-//			logger.info("List of Person generated");
-//			return new ResponseEntity<PersonInfoDto>((PersonInfoDto) alertService.getPersonInfo(firstName, lastName), HttpStatus.OK);
-//		}
+	@GetMapping(value = "/personInfo")
+	public ResponseEntity<PersonInfoDto> getPersonInfo(@RequestParam String firstName, @RequestParam String lastName) {
+		if (firstName.isBlank() || lastName.isBlank()) {
+			logger.error("Firstname or Lastname blank");
+			return new ResponseEntity<PersonInfoDto>(HttpStatus.NOT_FOUND);
+		} else {
+			logger.info("List of Person generated");
+			return new ResponseEntity <PersonInfoDto> ( alertService.getPersonInfo(firstName, lastName), HttpStatus.OK);
+		}
+		
+		
 
-	@GetMapping("/personInfo")
-	public List<PersonInfoDto> listPersonInfo(@RequestParam(value="firstName") String firstName, @RequestParam(value="lastName") String lastName) {
-		logger.debug("call safetyNet controller - personInfo");
-		return this.alertService.getPersonInfo(firstName, lastName);
-	
+//	@GetMapping("/personInfo")
+//	public PersonInfoDto listPersonInfo(@RequestParam(value="firstName") String firstName, @RequestParam(value="lastName") String lastName) {
+//		logger.debug("call safetyNet controller - personInfo");
+//		return this.alertService.getPersonInfo(firstName, lastName);
+//	
 	}
 }

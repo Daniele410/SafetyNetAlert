@@ -2,6 +2,7 @@ package com.safetyNetAlert.safetyNetAlert.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,4 +56,17 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 		return null;
 	}
 
-}
+	@Override
+	public MedicalRecord getMedicalRecordByFirstNameAndLastName(String firstName, String lastName) {
+		Optional<MedicalRecord> medicalRecordTemp = medicalRecordRepository.getMedicalRecordsByFirstNameAndLastName(firstName, lastName);
+		
+		if(medicalRecordTemp.isPresent()) {
+			return medicalRecordTemp.get();
+			}else {
+			System.out.println("erreur");
+			return null;
+		}}
+		
+	}
+
+

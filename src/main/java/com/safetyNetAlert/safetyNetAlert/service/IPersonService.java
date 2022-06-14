@@ -22,6 +22,10 @@ public interface IPersonService {
 	
 	Person addPerson(Person person);
 	
+	List<Person> getPersonsByCity(String city);
+	
+	Person getPersonByFirstnameAndLastName(String firstname, String lastname);
+	
 	
 
 	

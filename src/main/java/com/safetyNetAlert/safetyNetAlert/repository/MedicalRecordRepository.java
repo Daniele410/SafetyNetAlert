@@ -31,8 +31,13 @@ public class MedicalRecordRepository {
 		listMedicalRecord.set(index, medicalRecord);
 	}
 	
+	public MedicalRecord findByBirthdate(String birthdate) {
+		return this.findByBirthdate(birthdate);
+	}
+
 	public void deleteMedicalRecord(MedicalRecord medicalRecord) {
-		MedicalRecord medicalRecordToDelete = findByFirstNameAndLastName(medicalRecord.getFirstName(),medicalRecord.getLastName());
+		MedicalRecord medicalRecordToDelete = findByFirstNameAndLastName(medicalRecord.getFirstName(),
+				medicalRecord.getLastName());
 		int index = listMedicalRecord.indexOf(medicalRecordToDelete);
 		listMedicalRecord.remove(index);
 	}
@@ -49,6 +54,11 @@ public class MedicalRecordRepository {
 			return null;
 	}
 
-	
+	public Optional<MedicalRecord> getMedicalRecordsByFirstNameAndLastName(String lastName, String firstName) {
+		return this.listMedicalRecord
+				.stream()
+				.filter(medicalRecord -> medicalRecord.getFirstName().equals(firstName) && medicalRecord.getLastName().equals(lastName))
+				.findFirst();
+	}
 
 }

@@ -2,13 +2,13 @@ package com.safetyNetAlert.safetyNetAlert.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 import com.safetyNetAlert.safetyNetAlert.repository.PersonRepository;
 
@@ -20,8 +20,7 @@ public class PersonServiceImpl implements IPersonService {
 	@Autowired
 	PersonRepository personRepository;
 	
-	@Autowired
-	PersonInfoDto personInfoDto;
+	
 
 	public PersonServiceImpl(PersonRepository personRepository) {
 		this.personRepository = personRepository;
@@ -104,8 +103,21 @@ public class PersonServiceImpl implements IPersonService {
 	}
 
 	
+	@Override
+	public List<Person> getPersonsByCity(String city) {
+		return personRepository.getPersonsByCity(city);
+	}
 
-
-	
+	public Person getPersonByFirstnameAndLastName(String firstName, String lastName){
+		Optional<Person> personTemp = personRepository.getPersonByFirstNameAndLastName(firstName, lastName);
+		
+		if(personTemp.isPresent()) {
+			return personTemp.get();
+		}
+		else {
+			System.out.println("erreur");
+			return null;
+		}
+	}
 
 }

@@ -1,34 +1,28 @@
 package com.safetyNetAlert.safetyNetAlert.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-
-@Repository
 public class PersonInfoDto  {
 
-	public PersonInfoDto() {
-		super();
-	}
 
 	private String firstName;
 	private String lastName;
 	private String address;
-	private int age;
+	private int birthdate;
 	private String email;
 	private List<String> medications;
 	private List<String> allergies;
 	
-	private List<PersonInfoDto> listPersonInfoDto= new ArrayList<>();
 	
-	public PersonInfoDto(String firstName, String lastName, String address, int age, String email,
+	
+	
+	public PersonInfoDto(String firstName, String lastName, String address, int birthdate, String email,
 			List<String> medications, List<String> allergies) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
-		this.age = age;
+		this.birthdate = birthdate;
 		this.email = email;
 		this.medications = medications;
 		this.allergies = allergies;
@@ -51,11 +45,11 @@ public class PersonInfoDto  {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public int getAge() {
-		return age;
+	public int getBirthdate() {
+		return birthdate;
 	}
-	public void setAge(int age) {
-		this.age = age;
+	public void setBirthdate(int birthdate) {
+		this.birthdate = birthdate;
 	}
 	public String getEmail() {
 		return email;
@@ -76,11 +70,8 @@ public class PersonInfoDto  {
 		this.allergies = allergies;
 	}
 	
-	public void addPersonInfoDto(PersonInfoDto personInfoDto) {
-		this.listPersonInfoDto.add(personInfoDto);
-		
-	}
 	
-
+	
+	
 	
 }

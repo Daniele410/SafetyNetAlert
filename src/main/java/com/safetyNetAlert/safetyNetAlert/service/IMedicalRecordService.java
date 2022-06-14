@@ -13,4 +13,6 @@ MedicalRecord addMedicalRecord(MedicalRecord medicalRecord);
 
 MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord);
 
+MedicalRecord getMedicalRecordByFirstNameAndLastName(String firstName, String lastName);
+
 }

@@ -8,6 +8,6 @@ public interface IAlertService {
 
 	public List<String> getCommunityEmail(String city);
 
-	 List<PersonInfoDto>  getPersonInfo(String firstName, String lastName);
+	public PersonInfoDto getPersonInfo(String firstName, String lastName);
 
 }
