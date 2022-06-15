@@ -11,7 +11,7 @@ import com.safetyNetAlert.safetyNetAlert.model.Person;
 
 @Repository
 public class PersonRepository {
-	
+
 	private List<Person> listPerson = new ArrayList<>();
 
 	public void addPerson(Person person) {
@@ -34,14 +34,12 @@ public class PersonRepository {
 	}
 
 	public void deletePerson(Person person) {
-		Person personToDelete = findByFirstNameAndLastName(person.getFirstName(),person.getLastName());
+		Person personToDelete = findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
 		int index = listPerson.indexOf(personToDelete);
 		listPerson.remove(index);
-			
-			
+
 	}
-	
-	
+
 	private Person findByFirstNameAndLastName(String firstName, String lastName) {
 
 		Optional<Person> personToFind = listPerson.stream()
@@ -59,29 +57,27 @@ public class PersonRepository {
 		} else
 			return null;
 	}
-	
+
 	public List<Person> getPersonsByCity(String city) {
-		
-		return this.listPerson
-				.stream()
-				.filter(person -> person.getCity().equals(city))
-				.collect(Collectors.toList());
+
+		return this.listPerson.stream().filter(person -> person.getCity().equals(city)).collect(Collectors.toList());
 	}
-	
-	public Optional<Person> getPersonByFirstNameAndLastName(String firstName, String lastName){
-		return this.listPerson
-				.stream()
+
+	public Optional<Person> getPersonByFirstNameAndLastName(String firstName, String lastName) {
+		return this.listPerson.stream()
 				.filter(person -> person.getFirstName().equals(firstName) && person.getLastName().equals(lastName))
 				.findFirst();
 	}
-	
-	public Optional<Person> getChildByAddress(String address){
-		
-		return this.listPerson
-				.stream()
-				.filter(person -> person.getAddress().equals(address))
-				.findFirst();
+
+	public Optional<Person> getChildByAddress(String address) {
+
+		return this.listPerson.stream().filter(person -> person.getAddress().equals(address)).findFirst();
 	}
-	
-	
+
+	public List<Person> getPersonByAddress(String address) {
+		return getPersonByAddress(address).stream().filter(p -> p.getAddress().equals(address))
+				.collect(Collectors.toList());
+
+	}
+
 }

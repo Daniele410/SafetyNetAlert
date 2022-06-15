@@ -79,9 +79,13 @@ public class AlertServiceImpl implements IAlertService {
 	public ChildDto getChildDto(String address) {
 		Person person = personService.getPersonByAddress(address);
 		MedicalRecord medicalRecord = medicalRecordService.getMedicalRecordsChild(address);
-		ChildDto childDto = new ChildDto(person.getFirstName(),person.getLastName(),ageCalculator.calculate(medicalRecord.getBirthdate()),person.getAddress());
+		ChildDto childDto = new ChildDto(person.getFirstName(),person.getLastName(),ageCalculator.calculate(medicalRecord.getBirthdate()));
 		return childDto;
 	
 	}
+	
+	
+	
+	
 	
 }
