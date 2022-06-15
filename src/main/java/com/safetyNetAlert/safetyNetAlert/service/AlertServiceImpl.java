@@ -7,15 +7,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.safetyNetAlert.safetyNetAlert.dto.ChildDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 import com.safetyNetAlert.safetyNetAlert.utils.AgeCalculator;
 
-/**
- * @author danozzo
- *
- */
 /**
  * @author danozzo
  *
@@ -70,16 +67,21 @@ public class AlertServiceImpl implements IAlertService {
 
 		return personInfo;
 	}
-	
-	
 	/*
 	 * http://localhost:8080/childAlert?address=<address> Cette url doit retourner
-	 * une liste d'enfants (tout individu âgé de 18 ans ou moins) habitant à cette
-	 * adresse. La liste doit comprendre le prénom et le nom de famille de chaque
+	 * -Une liste d'enfants (tout individu âgé de 18 ans ou moins) habitant à cette
+	 * adresse.
+	 * -La liste doit comprendre le prénom et le nom de famille de chaque
 	 * enfant, son âge et une liste des autres membres du foyer. S'il n'y a pas
 	 * d'enfant, cette url peut renvoyer une chaîne vide.
 	 */
+	@Override
+	public ChildDto getChildDto(String address) {
+		Person person = personService.getPersonByAddress(address);
+		MedicalRecord medicalRecord = medicalRecordService.getMedicalRecordsChild(address);
+		ChildDto childDto = new ChildDto(person.getFirstName(),person.getLastName(),ageCalculator.calculate(medicalRecord.getBirthdate()),person.getAddress());
+		return childDto;
 	
-	
+	}
 	
 }

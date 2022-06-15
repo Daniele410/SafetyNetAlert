@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
+import com.safetyNetAlert.safetyNetAlert.utils.AgeCalculator;
 
 @Repository
 public class MedicalRecordRepository {
+
+	@Autowired
+	AgeCalculator ageCalculator;
 
 	private List<MedicalRecord> listMedicalRecord = new ArrayList<>();
 
@@ -30,7 +35,7 @@ public class MedicalRecordRepository {
 		// mise à jour de la personne grâce à l'index dans la liste
 		listMedicalRecord.set(index, medicalRecord);
 	}
-	
+
 	public MedicalRecord findByBirthdate(String birthdate) {
 		return this.findByBirthdate(birthdate);
 	}
@@ -55,12 +60,21 @@ public class MedicalRecordRepository {
 	}
 
 	public Optional<MedicalRecord> getMedicalRecordsByFirstNameAndLastName(String lastName, String firstName) {
-		return this.listMedicalRecord
-				.stream()
-				.filter(medicalRecord -> medicalRecord.getFirstName().equals(firstName) && medicalRecord.getLastName().equals(lastName))
-				.findFirst();
+		return this.listMedicalRecord.stream().filter(medicalRecord -> medicalRecord.getFirstName().equals(firstName)
+				&& medicalRecord.getLastName().equals(lastName)).findFirst();
 	}
-	
-	
+
+	public MedicalRecord getMedicalRecordsChild(String birthdate) {
+		Optional<MedicalRecord> medicalRecordToFind = listMedicalRecord.stream()
+				.filter(medicalRecord -> (medicalRecord.getBirthdate().equals(birthdate))).findFirst();
+		int maxAge = 18;
+		if (ageCalculator.calculate(birthdate) <= maxAge) {
+			return medicalRecordToFind.get();
+		}
+
+		else
+			return null;
+
+	}
 
 }

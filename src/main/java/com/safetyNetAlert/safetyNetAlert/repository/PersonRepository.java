@@ -75,5 +75,13 @@ public class PersonRepository {
 				.findFirst();
 	}
 	
+	public Optional<Person> getChildByAddress(String address){
+		
+		return this.listPerson
+				.stream()
+				.filter(person -> person.getAddress().equals(address))
+				.findFirst();
+	}
+	
 	
 }

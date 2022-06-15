@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.safetyNetAlert.safetyNetAlert.dto.ChildDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 import com.safetyNetAlert.safetyNetAlert.service.IAlertService;
 
@@ -43,6 +44,18 @@ public class AlertController {
 			logger.info("List of Person generated");
 			return new ResponseEntity <PersonInfoDto> ( alertService.getPersonInfo(firstName, lastName), HttpStatus.OK);
 		}
+		}
+		
+		@GetMapping(value = "/childAlert")
+		public ResponseEntity <ChildDto> getChildDto(@RequestParam String address) {
+			if (address.isBlank()) {
+				logger.error("address is blank");
+				return new ResponseEntity <ChildDto>(HttpStatus.NOT_FOUND);
+			} else {
+			logger.info("List of childAddress generated");
+			return new ResponseEntity<>(alertService.getChildDto(address), HttpStatus.OK);
+			}
+		
 		
 		
 

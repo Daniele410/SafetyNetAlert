@@ -11,7 +11,7 @@ public interface IPersonService {
 	Person getPersonByFirstName(String firstName);
 	Person getPersonByLastName(String lastName);
 	Person getPersonByAddress(String address);
-	Person getPersonByCity(String city);
+	
 	Person getPersonByZip(String zip);
 	Person getPersonByPhone(String phone);
 	Person getPersonByEmail(String email);

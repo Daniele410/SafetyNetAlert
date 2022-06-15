@@ -66,6 +66,11 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 			System.out.println("erreur");
 			return null;
 		}}
+
+	@Override
+	public MedicalRecord getMedicalRecordsChild(String birthdate) {
+		return this.medicalRecordRepository.getMedicalRecordsChild(birthdate);
+	}
 		
 	}
 
