@@ -23,7 +23,7 @@ public class FirestationRepository {
 
 	public void updateFirestation(Firestation firestation) {
 
-		Firestation firestationToUpdate = findByAddressAndStation(firestation.getAddress(), firestation.getStation());
+		Firestation firestationToUpdate = findByAddress(firestation.getAddress());
 
 		int index = listFirestation.indexOf(firestationToUpdate);
 		// mise à jour de la personne grâce à l'index dans la liste
@@ -49,6 +49,17 @@ public class FirestationRepository {
 
 		Optional<Firestation> firestationToFind = listFirestation.stream().filter(
 				firestation -> (firestation.getAddress().equals(address)) && (firestation.getStation().equals(station)))
+				.findFirst();
+		if (firestationToFind.isPresent()) {
+			return firestationToFind.get();
+		} else
+			return null;
+	}
+	
+	private Firestation findByAddress(String address) {
+
+		Optional<Firestation> firestationToFind = listFirestation.stream().filter(
+				firestation -> (firestation.getAddress().equals(address)))
 				.findFirst();
 		if (firestationToFind.isPresent()) {
 			return firestationToFind.get();

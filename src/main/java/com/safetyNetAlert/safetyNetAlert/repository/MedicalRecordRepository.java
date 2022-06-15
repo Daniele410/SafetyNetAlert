@@ -60,5 +60,7 @@ public class MedicalRecordRepository {
 				.filter(medicalRecord -> medicalRecord.getFirstName().equals(firstName) && medicalRecord.getLastName().equals(lastName))
 				.findFirst();
 	}
+	
+	
 
 }

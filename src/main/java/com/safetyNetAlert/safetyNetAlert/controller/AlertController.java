@@ -35,7 +35,7 @@ public class AlertController {
 		}
 
 	@GetMapping(value = "/personInfo")
-	public ResponseEntity<PersonInfoDto> getPersonInfo(@RequestParam String firstName, @RequestParam String lastName) {
+	public ResponseEntity <PersonInfoDto> getPersonInfo(@RequestParam String firstName, @RequestParam String lastName) {
 		if (firstName.isBlank() || lastName.isBlank()) {
 			logger.error("Firstname or Lastname blank");
 			return new ResponseEntity<PersonInfoDto>(HttpStatus.NOT_FOUND);
