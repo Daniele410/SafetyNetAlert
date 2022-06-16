@@ -43,15 +43,9 @@ public class PersonServiceImpl implements IPersonService {
 
 
 
-	@Override
-	public Person getPersonByZip(String zip) {
-		return this.getPersonByZip(zip);
-	}
+	
 
-	@Override
-	public Person getPersonByPhone(String phone) {
-		return this.getPersonByPhone(phone);
-	}
+	
 
 	@Override
 	public Person getPersonByEmail(String email) {
@@ -82,7 +76,7 @@ public class PersonServiceImpl implements IPersonService {
 
 		personRepository.updatePerson(person);
 		logger.info("Saving the person : " + person);
-		return this.updatePerson(person);
+		return null;
 	}
 
 	@Override
@@ -121,10 +115,18 @@ public class PersonServiceImpl implements IPersonService {
 		}
 	}
 	
+	@Override
 	public List<Person> getPersonByAddress(String address) {
 		List<Person> personTemp = personRepository.getPersonByAddress(address);
 		return personTemp;
 		
+		
+	}
+	
+	@Override
+	public List<Person> getPhoneByAddress(String address){
+		List<Person> personTemp = personRepository.getPhoneByAddress(address);
+		return personTemp;
 		
 	}
 

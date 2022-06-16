@@ -47,13 +47,9 @@ public class MedicalRecordRepository {
 		listMedicalRecord.remove(index);
 	}
 
-	
-
 	public Optional<MedicalRecord> findByFirstNameAndLastName(String lastName, String firstName) {
 		return this.listMedicalRecord.stream().filter(medicalRecord -> medicalRecord.getFirstName().equals(firstName)
 				&& medicalRecord.getLastName().equals(lastName)).findFirst();
 	}
-
-	
 
 }

@@ -46,13 +46,6 @@ public class PersonRepository {
 		Optional<Person> personToFind = listPerson.stream()
 				.filter(person -> (person.getFirstName().equals(firstName)) && (person.getLastName().equals(lastName)))
 				.findFirst();
-
-		/*
-		 * for(Person person : listPerson) {
-		 * if((person.getFirstName().equals(firstName)) &&
-		 * (person.getLastName().equals(lastName))) { return person; } }
-		 */
-
 		if (personToFind.isPresent()) {
 			return personToFind.get();
 		} else
@@ -77,6 +70,10 @@ public class PersonRepository {
 
 	public List<Person> getPersonByAddress(String address) {
 		return this.listPerson.stream().filter(person -> person.getAddress().equals(address)).collect(Collectors.toList());
+	}
+	
+	public List<Person> getPhoneByAddress(String address){
+		return this.listPerson.stream().filter(person -> person.getPhone().equals(address)).collect(Collectors.toList());
 	}
 
 }

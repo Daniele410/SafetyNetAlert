@@ -14,6 +14,6 @@ public interface IAlertService {
 	
 	public List<ChildDto> getChildDto(String address);
 	
-	public List<PhoneDto> getPhoneAlert(String phone);
+	public List<PhoneDto> getPhoneAlert(String address);
 
 }

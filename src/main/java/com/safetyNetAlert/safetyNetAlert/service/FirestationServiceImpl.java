@@ -50,6 +50,15 @@ public class FirestationServiceImpl implements IFirestationService{
 		return this.getAddressByStationNumber(stationNumber);
 	}
 
+	@Override
+	public List<Firestation> getFirestationsByAddress(String address) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	
+
 	
 
 	

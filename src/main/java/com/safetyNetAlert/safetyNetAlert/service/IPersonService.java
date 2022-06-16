@@ -7,32 +7,27 @@ import com.safetyNetAlert.safetyNetAlert.model.Person;
 public interface IPersonService {
 
 	List<Person> getPersons();
-	
-	
-	
+
 	List<Person> getPersonByLastName(String lastName);
-	
+
 	List<Person> getPersonByAddress(String address);
+
 	
-	Person getPersonByZip(String zip);
-	Person getPersonByPhone(String phone);
+
 	Person getPersonByEmail(String email);
-	
+
 	Person deletePerson(Person person);
-	
+
 	Person updatePerson(Person person);
-	
+
 	Person addPerson(Person person);
-	
+
 	List<Person> getPersonsByCity(String city);
-	
+
 	Person getPersonByFirstnameAndLastName(String firstname, String lastname);
 
 	Person getChildByAddress(String address);
-	
-	
 
-	
+	List<Person> getPhoneByAddress(String address);
 
-	
 }

@@ -94,9 +94,19 @@ public class AlertServiceImpl implements IAlertService {
 	 */
 
 	@Override
-	public List<PhoneDto> getPhoneAlert(String phone) {
-
+	public List<PhoneDto> getPhoneAlert(String address) {
+		// TODO Auto-generated method stub
 		return null;
 	}
+
+//	@Override
+//	public List<PhoneDto> getPhoneAlert(String address) {
+//		List<PhoneDto> phoneDtos = new ArrayList<>();
+//		List<Person> persons = personService.getPersonByAddress(address);
+//		List<Person> phoneList = persons.stream().filter(p -> personService.getPhoneByAddress(p.getAddress()).collect(Collectors.toList());
+//
+//		return phoneDtos;
+//
+//	}
 
 }

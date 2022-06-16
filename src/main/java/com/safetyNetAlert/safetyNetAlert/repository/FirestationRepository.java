@@ -3,6 +3,7 @@ package com.safetyNetAlert.safetyNetAlert.repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -76,6 +77,10 @@ public class FirestationRepository {
 		} else
 			return null;
 	}
+	
+	public List<Firestation> getFirestationsByAddress(String address){
+		return this.listFirestation.stream().filter(firestation -> firestation.getAddress().equals(address)).collect(Collectors.toList());
+	} 
 
 	
 

@@ -15,4 +15,7 @@ public interface IFirestationService {
 	
 	Firestation getAddressByStationNumber (String stationNumber);
 
+	
+	
+	public List<Firestation> getFirestationsByAddress(String address);
 }

@@ -14,11 +14,9 @@ import com.safetyNetAlert.safetyNetAlert.utils.AgeCalculator;
 @Service
 public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
-	
-	
 	@Autowired
 	MedicalRecordRepository medicalRecordRepository;
-	
+
 	@Autowired
 	AgeCalculator ageCalculator;
 
@@ -61,29 +59,30 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 	}
 
 	@Override
-	public MedicalRecord getMedicalRecordByFirstNameAndLastName(String lastName, String firstName ) {
-		Optional<MedicalRecord> medicalRecordTemp = medicalRecordRepository.findByFirstNameAndLastName(lastName, firstName);
-		
-		if(medicalRecordTemp.isPresent()) {
+	public MedicalRecord getMedicalRecordByFirstNameAndLastName(String lastName, String firstName) {
+		Optional<MedicalRecord> medicalRecordTemp = medicalRecordRepository.findByFirstNameAndLastName(lastName,
+				firstName);
+
+		if (medicalRecordTemp.isPresent()) {
 			return medicalRecordTemp.get();
-			}else {
+		} else {
 			System.out.println("erreur");
 			return null;
-		}}
+		}
+	}
 
 	@Override
 	public boolean isChild(String lastName, String firstName) {
-		MedicalRecord medicalRecordToFind = medicalRecordRepository.findByFirstNameAndLastName(lastName, firstName).get();
+		MedicalRecord medicalRecordToFind = medicalRecordRepository.findByFirstNameAndLastName(lastName, firstName)
+				.get();
 		int maxAge = 18;
 		if (ageCalculator.calculate(medicalRecordToFind.getBirthdate()) <= maxAge) {
 			return true;
 		}
 
 		else
-			
-		return false;
-	}
-		
+
+			return false;
 	}
 
-
+}
