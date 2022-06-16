@@ -44,6 +44,12 @@ public class FirestationServiceImpl implements IFirestationService{
 		return null;
 	}
 
+	@Override
+	public Firestation getAddressByStationNumber(String stationNumber) {
+		firestationRepository.getAddressByStationNumber(stationNumber);
+		return this.getAddressByStationNumber(stationNumber);
+	}
+
 	
 
 	

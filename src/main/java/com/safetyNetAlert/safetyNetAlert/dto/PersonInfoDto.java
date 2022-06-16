@@ -8,7 +8,7 @@ public class PersonInfoDto  {
 	private String firstName;
 	private String lastName;
 	private String address;
-	private int birthdate;
+	private int age;
 	private String email;
 	private List<String> medications;
 	private List<String> allergies;
@@ -16,13 +16,13 @@ public class PersonInfoDto  {
 	
 	
 	
-	public PersonInfoDto(String firstName, String lastName, String address, int birthdate, String email,
+	public PersonInfoDto(String firstName, String lastName, String address, int age, String email,
 			List<String> medications, List<String> allergies) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
-		this.birthdate = birthdate;
+		this.age = age;
 		this.email = email;
 		this.medications = medications;
 		this.allergies = allergies;
@@ -45,11 +45,11 @@ public class PersonInfoDto  {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public int getBirthdate() {
-		return birthdate;
+	public int getAge() {
+		return age;
 	}
-	public void setBirthdate(int birthdate) {
-		this.birthdate = birthdate;
+	public void setAge(int age) {
+		this.age = age;
 	}
 	public String getEmail() {
 		return email;
@@ -69,6 +69,8 @@ public class PersonInfoDto  {
 	public void setAllergies(List<String> allergies) {
 		this.allergies = allergies;
 	}
+	
+	
 	
 	
 	

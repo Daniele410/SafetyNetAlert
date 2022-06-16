@@ -29,7 +29,7 @@ public class MedicalRecordRepository {
 	public void updateMedicalRecord(MedicalRecord medicalRecord) {
 
 		MedicalRecord medicalRecordToUpdate = findByFirstNameAndLastName(medicalRecord.getFirstName(),
-				medicalRecord.getLastName());
+				medicalRecord.getLastName()).get();
 
 		int index = listMedicalRecord.indexOf(medicalRecordToUpdate);
 		// mise à jour de la personne grâce à l'index dans la liste
@@ -42,39 +42,18 @@ public class MedicalRecordRepository {
 
 	public void deleteMedicalRecord(MedicalRecord medicalRecord) {
 		MedicalRecord medicalRecordToDelete = findByFirstNameAndLastName(medicalRecord.getFirstName(),
-				medicalRecord.getLastName());
+				medicalRecord.getLastName()).get();
 		int index = listMedicalRecord.indexOf(medicalRecordToDelete);
 		listMedicalRecord.remove(index);
 	}
 
-	public MedicalRecord findByFirstNameAndLastName(String firstName, String lastName) {
+	
 
-		Optional<MedicalRecord> medicalRecordToFind = listMedicalRecord.stream()
-				.filter(medicalRecord -> (medicalRecord.getFirstName().equals(firstName))
-						&& (medicalRecord.getLastName().equals(lastName)))
-				.findFirst();
-		if (medicalRecordToFind.isPresent()) {
-			return medicalRecordToFind.get();
-		} else
-			return null;
-	}
-
-	public Optional<MedicalRecord> getMedicalRecordsByFirstNameAndLastName(String lastName, String firstName) {
+	public Optional<MedicalRecord> findByFirstNameAndLastName(String lastName, String firstName) {
 		return this.listMedicalRecord.stream().filter(medicalRecord -> medicalRecord.getFirstName().equals(firstName)
 				&& medicalRecord.getLastName().equals(lastName)).findFirst();
 	}
 
-	public MedicalRecord getMedicalRecordsChild(String birthdate) {
-		Optional<MedicalRecord> medicalRecordToFind = listMedicalRecord.stream()
-				.filter(medicalRecord -> (medicalRecord.getBirthdate().equals(birthdate))).findFirst();
-		int maxAge = 18;
-		if (ageCalculator.calculate(birthdate) <= maxAge) {
-			return medicalRecordToFind.get();
-		}
-
-		else
-			return null;
-
-	}
+	
 
 }

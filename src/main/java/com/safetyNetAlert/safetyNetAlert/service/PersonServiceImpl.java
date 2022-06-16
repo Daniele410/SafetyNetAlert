@@ -34,19 +34,14 @@ public class PersonServiceImpl implements IPersonService {
 		return persons;
 	}
 
-	@Override
-	public Person getPersonByFirstName(String firstName) {
-		return personRepository.findByFirstName(firstName);
-	}
-
-	@Override
-	public Person getPersonByLastName(String lastName) {
-		return this.getPersonByLastName(lastName);
-	}
-
-
-
 	
+
+	@Override
+	public List<Person> getPersonByLastName(String lastName) {
+		return personRepository.findByLastName(lastName);
+	}
+
+
 
 	@Override
 	public Person getPersonByZip(String zip) {
@@ -115,7 +110,7 @@ public class PersonServiceImpl implements IPersonService {
 	}
 	
 	@Override
-	public Person getPersonByAddress(String address) {
+	public Person getChildByAddress(String address) {
 		Optional<Person> personTemp = personRepository.getChildByAddress(address);
 		if(personTemp.isPresent()) {
 			return personTemp.get();
@@ -124,6 +119,13 @@ public class PersonServiceImpl implements IPersonService {
 			System.out.println("erreur");
 			return null;
 		}
+	}
+	
+	public List<Person> getPersonByAddress(String address) {
+		List<Person> personTemp = personRepository.getPersonByAddress(address);
+		return personTemp;
+		
+		
 	}
 
 }

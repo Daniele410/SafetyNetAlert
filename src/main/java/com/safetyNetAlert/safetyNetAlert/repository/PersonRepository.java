@@ -21,10 +21,11 @@ public class PersonRepository {
 	public List<Person> getAllPersons() {
 		return this.listPerson;
 	}
-
-	public Person findByFirstName(String firstName) {
-		return this.findByFirstName(firstName);
+	
+	public List<Person> findByLastName(String lastName){
+		return this.listPerson.stream().filter(p->p.getLastName().equals(lastName)).collect(Collectors.toList());
 	}
+	
 
 	public void updatePerson(Person person) {
 		Person personToUpdate = findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
@@ -75,9 +76,7 @@ public class PersonRepository {
 	}
 
 	public List<Person> getPersonByAddress(String address) {
-		return getPersonByAddress(address).stream().filter(p -> p.getAddress().equals(address))
-				.collect(Collectors.toList());
-
+		return this.listPerson.stream().filter(person -> person.getAddress().equals(address)).collect(Collectors.toList());
 	}
 
 }

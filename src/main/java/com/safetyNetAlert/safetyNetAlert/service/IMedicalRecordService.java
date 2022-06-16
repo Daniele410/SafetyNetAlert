@@ -15,5 +15,5 @@ MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord);
 
 MedicalRecord getMedicalRecordByFirstNameAndLastName(String firstName, String lastName);
 
-MedicalRecord getMedicalRecordsChild(String birthdate);
+public boolean isChild(String lastName, String firstName);
 }

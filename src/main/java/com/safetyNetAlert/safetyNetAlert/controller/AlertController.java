@@ -36,24 +36,24 @@ public class AlertController {
 		}
 
 	@GetMapping(value = "/personInfo")
-	public ResponseEntity <PersonInfoDto> getPersonInfo(@RequestParam String firstName, @RequestParam String lastName) {
-		if (firstName.isBlank() || lastName.isBlank()) {
+	public ResponseEntity <List<PersonInfoDto>> getPersonInfo( @RequestParam String lastName) {
+		if (lastName.isBlank()) {
 			logger.error("Firstname or Lastname blank");
-			return new ResponseEntity<PersonInfoDto>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<PersonInfoDto>>(HttpStatus.NOT_FOUND);
 		} else {
 			logger.info("List of Person generated");
-			return new ResponseEntity <PersonInfoDto> ( alertService.getPersonInfo(firstName, lastName), HttpStatus.OK);
+			return new ResponseEntity <List<PersonInfoDto>> ( alertService.getPersonInfo(lastName), HttpStatus.OK);
 		}
 		}
 		
 		@GetMapping(value = "/childAlert")
-		public ResponseEntity <ChildDto> getChildDto(@RequestParam String address) {
+		public ResponseEntity <List<ChildDto>> getChildDto(@RequestParam String address) {
 			if (address.isBlank()) {
 				logger.error("address is blank");
-				return new ResponseEntity <ChildDto>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity <List<ChildDto>>(HttpStatus.NOT_FOUND);
 			} else {
 			logger.info("List of childAddress generated");
-			return new ResponseEntity<>(alertService.getChildDto(address), HttpStatus.OK);
+			return new ResponseEntity<List<ChildDto>>(alertService.getChildDto(address), HttpStatus.OK);
 			}
 		
 		

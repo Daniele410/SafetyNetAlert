@@ -12,5 +12,7 @@ public interface IFirestationService {
 	Firestation addFirestation(Firestation firestation);
 
 	Firestation updateFirestation(Firestation firestation);
+	
+	Firestation getAddressByStationNumber (String stationNumber);
 
 }

@@ -66,6 +66,16 @@ public class FirestationRepository {
 		} else
 			return null;
 	}
+	
+	
+	public Firestation getAddressByStationNumber (String stationNumber) {
+		Optional<Firestation> firestationToFind = listFirestation.stream()
+				.filter(listFirestation -> listFirestation.getStation().equals(stationNumber)).findFirst();
+		if (firestationToFind.isPresent()) {
+			return firestationToFind.get();
+		} else
+			return null;
+	}
 
 	
 

@@ -4,13 +4,16 @@ import java.util.List;
 
 import com.safetyNetAlert.safetyNetAlert.dto.ChildDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
+import com.safetyNetAlert.safetyNetAlert.dto.PhoneDto;
 
 public interface IAlertService {
 
 	public List<String> getCommunityEmail(String city);
 
-	public PersonInfoDto getPersonInfo(String firstName, String lastName);
+	public List<PersonInfoDto> getPersonInfo(String lastName);
 	
-	public ChildDto getChildDto(String address);
+	public List<ChildDto> getChildDto(String address);
+	
+	public List<PhoneDto> getPhoneAlert(String phone);
 
 }
