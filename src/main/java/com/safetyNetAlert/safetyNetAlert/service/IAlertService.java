@@ -1,10 +1,11 @@
 package com.safetyNetAlert.safetyNetAlert.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.safetyNetAlert.safetyNetAlert.dto.ChildDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
-import com.safetyNetAlert.safetyNetAlert.dto.PhoneDto;
+
 
 public interface IAlertService {
 
@@ -14,6 +15,8 @@ public interface IAlertService {
 	
 	public List<ChildDto> getChildDto(String address);
 	
-	public List<PhoneDto> getPhoneAlert(String address);
+	public List<String> getPhoneAlert(String address);
+	
+	public Set<String> getPersonsPhoneNumberByStation(String station) ;
 
 }

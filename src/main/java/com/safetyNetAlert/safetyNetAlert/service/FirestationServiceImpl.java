@@ -2,6 +2,7 @@ package com.safetyNetAlert.safetyNetAlert.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,8 @@ public class FirestationServiceImpl implements IFirestationService{
 		return firestations;
 	}
 	
+	
+	
 	@Override
 	public Firestation updateFirestation(Firestation firestation) {
 		firestationRepository.updateFirestation(firestation);
@@ -44,24 +47,26 @@ public class FirestationServiceImpl implements IFirestationService{
 		return null;
 	}
 
-	@Override
-	public Firestation getAddressByStationNumber(String stationNumber) {
-		firestationRepository.getAddressByStationNumber(stationNumber);
-		return this.getAddressByStationNumber(stationNumber);
-	}
+	
 
 	@Override
 	public List<Firestation> getFirestationsByAddress(String address) {
-		// TODO Auto-generated method stub
-		return null;
+		return firestationRepository.getFirestationsByAddress(address);
 	}
+	
+	public List<Firestation> getAddressesCoveredByStationNumber(String station){
+		return firestationRepository.getAddressesCoveredByStationNumber(station);
+			}
 
 	
-	
-
-	
-
-	
+public List<Firestation> getFireStationsByStation(String station) {
+	List<Firestation> listeFirestationByStation = firestationRepository.getAllFirestation()
+			.stream()
+			.filter(firestation -> firestation.getStation().equals(station)).collect(Collectors.toList());
+	return listeFirestationByStation;
+		
+		
+	}
 	
 
 }

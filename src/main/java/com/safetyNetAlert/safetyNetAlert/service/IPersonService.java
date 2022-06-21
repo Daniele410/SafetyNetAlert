@@ -12,8 +12,6 @@ public interface IPersonService {
 
 	List<Person> getPersonByAddress(String address);
 
-	
-
 	Person getPersonByEmail(String email);
 
 	Person deletePerson(Person person);
@@ -29,5 +27,7 @@ public interface IPersonService {
 	Person getChildByAddress(String address);
 
 	List<Person> getPhoneByAddress(String address);
+	
+	
 
 }

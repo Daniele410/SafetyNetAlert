@@ -2,6 +2,7 @@ package com.safetyNetAlert.safetyNetAlert.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.safetyNetAlert.safetyNetAlert.dto.ChildDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
-import com.safetyNetAlert.safetyNetAlert.dto.PhoneDto;
+import com.safetyNetAlert.safetyNetAlert.model.Firestation;
 import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 import com.safetyNetAlert.safetyNetAlert.utils.AgeCalculator;
@@ -34,7 +35,7 @@ public class AlertServiceImpl implements IAlertService {
 	AgeCalculator ageCalculator;
 
 	public List<String> getCommunityEmail(String city) {
-		return personService.getPersonsByCity(city).stream().map(p -> p.getEmail()).collect(Collectors.toList());
+		return personService.getPersonsByCity(city).stream().map(p -> p.getEmail()).distinct().collect(Collectors.toList());
 	}
 
 	// Cette url doit retourner le nom, l'adresse, l'âge, l'adresse mail et les
@@ -53,9 +54,7 @@ public class AlertServiceImpl implements IAlertService {
 			int age = ageCalculator.calculate(medicalRecord.getBirthdate());
 			personInfoDtos.add(new PersonInfoDto(p.getFirstName(), p.getLastName(), p.getAddress(), age, p.getEmail(),
 					medicalRecord.getMedications(), medicalRecord.getAllergies()));
-
 		});
-
 		return personInfoDtos;
 	}
 
@@ -70,6 +69,7 @@ public class AlertServiceImpl implements IAlertService {
 	public List<ChildDto> getChildDto(String address) {
 		List<ChildDto> childDtos = new ArrayList<>();
 		List<Person> persons = personService.getPersonByAddress(address);
+
 		List<Person> childList = persons.stream()
 				.filter(p -> medicalRecordService.isChild(p.getLastName(), p.getFirstName()))
 				.collect(Collectors.toList());
@@ -78,6 +78,7 @@ public class AlertServiceImpl implements IAlertService {
 			medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(c.getLastName(),
 					c.getFirstName());
 			int age = ageCalculator.calculate(medicalRecord.getBirthdate());
+			
 			List<PersonDto> listeMembersofFamily = persons.stream().filter(
 					p -> !(p.getFirstName().equals(c.getFirstName()) && (p.getLastName().equals(c.getLastName()))))
 					.map(p -> new PersonDto(p.getFirstName(), p.getLastName(), p.getAddress(), p.getPhone()))
@@ -93,18 +94,89 @@ public class AlertServiceImpl implements IAlertService {
 	 * d'urgence à des foyers spécifiques.
 	 */
 
-	@Override
-	public List<PhoneDto> getPhoneAlert(String address) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<String> getPersonsPhoneNumberByStation(String station) {
+		
+		Set<String> setPhoneByStation = firestationService.getFireStationsByStation(station).stream()
+				.map(Firestation::getAddress)//.map(firestation -> firestation.getAdresse)
+				.flatMap(adress -> personService.getPersonByAddress(adress).stream())
+				.map(Person::getPhone)
+				.collect(Collectors.toSet());
+		
+//		Deuxième façon de faire =>
+		
+//		List<Firestation> listAllFireStationforStation = firestationService.getFireStationsByStation(station);
+//		Set<String> listOfAdressesForStation = listAllFireStationforStation.stream().map(Firestation::getAddress).collect(Collectors.toSet());
+//		List<Person> listPersonByAdresses = personService.getPersons()
+//				.stream()
+//				.filter(person -> listOfAdressesForStation.contains(person.getAddress())).collect(Collectors.toList());
+//				
+//		Set<String> allPhoneNumberByStation = listPersonByAdresses.stream().map(Person::getPhone).collect(Collectors.toSet());
+		
+		return setPhoneByStation;
+	}
+		/* List<Person> persons = personService.getPersons();
+		 * firestationsByNumber.stream().map(f->f.getAddress().equals(personService.
+		 * getPhoneByAddress(station)));
+		 * 
+		 * 
+		 * List<PhoneDto> phoneNumbersCoveredBySameStationNumber = new ArrayList<>();
+		 * List<PhoneDto> phoneDtos= new ArrayList<>();
+		 * 
+		 * Firestation firestation = new Firestation(); firestation.getAddress();
+		 * persons.addAll(personService.getPersonByAddress(station));
+		 * 
+		 * Person person = new Person(); person.getPhone();
+		 * 
+		 * 
+		 * phoneNumbersCoveredBySameStationNumber.stream().distinct().collect(Collectors
+		 * .toList());
+		 */
+		
+		
+		
+		//stream() => je vais parcourir ma liste pour la travailler
+		//stream().filtrer(person -> person.getAge <= 18)
+		//stream().map() != Map et != TreeMap
+		//stream().map() permet de transformer le stream de départ (par exemple une liste de person) entre un autre stream ou un objet
+		//foreach() => personList.foreach(person -> person.setAge(person.getAge()+5)) = for (Person person : personList) {person.setAge(person.getAge()+5
+		
+		
+		//stream()...findFirst()
+		//stream()...collect(Collectors.toList()) => je récupère ce qu ise passe entre les "..." dans une liste
+		//stream()...collect(Collectors.toSet())
+		//...
+	
+
+	public List<String> getPhoneAlert(String address) {
+		List<Firestation> fireStationsByNumber = firestationService.getFirestations();
+
+		List<Person> persons = new ArrayList<>();
+		List<String> phoneNumbersCoveredBySameStationNumber = new ArrayList<>();
+
+		for (Firestation firestation : fireStationsByNumber) {
+			firestation.getAddress();
+			persons.addAll(personService.getPersonByAddress(address));
+		}
+		for (Person person : persons) {
+			String phoneNumber = person.getPhone();
+
+			phoneNumbersCoveredBySameStationNumber.add(phoneNumber);
+		}
+
+		return phoneNumbersCoveredBySameStationNumber.stream().distinct().collect(Collectors.toList());
 	}
 
 //	@Override
 //	public List<PhoneDto> getPhoneAlert(String address) {
 //		List<PhoneDto> phoneDtos = new ArrayList<>();
 //		List<Person> persons = personService.getPersonByAddress(address);
-//		List<Person> phoneList = persons.stream().filter(p -> personService.getPhoneByAddress(p.getAddress()).collect(Collectors.toList());
-//
+//		List<Person> phoneList = persons.stream().filter(personService.getPhoneByAddress(address))
+//		persons.forEach(p -> {
+//			Firestation firestation = new Firestation();
+//			firestation = firestationService.getFirestationsByAddress(p.getPhone());
+//			phoneDtos
+//			
+//		});
 //		return phoneDtos;
 //
 //	}

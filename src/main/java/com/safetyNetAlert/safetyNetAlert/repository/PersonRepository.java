@@ -21,11 +21,10 @@ public class PersonRepository {
 	public List<Person> getAllPersons() {
 		return this.listPerson;
 	}
-	
-	public List<Person> findByLastName(String lastName){
-		return this.listPerson.stream().filter(p->p.getLastName().equals(lastName)).collect(Collectors.toList());
+
+	public List<Person> findByLastName(String lastName) {
+		return this.listPerson.stream().filter(p -> p.getLastName().equals(lastName)).collect(Collectors.toList());
 	}
-	
 
 	public void updatePerson(Person person) {
 		Person personToUpdate = findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
@@ -42,7 +41,6 @@ public class PersonRepository {
 	}
 
 	private Person findByFirstNameAndLastName(String firstName, String lastName) {
-
 		Optional<Person> personToFind = listPerson.stream()
 				.filter(person -> (person.getFirstName().equals(firstName)) && (person.getLastName().equals(lastName)))
 				.findFirst();
@@ -69,11 +67,13 @@ public class PersonRepository {
 	}
 
 	public List<Person> getPersonByAddress(String address) {
-		return this.listPerson.stream().filter(person -> person.getAddress().equals(address)).collect(Collectors.toList());
+		return this.listPerson.stream().filter(person -> person.getAddress().equals(address)).distinct()
+				.collect(Collectors.toList());
 	}
-	
-	public List<Person> getPhoneByAddress(String address){
-		return this.listPerson.stream().filter(person -> person.getPhone().equals(address)).collect(Collectors.toList());
+
+	public List<Person> getPhoneByAddress(String address) {
+		return this.listPerson.stream().filter(person -> person.getPhone().equals(address))
+				.collect(Collectors.toList());
 	}
 
 }

@@ -12,10 +12,10 @@ public interface IFirestationService {
 	Firestation addFirestation(Firestation firestation);
 
 	Firestation updateFirestation(Firestation firestation);
-	
-	Firestation getAddressByStationNumber (String stationNumber);
 
+	List<Firestation> getFirestationsByAddress(String address);
 	
+	List<Firestation> getAddressesCoveredByStationNumber(String station);
 	
-	public List<Firestation> getFirestationsByAddress(String address);
+	List<Firestation> getFireStationsByStation(String station) ;
 }
