@@ -33,10 +33,10 @@ public class PersonRepository {
 		listPerson.set(index, person);
 	}
 
-	public void deletePerson(Person person) {
+	public Person deletePerson(Person person) {
 		Person personToDelete = findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
 		int index = listPerson.indexOf(personToDelete);
-		listPerson.remove(index);
+		return listPerson.remove(index);
 
 	}
 

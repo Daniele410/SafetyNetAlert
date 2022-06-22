@@ -87,8 +87,8 @@ public class FirestationRepository {
 		return this.listFirestation.stream().filter(firestation -> firestation.getStation().equals(station)).collect(Collectors.toList());
 	}
 
-public List<Firestation> getFireStationsByStation(String station) {
-		return listFirestation.stream().filter(firestation -> firestation.getStation().equals(station)).collect(Collectors.toList());
+public Optional<Firestation> getFireStationsByStation(String station) {
+		return listFirestation.stream().filter(firestation -> firestation.getStation().equals(station)).findAny();
 	}
 
 }

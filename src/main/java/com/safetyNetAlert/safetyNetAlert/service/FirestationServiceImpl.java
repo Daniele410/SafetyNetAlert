@@ -3,7 +3,6 @@ package com.safetyNetAlert.safetyNetAlert.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,11 +59,8 @@ public class FirestationServiceImpl implements IFirestationService{
 			}
 
 	
-public List<Firestation> getFireStationsByStation(String station) {
-	List<Firestation> listeFirestationByStation = firestationRepository.getAllFirestation()
-			.stream()
-			.filter(firestation -> firestation.getStation().equals(station)).collect(Collectors.toList());
-	return listeFirestationByStation;
+public Optional<Firestation> getFireStationsByStation(String station) {
+	return firestationRepository.getFireStationsByStation(station);
 		
 		
 }

@@ -60,7 +60,7 @@ public class PersonServiceImpl implements IPersonService {
 		//si elle n'existe pas alors on throw une exception, PersonNotFoundException
 		personRepository.deletePerson(person);
 		logger.info("Deleting the person with keyname : " + person);
-		return null;
+		return this.personRepository.deletePerson(person);
 	}
 
 	@Override

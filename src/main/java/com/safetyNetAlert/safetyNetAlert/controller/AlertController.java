@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetyNetAlert.safetyNetAlert.dto.ChildDto;
+import com.safetyNetAlert.safetyNetAlert.dto.FloodDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonAtAddressDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 import com.safetyNetAlert.safetyNetAlert.service.IAlertService;
@@ -89,6 +90,17 @@ public class AlertController {
 		} else {
 			logger.info("List of persons By Station address generated");
 			return new ResponseEntity<List<PersonAtAddressDto>>(alertService.getPersonsByAddressFromListOfStationNumber(address), HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping(value = "/flood/stations")
+	public ResponseEntity <List<FloodDto>> getPersonsBySameAddress(@RequestParam(value = "stations") String station){
+		if (station.isBlank()) {
+			logger.error("station is blank");
+			return new ResponseEntity <List<FloodDto>>(HttpStatus.NOT_FOUND);
+		} else {
+			logger.info("List of persons By Station address generated");
+			return new ResponseEntity<List<FloodDto>>(alertService.getPersonsBySameAddress(station), HttpStatus.OK);
 		}
 	}
 	

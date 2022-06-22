@@ -18,5 +18,7 @@ public interface IFirestationService {
 	
 	List<Firestation> getAddressesCoveredByStationNumber(String firestation);
 	
-	List<Firestation> getFireStationsByStation(String station) ;
+	Optional<Firestation> getFireStationsByStation(String station) ;
+
+	
 }

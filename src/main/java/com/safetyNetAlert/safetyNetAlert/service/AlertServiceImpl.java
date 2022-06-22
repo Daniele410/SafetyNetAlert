@@ -125,26 +125,25 @@ public class AlertServiceImpl implements IAlertService {
 	 * téléphone, l'âge et les antécédents médicaux (médicaments, posologie et
 	 * allergies) de chaque personne
 	 */
-	
-	
+
 	public List<PersonAtAddressDto> getPersonsByAddressFromListOfStationNumber(String address) {
 
-		List<Person> persons = personService.getPersonByAddress(address);
-		Firestation firestation = firestationService.getFirestationsByAddress(address).orElseThrow(() -> new NoSuchElementException("Firestation not found") );
-		
-		
-		List<PersonAtAddressDto> personAddressFirestation = persons.stream()
-				.map(p -> {  
-					MedicalRecord medicalRecord = new MedicalRecord();
-					medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(p.getLastName(),
-							p.getFirstName());
-					int age = ageCalculator.calculate(medicalRecord.getBirthdate());
-					return new PersonAtAddressDto(p.getFirstName(), p.getLastName(), p.getPhone(), firestation.getStation(), age, medicalRecord.getMedications(), medicalRecord.getAllergies());
-				}).collect(Collectors.toList());
-	return personAddressFirestation;
+		List<Person> persons = personService.getPersonByAddress(address); //je cree une liste de person avec address
+		Firestation firestation = firestationService.getFirestationsByAddress(address)
+				.orElseThrow(() -> new NoSuchElementException("Firestation not found"));
+
+		List<PersonAtAddressDto> personAddressFirestation = persons.stream().map(p -> {
+			MedicalRecord medicalRecord = new MedicalRecord();
+			medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(p.getLastName(),
+					p.getFirstName());
+			int age = ageCalculator.calculate(medicalRecord.getBirthdate());
+			return new PersonAtAddressDto(p.getFirstName(), p.getLastName(), p.getPhone(), firestation.getStation(),
+					age, medicalRecord.getMedications(), medicalRecord.getAllergies());
+		}).collect(Collectors.toList());
+		return personAddressFirestation;
 
 	}
-	
+
 	/*
 	 * http://localhost:8080/flood/stations?stations=<a list of station_numbers>
 	 * Cette url doit retourner une liste de tous les foyers desservis par la
@@ -154,14 +153,24 @@ public class AlertServiceImpl implements IAlertService {
 	 * côté de chaque nom.
 	 */
 
-	public List<FloodDto> getPersonsBySameAddress(String firestation) {
-	
+	public List<FloodDto> getPersonsBySameAddress(String station) {
+
+		List<Person> persons = personService.getPersons();
+		Firestation firestation = firestationService.getFireStationsByStation(station).orElseThrow(() -> new NoSuchElementException("Firestation not found"));
 		
-		return null;
+		List<FloodDto> personBySameStation = persons.stream().map(p -> {
+			MedicalRecord medicalRecord = new MedicalRecord();
+			medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(p.getLastName(),
+					p.getFirstName());
+			int age = ageCalculator.calculate(medicalRecord.getBirthdate());  
+			return new FloodDto(p.getLastName(), p.getPhone(), age, firestation.getStation(), medicalRecord.getMedications(), medicalRecord.getAllergies());
+		}).collect(Collectors.toList());
+		return personBySameStation;
+	
+
 		
 	}
-	
-	
+
 	/*
 	 * List<Person> persons = personService.getPersons();
 	 * firestationsByNumber.stream().map(f->f.getAddress().equals(personService.
@@ -213,6 +222,5 @@ public class AlertServiceImpl implements IAlertService {
 //
 //		return phoneNumbersCoveredBySameStationNumber.stream().distinct().collect(Collectors.toList());
 //	}
-
 
 }
