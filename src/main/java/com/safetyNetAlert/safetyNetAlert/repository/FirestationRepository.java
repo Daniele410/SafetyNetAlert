@@ -21,9 +21,6 @@ public class FirestationRepository {
 	public List<Firestation> getAllFirestation() {
 		return this.listFirestation;
 	}
-	
-	
-	
 
 	public void updateFirestation(Firestation firestation) {
 
@@ -57,7 +54,7 @@ public class FirestationRepository {
 		if (firestationToFind.isPresent()) {
 			return firestationToFind.get();
 		} else
-			return null;
+			return this.findByAddressAndStation(address, station);
 	}
 	
 	private Firestation findByAddress(String address) {
@@ -68,7 +65,7 @@ public class FirestationRepository {
 		if (firestationToFind.isPresent()) {
 			return firestationToFind.get();
 		} else
-			return null;
+			return this.findByAddress(address);
 	}
 	
 	
@@ -81,8 +78,8 @@ public class FirestationRepository {
 			return null;
 	}
 	
-	public List<Firestation> getFirestationsByAddress(String address){
-		return this.listFirestation.stream().filter(firestation -> firestation.getAddress().equals(address)).collect(Collectors.toList());
+	public Optional<Firestation> getFirestationsByAddress(String address){
+		return this.listFirestation.stream().filter(firestation -> firestation.getAddress().equals(address)).findAny();
 		
 	} 
 	

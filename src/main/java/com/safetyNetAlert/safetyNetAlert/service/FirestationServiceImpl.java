@@ -2,6 +2,7 @@ package com.safetyNetAlert.safetyNetAlert.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class FirestationServiceImpl implements IFirestationService{
 	
 
 	@Override
-	public List<Firestation> getFirestationsByAddress(String address) {
+	public Optional<Firestation> getFirestationsByAddress(String address) {
 		return firestationRepository.getFirestationsByAddress(address);
 	}
 	
@@ -66,7 +67,6 @@ public List<Firestation> getFireStationsByStation(String station) {
 	return listeFirestationByStation;
 		
 		
-	}
-	
+}
 
 }

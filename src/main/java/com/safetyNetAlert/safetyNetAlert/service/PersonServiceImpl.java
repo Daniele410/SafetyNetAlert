@@ -21,7 +21,6 @@ public class PersonServiceImpl implements IPersonService {
 	PersonRepository personRepository;
 	
 	
-
 	public PersonServiceImpl(PersonRepository personRepository) {
 		this.personRepository = personRepository;
 	}
@@ -35,17 +34,11 @@ public class PersonServiceImpl implements IPersonService {
 	}
 
 	
-
 	@Override
 	public List<Person> getPersonByLastName(String lastName) {
 		return personRepository.findByLastName(lastName);
 	}
 
-
-
-	
-
-	
 
 	@Override
 	public Person getPersonByEmail(String email) {
@@ -76,7 +69,7 @@ public class PersonServiceImpl implements IPersonService {
 
 		personRepository.updatePerson(person);
 		logger.info("Saving the person : " + person);
-		return null;
+		return this.updatePerson(person);
 	}
 
 	@Override

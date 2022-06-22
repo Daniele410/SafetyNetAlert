@@ -16,7 +16,7 @@ public class Person {
     
 	public Person(String firstName, String lastName, String address, String city, String zip, String phone,
 			String email) {
-		super();
+		
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;

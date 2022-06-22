@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetyNetAlert.safetyNetAlert.dto.ChildDto;
+import com.safetyNetAlert.safetyNetAlert.dto.PersonAtAddressDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 import com.safetyNetAlert.safetyNetAlert.service.IAlertService;
 
@@ -69,15 +70,27 @@ public class AlertController {
 //	}
 
 	@GetMapping(value = "/phoneAlert")
-	public ResponseEntity<Set<String>> getPersonsPhoneNumberByStation(@RequestParam String station) {
-		if (station.isBlank()) {
+	public ResponseEntity<Set<String>> getPersonsPhoneNumberByStation(@RequestParam String firestation) {
+		if (firestation.isBlank()) {
 			logger.error("Station number is blank");
 			return new ResponseEntity<Set<String>>(HttpStatus.NOT_FOUND);
 		} else {
 			logger.info("List of PhoneAlert By Station number generated");
-			return new ResponseEntity<Set<String>>(alertService.getPersonsPhoneNumberByStation(station), HttpStatus.OK);
+			return new ResponseEntity<Set<String>>(alertService.getPersonsPhoneNumberByStation(firestation), HttpStatus.OK);
 		}
 
 	}
+	
+	@GetMapping(value = "/fire")
+	public ResponseEntity <List<PersonAtAddressDto>> getPersonsByAddressFromListOfStationNumber(@RequestParam String address){
+		if (address.isBlank()) {
+			logger.error("address is blank");
+			return new ResponseEntity<List<PersonAtAddressDto>>(HttpStatus.NOT_FOUND);
+		} else {
+			logger.info("List of persons By Station address generated");
+			return new ResponseEntity<List<PersonAtAddressDto>>(alertService.getPersonsByAddressFromListOfStationNumber(address), HttpStatus.OK);
+		}
+	}
+	
 	
 }

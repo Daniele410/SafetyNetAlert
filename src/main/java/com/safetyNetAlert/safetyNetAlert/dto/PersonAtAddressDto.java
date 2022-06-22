@@ -2,29 +2,34 @@ package com.safetyNetAlert.safetyNetAlert.dto;
 
 import java.util.List;
 
-public class FloodDto {
-
-
+public class PersonAtAddressDto {
+	private String firstName;
 	private String lastName;
 	private String phone;
+	private String station;
 	private int age;
-	private String address;
 	private List<String> medications;
 	private List<String> allergies;
 	
+	
+	public PersonAtAddressDto(String firstName, String lastName, String phone, String station, int age,
+			List<String> medications, List<String> allergies) {
 		
-	public FloodDto(String lastName, String phone, int age, String address, List<String> medications,
-			List<String> allergies) {
-		
+		this.firstName = firstName;
 		this.lastName = lastName;
 		this.phone = phone;
+		this.station = station;
 		this.age = age;
-		this.address = address;
 		this.medications = medications;
 		this.allergies = allergies;
+		
 	}
-	
-	
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 	public String getLastName() {
 		return lastName;
 	}
@@ -37,17 +42,17 @@ public class FloodDto {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	public String getStation() {
+		return station;
+	}
+	public void setStation(String station) {
+		this.station = station;
+	}
 	public int getAge() {
 		return age;
 	}
 	public void setAge(int age) {
 		this.age = age;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
 	}
 	public List<String> getMedications() {
 		return medications;
@@ -61,7 +66,6 @@ public class FloodDto {
 	public void setAllergies(List<String> allergies) {
 		this.allergies = allergies;
 	}
-	
 	
 	
 }
