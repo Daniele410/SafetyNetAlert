@@ -196,25 +196,6 @@ public class AlertServiceImpl implements IAlertService {
 	}
 
 
-	/*
-	 * List<Person> persons = personService.getPersons();
-	 * firestationsByNumber.stream().map(f->f.getAddress().equals(personService.
-	 * getPhoneByAddress(station)));
-	 * 
-	 * 
-	 * List<PhoneDto> phoneNumbersCoveredBySameStationNumber = new ArrayList<>();
-	 * List<PhoneDto> phoneDtos= new ArrayList<>();
-	 * 
-	 * Firestation firestation = new Firestation(); firestation.getAddress();
-	 * persons.addAll(personService.getPersonByAddress(station));
-	 * 
-	 * Person person = new Person(); person.getPhone();
-	 * 
-	 * 
-	 * phoneNumbersCoveredBySameStationNumber.stream().distinct().collect(Collectors
-	 * .toList());
-	 */
-
 // stream() => je vais parcourir ma liste pour la travailler
 // stream().filtrer(person -> person.getAge <= 18)
 // stream().map() != Map et != TreeMap
