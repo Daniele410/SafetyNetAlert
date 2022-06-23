@@ -2,6 +2,8 @@ package com.safetyNetAlert.safetyNetAlert.controller;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +20,16 @@ import com.safetyNetAlert.safetyNetAlert.service.IFirestationService;
 @RestController
 public class FirestationController {
 	
-	
+	private static final Logger logger = LogManager.getLogger("FirestationController");
 	
 	@Autowired
 	private IFirestationService firestationService;
 	
 	@GetMapping(value= "/firestation")
 	public ResponseEntity<List<Firestation>>getAllFirestations(){
+		List<Firestation> firestationsRecordsList = firestationService.getFirestations();
+		logger.info("GET request for firestation send");
+		logger.info("Response for the GET request for firestation: " + firestationsRecordsList);
 		return new ResponseEntity<>(firestationService.getFirestations(), HttpStatus.OK);
 	}
 	

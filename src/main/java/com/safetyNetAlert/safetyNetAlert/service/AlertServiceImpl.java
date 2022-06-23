@@ -14,6 +14,7 @@ import com.safetyNetAlert.safetyNetAlert.dto.FloodDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonAtAddressDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
+import com.safetyNetAlert.safetyNetAlert.dto.PersonLightDto;
 import com.safetyNetAlert.safetyNetAlert.model.Firestation;
 import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
@@ -167,9 +168,33 @@ public class AlertServiceImpl implements IAlertService {
 		}).collect(Collectors.toList());
 		return personBySameStation;
 	
-
-		
 	}
+	
+	/*
+	 * http://localhost:8080/firestation?stationNumber=<station_number> Cette url
+	 * doit retourner une liste des personnes couvertes par la caserne de pompiers
+	 * correspondante. Donc, si le numéro de station = 1, elle doit renvoyer les
+	 * habitants couverts par la station numéro 1. La liste doit inclure les
+	 * informations spécifiques suivantes : prénom, nom, adresse, numéro de
+	 * téléphone. De plus, elle doit fournir un décompte du nombre d'adultes et du
+	 * nombre d'enfants (tout individu âgé de 18 ans ou moins) dans la zone
+	 * desservie.
+	 */
+	
+	public List<PersonLightDto> getPersonsCoveredByStationNumberWithCountAdultAndChilds(String station) {
+		List<Person> persons = personService.getPersons();
+		Firestation firestation = firestationService.getFireStationsByStation(station).orElseThrow(() -> new NoSuchElementException("Firestation not found"));
+		
+		List<PersonLightDto> personBySameStation = persons.stream().map(p -> {
+			MedicalRecord medicalRecord = new MedicalRecord();
+			medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(p.getLastName(),
+					p.getFirstName());
+			
+			return new PersonLightDto(p.getFirstName(), p.getLastName(),p.getAddress(),firestation.getStation() ,p.getPhone(), medicalRecord.getMedications(), medicalRecord.getAllergies());
+		}).collect(Collectors.toList());
+		return personBySameStation;
+	}
+
 
 	/*
 	 * List<Person> persons = personService.getPersons();
