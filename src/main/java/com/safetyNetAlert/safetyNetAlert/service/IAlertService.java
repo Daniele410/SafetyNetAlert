@@ -5,9 +5,9 @@ import java.util.Set;
 
 import com.safetyNetAlert.safetyNetAlert.dto.ChildDto;
 import com.safetyNetAlert.safetyNetAlert.dto.FloodDto;
+import com.safetyNetAlert.safetyNetAlert.dto.LightPersonDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonAtAddressDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
-import com.safetyNetAlert.safetyNetAlert.dto.PersonLightDto;
 
 public interface IAlertService {
 
@@ -23,6 +23,6 @@ public interface IAlertService {
 	
 	public List<FloodDto> getPersonsBySameAddress(String firestation);
 	
-	public List<PersonLightDto> getPersonsCoveredByStationNumberWithCountAdultAndChilds(String station);
+	public List<LightPersonDto> getPersonsCoveredByStationNumberWithCountAdultAndChilds(String stationNumber);
 
 }

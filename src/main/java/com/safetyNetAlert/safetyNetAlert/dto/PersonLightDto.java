@@ -10,9 +10,11 @@ public class PersonLightDto {
 	private String phone;
 	private List<String> medications;
 	private List<String> allergies;
+	private int age;
+
 
 	public PersonLightDto(String firstName, String lastName, String address, String station, String phone,
-			List<String> medications, List<String> allergies) {
+			List<String> medications, List<String> allergies, int age) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -21,6 +23,8 @@ public class PersonLightDto {
 		this.phone = phone;
 		this.medications = medications;
 		this.allergies = allergies;
+		this.age = age;
+
 	}
 
 	public String getFirstName() {
@@ -78,5 +82,20 @@ public class PersonLightDto {
 	public void setAllergies(List<String> allergies) {
 		this.allergies = allergies;
 	}
+
+	/**
+	 * @return the adultAge
+	 */
+	public int getAge() {
+		return age;
+	}
+
+	/**
+	 * @param adultAge the adultAge to set
+	 */
+	public void setAge(int adultAge) {
+		this.age = adultAge;
+	}
+
 
 }

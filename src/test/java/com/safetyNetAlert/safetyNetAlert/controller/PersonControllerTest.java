@@ -1,6 +1,5 @@
 package com.safetyNetAlert.safetyNetAlert.controller;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -15,7 +14,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Any;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -39,7 +37,10 @@ class PersonControllerTest {
 	@MockBean
 	private IPersonService personService;
 
-	// Given/When/Then format
+	// Format test
+	// Given
+	// When
+	// Then
 
 	@Test
 	public void getAllPersonTest() throws Exception {
@@ -63,21 +64,24 @@ class PersonControllerTest {
 
 	@Test
 	public void addPersonTest() throws Exception {
-		
+
 		// Given
 		Person person = new Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512",
 				"toto@gmail.com");
 
 		// When
 		when(personService.addPerson(person)).thenReturn(person);
-		
-				mockMvc.perform(post("/person")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(person)))
-				.andExpect(status().isCreated());
+
+		mockMvc.perform(post("/person").contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(person))).andExpect(status().isCreated());
 
 		// Then
 		verify(personService).addPerson(person);
+
+	}
+
+	@Test
+	public void updateAPersonTest() throws Exception {
 
 	}
 

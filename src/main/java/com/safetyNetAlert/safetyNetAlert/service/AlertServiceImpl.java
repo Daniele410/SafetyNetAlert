@@ -1,5 +1,6 @@
 package com.safetyNetAlert.safetyNetAlert.service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.safetyNetAlert.safetyNetAlert.dto.ChildDto;
 import com.safetyNetAlert.safetyNetAlert.dto.FloodDto;
+import com.safetyNetAlert.safetyNetAlert.dto.LightPersonDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonAtAddressDto;
+import com.safetyNetAlert.safetyNetAlert.dto.PersonByFirestationDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonLightDto;
@@ -129,7 +132,7 @@ public class AlertServiceImpl implements IAlertService {
 
 	public List<PersonAtAddressDto> getPersonsByAddressFromListOfStationNumber(String address) {
 
-		List<Person> persons = personService.getPersonByAddress(address); //je cree une liste de person avec address
+		List<Person> persons = personService.getPersonByAddress(address); // je cree une liste de person avec address
 		Firestation firestation = firestationService.getFirestationsByAddress(address)
 				.orElseThrow(() -> new NoSuchElementException("Firestation not found"));
 
@@ -157,19 +160,21 @@ public class AlertServiceImpl implements IAlertService {
 	public List<FloodDto> getPersonsBySameAddress(String station) {
 
 		List<Person> persons = personService.getPersons();
-		Firestation firestation = firestationService.getFireStationsByStation(station).orElseThrow(() -> new NoSuchElementException("Firestation not found"));
-		
+		Firestation firestation = firestationService.getFireStationsByStation(station)
+				.orElseThrow(() -> new NoSuchElementException("Firestation not found"));
+
 		List<FloodDto> personBySameStation = persons.stream().map(p -> {
 			MedicalRecord medicalRecord = new MedicalRecord();
 			medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(p.getLastName(),
 					p.getFirstName());
-			int age = ageCalculator.calculate(medicalRecord.getBirthdate());  
-			return new FloodDto(p.getLastName(), p.getPhone(), age, firestation.getStation(), medicalRecord.getMedications(), medicalRecord.getAllergies());
+			int age = ageCalculator.calculate(medicalRecord.getBirthdate());
+			return new FloodDto(p.getLastName(), p.getPhone(), age, firestation.getAddress(),
+					medicalRecord.getMedications(), medicalRecord.getAllergies());
 		}).collect(Collectors.toList());
 		return personBySameStation;
-	
+
 	}
-	
+
 	/*
 	 * http://localhost:8080/firestation?stationNumber=<station_number> Cette url
 	 * doit retourner une liste des personnes couvertes par la caserne de pompiers
@@ -180,22 +185,51 @@ public class AlertServiceImpl implements IAlertService {
 	 * nombre d'enfants (tout individu âgé de 18 ans ou moins) dans la zone
 	 * desservie.
 	 */
-	
-	public List<PersonLightDto> getPersonsCoveredByStationNumberWithCountAdultAndChilds(String station) {
+	/*
+	 * public class PersonByFirestationDTO { List<PersonTotoDTO> personlisteToto;
+	 * Integer nbOfAdult ; Integer nbOfChildren; }
+	 * 
+	 * public class PersonTotoDTO { private String firstname; private String
+	 * lastname; private String adress; private String phone; }
+	 */
+
+	public List<LightPersonDto> getPersonsCoveredByStationNumberWithCountAdultAndChilds(String stationNumber) {
 		List<Person> persons = personService.getPersons();
-		Firestation firestation = firestationService.getFireStationsByStation(station).orElseThrow(() -> new NoSuchElementException("Firestation not found"));
-		
+		Firestation firestation = firestationService.getFireStationsByStation(stationNumber)
+				.orElseThrow(() -> new NoSuchElementException("Firestation not found"));
+
 		List<PersonLightDto> personBySameStation = persons.stream().map(p -> {
 			MedicalRecord medicalRecord = new MedicalRecord();
 			medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(p.getLastName(),
 					p.getFirstName());
-			
-			return new PersonLightDto(p.getFirstName(), p.getLastName(),p.getAddress(),firestation.getStation() ,p.getPhone(), medicalRecord.getMedications(), medicalRecord.getAllergies());
+
+			int age = ageCalculator.calculate(medicalRecord.getBirthdate());
+
+			return new PersonLightDto (p.getFirstName(), p.getLastName(), p.getAddress(), firestation.getAddress(),
+					p.getPhone(), medicalRecord.getMedications(), medicalRecord.getAllergies(), age);
 		}).collect(Collectors.toList());
-		return personBySameStation;
+		
+		PersonByFirestationDto personFinalList = new PersonByFirestationDto();
+		List<PersonByFirestationDto> finalList = personBySameStation.stream().map(p -> {
+			LightPersonDto lightPersonDto = new LightPersonDto();
+			lightPersonDto = personFinalList.setPersonByFirestationDto(lightPersonDto.setFirstname(p.getFirstName(),lightPersonDto.setLastname(p.getLastName(),lightPersonDto.setAddress(p.getAddress(), lightPersonDto.setPhone(p.getPhone())))));
+			return personFinalList;
+		}).collect(Collectors.toList());
+		
+		
+		for (PersonLightDto pers : personBySameStation) {
+			if (pers.getAge() <=18) {
+				personFinalList.setNbOfChildren(personFinalList.getNbOfChildren() + 1);
+			} else {
+				personFinalList.setNbOfAdult(personFinalList.getNbOfAdult() + 1);
+			}
+		}
+		personFinalList.setPersonByFirestationDto(finalList); 
+		return finalList;
 	}
 
-
+	
+	
 // stream() => je vais parcourir ma liste pour la travailler
 // stream().filtrer(person -> person.getAge <= 18)
 // stream().map() != Map et != TreeMap
@@ -209,24 +243,5 @@ public class AlertServiceImpl implements IAlertService {
 // les "..." dans une liste
 // stream()...collect(Collectors.toSet())
 // ...
-
-//	public List<String> getPhoneAlert(String address) {
-//		List<Firestation> fireStationsByNumber = firestationService.getFirestations();
-//
-//		List<Person> persons = new ArrayList<>();
-//		List<String> phoneNumbersCoveredBySameStationNumber = new ArrayList<>();
-//
-//		for (Firestation firestation : fireStationsByNumber) {
-//			firestation.getAddress();
-//			persons.addAll(personService.getPersonByAddress(address));
-//		}
-//		for (Person person : persons) {
-//			String phoneNumber = person.getPhone();
-//
-//			phoneNumbersCoveredBySameStationNumber.add(phoneNumber);
-//		}
-//
-//		return phoneNumbersCoveredBySameStationNumber.stream().distinct().collect(Collectors.toList());
-//	}
 
 }
