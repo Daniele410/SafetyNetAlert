@@ -83,12 +83,14 @@ public class FirestationRepository {
 		
 	} 
 	
-	public List<Firestation> getAddressesCoveredByStationNumber (String station){
-		return this.listFirestation.stream().filter(firestation -> firestation.getStation().equals(station)).collect(Collectors.toList());
+	public List<String> getAddressesCoveredByStationNumber (String station){
+		return this.listFirestation.stream().filter(firestation -> firestation.getStation().equals(station)).map(Firestation::getAddress ).collect(Collectors.toList());
 	}
 
-public Optional<Firestation> getFireStationsByStation(String station) {
-		return listFirestation.stream().filter(firestation -> firestation.getStation().equals(station)).findAny();
+public List<Firestation> getFireStationsByStation(String station) {
+		return listFirestation.stream().filter(firestation -> firestation.getStation().equals(station)).collect(Collectors.toList());
 	}
+
+
 
 }

@@ -1,6 +1,7 @@
 package com.safetyNetAlert.safetyNetAlert.controller;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -19,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
@@ -36,6 +38,12 @@ class PersonControllerTest {
 
 	@MockBean
 	private IPersonService personService;
+
+//	@BeforeEach
+//	void setupTest() {
+//		Person personTest = new Person("Guix", "DeBrens", "150 Rue Houdan", "Sceaux,", "92330", "0630031876",
+//				"guix92@hotmail.com");
+//	}
 
 	// Format test
 	// Given
@@ -64,25 +72,56 @@ class PersonControllerTest {
 
 	@Test
 	public void addPersonTest() throws Exception {
-
 		// Given
-		Person person = new Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512",
+		Person personTest = new Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512",
 				"toto@gmail.com");
 
 		// When
-		when(personService.addPerson(person)).thenReturn(person);
-
-		mockMvc.perform(post("/person").contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(person))).andExpect(status().isCreated());
+		when(personService.addPerson(personTest)).thenReturn(personTest);
 
 		// Then
-		verify(personService).addPerson(person);
+		mockMvc.perform(post("/person").content(objectMapper.writeValueAsString(personTest))
+				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
 
 	}
 
-	@Test
-	public void updateAPersonTest() throws Exception {
+////	@Test
+////
+////	public void testDeletePerson() throws Exception {
+////
+////		Person personTest = new Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512",
+////				"toto@gmail.com");
+////
+////		mockMvc.perform(MockMvcRequestBuilders.delete("/person").param("firstName", "Toto").param("lastName", "Tutu"))
+////				.andExpect(status().isOk());
+////
+////		verify(personService).deletePerson(personTest);
+////	}
+//	
 
+	@Test
+	public void TestGetPerson() throws Exception {
+		Person personTest = new Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512",
+				"toto@gmail.com");
+
+		when(personService.getPersonByFirstnameAndLastName(anyString(), anyString())).thenReturn(personTest);
+
+		mockMvc.perform(MockMvcRequestBuilders.get("/person/").param("firstName", "Toto").param("lastName", "Tutu"))
+				.andExpect(status().isOk());
+
+	}
+	
+
+	@Test
+	public void testPutPerson() throws Exception {
+
+		Person personTest = new  Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512",
+				"toto@gmail.com");
+		when(personService.updatePerson(personTest)).thenReturn(personTest);
+
+		mockMvc.perform(
+				MockMvcRequestBuilders.put("/person").contentType(MediaType.APPLICATION_JSON).contentType(anyString()))
+				.andExpect(status().isOk());
 	}
 
 }

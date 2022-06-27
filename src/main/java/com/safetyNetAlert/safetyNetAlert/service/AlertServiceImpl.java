@@ -1,23 +1,24 @@
 package com.safetyNetAlert.safetyNetAlert.service;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.safetyNetAlert.safetyNetAlert.dto.ChildDto;
 import com.safetyNetAlert.safetyNetAlert.dto.FloodDto;
+import com.safetyNetAlert.safetyNetAlert.dto.HouseHolderDto;
 import com.safetyNetAlert.safetyNetAlert.dto.LightPersonDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonAtAddressDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonByFirestationDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
-import com.safetyNetAlert.safetyNetAlert.dto.PersonLightDto;
 import com.safetyNetAlert.safetyNetAlert.model.Firestation;
 import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
@@ -28,6 +29,8 @@ import com.safetyNetAlert.safetyNetAlert.utils.AgeCalculator;
  */
 @Service
 public class AlertServiceImpl implements IAlertService {
+
+	static final Logger logger = LogManager.getLogger(AlertServiceImpl.class);
 
 	@Autowired
 	private IMedicalRecordService medicalRecordService;
@@ -160,18 +163,24 @@ public class AlertServiceImpl implements IAlertService {
 	public List<FloodDto> getPersonsBySameAddress(String station) {
 
 		List<Person> persons = personService.getPersons();
-		Firestation firestation = firestationService.getFireStationsByStation(station)
-				.orElseThrow(() -> new NoSuchElementException("Firestation not found"));
+		List<FloodDto> floodDtos = new ArrayList<>();
+		List<String> address = firestationService.getAddressesCoveredByStationNumber(station);
 
-		List<FloodDto> personBySameStation = persons.stream().map(p -> {
-			MedicalRecord medicalRecord = new MedicalRecord();
-			medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(p.getLastName(),
-					p.getFirstName());
-			int age = ageCalculator.calculate(medicalRecord.getBirthdate());
-			return new FloodDto(p.getLastName(), p.getPhone(), age, firestation.getAddress(),
-					medicalRecord.getMedications(), medicalRecord.getAllergies());
-		}).collect(Collectors.toList());
-		return personBySameStation;
+		address.stream().forEach(a -> {
+			List<HouseHolderDto> houseHolderDtos = persons.stream().filter(p -> p.getAddress().equals(a)).map(ps -> {
+				MedicalRecord medicalRecord = new MedicalRecord();
+
+				medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(ps.getLastName(),
+						ps.getFirstName());
+				int age = ageCalculator.calculate(medicalRecord.getBirthdate());
+
+				return new HouseHolderDto(ps.getFirstName(), ps.getLastName(), age, medicalRecord.getMedications(),
+						medicalRecord.getAllergies());
+			}).collect(Collectors.toList());
+			floodDtos.add(new FloodDto(a, houseHolderDtos));
+		});
+
+		return floodDtos;
 
 	}
 
@@ -192,56 +201,35 @@ public class AlertServiceImpl implements IAlertService {
 	 * public class PersonTotoDTO { private String firstname; private String
 	 * lastname; private String adress; private String phone; }
 	 */
+	int nbOfAdult;
+	int nbOfChildren;
 
-	public List<LightPersonDto> getPersonsCoveredByStationNumberWithCountAdultAndChilds(String stationNumber) {
+	@Override
+	public PersonByFirestationDto getPersonsCoveredByStation(String stationNumber) {
 		List<Person> persons = personService.getPersons();
-		Firestation firestation = firestationService.getFireStationsByStation(stationNumber)
-				.orElseThrow(() -> new NoSuchElementException("Firestation not found"));
 
-		List<PersonLightDto> personBySameStation = persons.stream().map(p -> {
-			MedicalRecord medicalRecord = new MedicalRecord();
-			medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(p.getLastName(),
-					p.getFirstName());
+		List<String> address = firestationService.getAddressesCoveredByStationNumber(stationNumber);
+		List<LightPersonDto> lightPersons = new ArrayList<>();
 
-			int age = ageCalculator.calculate(medicalRecord.getBirthdate());
+		address.stream().forEach(a -> {
+			lightPersons.addAll(persons.stream().filter(p -> p.getAddress().equals(a)).map(ps -> {
+				MedicalRecord medicalRecord = new MedicalRecord();
 
-			return new PersonLightDto (p.getFirstName(), p.getLastName(), p.getAddress(), firestation.getAddress(),
-					p.getPhone(), medicalRecord.getMedications(), medicalRecord.getAllergies(), age);
-		}).collect(Collectors.toList());
-		
-		PersonByFirestationDto personFinalList = new PersonByFirestationDto();
-		List<PersonByFirestationDto> finalList = personBySameStation.stream().map(p -> {
-			LightPersonDto lightPersonDto = new LightPersonDto();
-			lightPersonDto = personFinalList.setPersonByFirestationDto(lightPersonDto.setFirstname(p.getFirstName(),lightPersonDto.setLastname(p.getLastName(),lightPersonDto.setAddress(p.getAddress(), lightPersonDto.setPhone(p.getPhone())))));
-			return personFinalList;
-		}).collect(Collectors.toList());
-		
-		
-		for (PersonLightDto pers : personBySameStation) {
-			if (pers.getAge() <=18) {
-				personFinalList.setNbOfChildren(personFinalList.getNbOfChildren() + 1);
-			} else {
-				personFinalList.setNbOfAdult(personFinalList.getNbOfAdult() + 1);
-			}
-		}
-		personFinalList.setPersonByFirestationDto(finalList); 
-		return finalList;
+				medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(ps.getLastName(),
+						ps.getFirstName());
+				int age = ageCalculator.calculate(medicalRecord.getBirthdate());
+				if (age <= 18) {
+					nbOfChildren++;
+				} else {
+					nbOfAdult++;
+				}
+				return new LightPersonDto(ps.getFirstName(), ps.getLastName(), a, ps.getPhone(), age);
+			}).collect(Collectors.toList()));
+
+		});
+
+		return new PersonByFirestationDto(lightPersons, nbOfAdult, nbOfChildren);
+
 	}
-
-	
-	
-// stream() => je vais parcourir ma liste pour la travailler
-// stream().filtrer(person -> person.getAge <= 18)
-// stream().map() != Map et != TreeMap
-// stream().map() permet de transformer le stream de départ (par exemple une
-// liste de person) entre un autre stream ou un objet
-// forEach() => personList.forEach(person -> person.setAge(person.getAge()+5)) =
-// for (Person person : personList) {person.setAge(person.getAge()+5
-
-// stream()...findFirst()
-// stream()...collect(Collectors.toList()) => je récupère ce qu ise passe entre
-// les "..." dans une liste
-// stream()...collect(Collectors.toSet())
-// ...
 
 }

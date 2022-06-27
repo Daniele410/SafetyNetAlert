@@ -16,9 +16,9 @@ public interface IFirestationService {
 
 	public Optional<Firestation> getFirestationsByAddress(String address);
 	
-	List<Firestation> getAddressesCoveredByStationNumber(String firestation);
+	List<String> getAddressesCoveredByStationNumber(String firestation);
 	
-	Optional<Firestation> getFireStationsByStation(String station) ;
+	List<Firestation> getFireStationsByStation(String station) ;
 
 	
 }

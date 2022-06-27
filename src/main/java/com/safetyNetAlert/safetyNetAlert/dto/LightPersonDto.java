@@ -6,20 +6,23 @@ public class LightPersonDto {
 	private String lastname;
 	private String address;
 	private String phone;
-	
-	public LightPersonDto() {
-		
-	}
+	private int age;
 	
 	
-	public LightPersonDto(String firstname, String lastname, String address, String phone) {
+	
+	
+	
+	public LightPersonDto(String firstname, String lastname, String address, String phone, int age) {
 		
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.address = address;
 		this.phone = phone;
+		this.age = age;
 	}
-
+	public LightPersonDto() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getFirstname() {
 		return firstname;
 	}
@@ -35,8 +38,8 @@ public class LightPersonDto {
 	public String getAddress() {
 		return address;
 	}
-	public void setAddress(String adress, Object object) {
-		this.address = adress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public String getPhone() {
 		return phone;
@@ -44,11 +47,13 @@ public class LightPersonDto {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	@Override
-	public String toString() {
-		return "LightPersonDto [firstname=" + firstname + ", lastname=" + lastname + ", adress=" + address + ", phone="
-				+ phone + "]";
+	public int getAge() {
+		return age;
 	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	
 	
 	
 

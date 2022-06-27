@@ -54,12 +54,12 @@ public class FirestationServiceImpl implements IFirestationService{
 		return firestationRepository.getFirestationsByAddress(address);
 	}
 	
-	public List<Firestation> getAddressesCoveredByStationNumber(String station){
+	public List<String> getAddressesCoveredByStationNumber(String station){
 		return firestationRepository.getAddressesCoveredByStationNumber(station);
 			}
 
 	
-public Optional<Firestation> getFireStationsByStation(String station) {
+public List<Firestation> getFireStationsByStation(String station) {
 	return firestationRepository.getFireStationsByStation(station);
 		
 		
