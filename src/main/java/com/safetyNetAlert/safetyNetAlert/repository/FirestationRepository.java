@@ -27,7 +27,7 @@ public class FirestationRepository {
 		Firestation firestationToUpdate = findByAddress(firestation.getAddress());
 
 		int index = listFirestation.indexOf(firestationToUpdate);
-		// mise à jour de la personne grâce à l'index dans la liste
+		// mise à jour de la firestation grâce à l'index dans la liste
 		listFirestation.set(index, firestation);
 	}
 

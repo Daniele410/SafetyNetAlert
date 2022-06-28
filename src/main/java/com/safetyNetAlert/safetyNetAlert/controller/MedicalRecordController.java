@@ -17,16 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
 import com.safetyNetAlert.safetyNetAlert.service.IMedicalRecordService;
 
-
-
 @RestController
 public class MedicalRecordController {
-	
+
 	private static final Logger logger = LogManager.getLogger("MedicalRecordController");
 
 	@Autowired
 	private IMedicalRecordService medicalRecordService;
 
+	/**
+	 * Get stored medicalRecord.
+	 */
 	@GetMapping(value = "/medicalRecord")
 	public ResponseEntity<List<MedicalRecord>> getAllMedicalRecords() {
 		List<MedicalRecord> medicalRecordsList = medicalRecordService.getMedicalRecords();
@@ -34,21 +35,47 @@ public class MedicalRecordController {
 		logger.info("Response for the GET request for medicalRecord: " + medicalRecordsList);
 		return new ResponseEntity<>(medicalRecordService.getMedicalRecords(), HttpStatus.OK);
 	}
-	
+
+	/**
+	 * Adds a new medicalRecord.
+	 */
 	@PostMapping(value = "/medicalRecord")
-	public ResponseEntity<MedicalRecord> addMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
-		medicalRecordService.addMedicalRecord(medicalRecord);
-		return new ResponseEntity<>(medicalRecord, HttpStatus.CREATED);
+	public ResponseEntity<MedicalRecord> addMedicalRecord(@RequestBody MedicalRecord medicalRecord) throws Exception {
+		if (medicalRecord.getFirstName() == null || medicalRecord.getFirstName().isEmpty()
+				|| medicalRecord.getLastName() == null || medicalRecord.getLastName().isEmpty()) {
+			throw new Exception("Bad request : missing or incomplete body request");
+		} else {
+			medicalRecordService.addMedicalRecord(medicalRecord);
+			return new ResponseEntity<>(medicalRecord, HttpStatus.CREATED);
+		}
 	}
-	
-	 @PutMapping(value = "/medicalRecord")
-	    public ResponseEntity<MedicalRecord> updateMedicalRecord( @RequestBody MedicalRecord medicalRecord) {
-	        return new ResponseEntity<>(medicalRecordService.updateMedicalRecord(medicalRecord), HttpStatus.OK);
-	    }
-	
-	 @DeleteMapping(value = "/medicalRecord")
-		public ResponseEntity<MedicalRecord> deleteMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
+
+	/**
+	 * Update stored medicalRecord.
+	 */
+	@PutMapping(value = "/medicalRecord")
+	public ResponseEntity<MedicalRecord> updateMedicalRecord(@RequestBody MedicalRecord medicalRecord)
+			throws Exception {
+		if (medicalRecord.getFirstName() == null || medicalRecord.getFirstName().isEmpty()
+				|| medicalRecord.getLastName() == null || medicalRecord.getLastName().isEmpty()) {
+			throw new Exception("Bad request : missing or incomplete body request");
+		} else {
+			return new ResponseEntity<>(medicalRecordService.updateMedicalRecord(medicalRecord), HttpStatus.OK);
+		}
+	}
+
+	/**
+	 * Delete stored medicalRecord.
+	 */
+	@DeleteMapping(value = "/medicalRecord")
+	public ResponseEntity<MedicalRecord> deleteMedicalRecord(@RequestBody MedicalRecord medicalRecord)
+			throws Exception {
+		if (medicalRecord.getFirstName() == null || medicalRecord.getFirstName().trim().length() == 0
+				|| medicalRecord.getLastName() == null || medicalRecord.getLastName().trim().length() == 0) {
+			throw new Exception("Bad request : missing or incomplete parameter");
+		} else {
 			return new ResponseEntity<>(medicalRecordService.deleteMedicalRecord(medicalRecord), HttpStatus.OK);
 		}
-	
+	}
+
 }

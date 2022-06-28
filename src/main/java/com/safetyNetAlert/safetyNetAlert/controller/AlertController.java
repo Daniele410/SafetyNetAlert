@@ -27,24 +27,37 @@ public class AlertController {
 	@Autowired
 	private IAlertService alertService;
 
+	// Url= http://localhost:8080/communityEmail?city=<city>
 	@GetMapping(value = "/communityEmail")
-	public ResponseEntity<List<String>> getCommunityEmail(@RequestParam String city) {
+	public ResponseEntity<List<String>> getCommunityEmail(@RequestParam String city) throws Exception {
+		logger.debug("GET Request on /communityEmail with city {}", city);
+		
+		if (city.trim().length() == 0) {
+			throw new Exception("Bad request : missing city parameter");
+		}
+		
 		if (city.isBlank()) {
 			logger.error("email is blank");
 			return new ResponseEntity<List<String>>(HttpStatus.NOT_FOUND);
 		} else {
-			logger.info("List of communityEmail generated");
+			logger.info("List of communityEmail generated ");
+			
 			return new ResponseEntity<>(alertService.getCommunityEmail(city), HttpStatus.OK);
 		}
 	}
 
 	@GetMapping(value = "/personInfo")
-	public ResponseEntity<List<PersonInfoDto>> getPersonInfo(@RequestParam String lastName) {
+	public ResponseEntity<List<PersonInfoDto>> getPersonInfo(@RequestParam String lastName, String firstName) throws Exception {
+		logger.debug("GET Request on /personInfo with firstName {} and lastName {}", lastName, firstName);
+		
+		if (firstName.trim().length() == 0 || lastName.trim().length() == 0) {
+			throw new Exception("Bad request : missing identity parameters");}
+		
 		if (lastName.isBlank()) {
 			logger.error("Firstname or Lastname blank");
 			return new ResponseEntity<List<PersonInfoDto>>(HttpStatus.NOT_FOUND);
 		} else {
-			logger.info("List of Person generated");
+			logger.info("List of Person generated - Success");
 			return new ResponseEntity<List<PersonInfoDto>>(alertService.getPersonInfo(lastName), HttpStatus.OK);
 		}
 	}

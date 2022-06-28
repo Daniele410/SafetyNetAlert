@@ -19,8 +19,7 @@ public class PersonServiceImpl implements IPersonService {
 
 	@Autowired
 	PersonRepository personRepository;
-	
-	
+
 	public PersonServiceImpl(PersonRepository personRepository) {
 		this.personRepository = personRepository;
 	}
@@ -33,34 +32,27 @@ public class PersonServiceImpl implements IPersonService {
 		return persons;
 	}
 
-	
 	@Override
 	public List<Person> getPersonByLastName(String lastName) {
 		return personRepository.findByLastName(lastName);
 	}
-
 
 	@Override
 	public Person getPersonByEmail(String email) {
 		return this.getPersonByEmail(email);
 	}
 
-	public void updatePerson(String personFirstName, Person person) {
+	
 
-	}
-
-	public List<Person> deletePerson(String firstName) {
-		return null;
-
-	}
 
 	@Override
 	public Person deletePerson(Person person) {
-		//rechercher si la personne existe
-		//si elle n'existe pas alors on throw une exception, PersonNotFoundException
+		// rechercher si la personne existe
+		// si elle n'existe pas alors on throw une exception, PersonNotFoundException
 		personRepository.deletePerson(person);
 		logger.info("Deleting the person with keyname : " + person);
-		return this.personRepository.deletePerson(person);
+		System.out.println("This person " + "first name = " + person.getFirstName() +" and "+" last name= "+ person.getLastName() + " is deleted");
+		return null;
 	}
 
 	@Override
@@ -69,7 +61,7 @@ public class PersonServiceImpl implements IPersonService {
 
 		personRepository.updatePerson(person);
 		logger.info("Saving the person : " + person);
-		return this.updatePerson(person);
+		return person;
 	}
 
 	@Override
@@ -78,54 +70,45 @@ public class PersonServiceImpl implements IPersonService {
 		return person;
 	}
 
-	
 	@Override
 	public List<Person> getPersonsByCity(String city) {
 		return personRepository.getPersonsByCity(city);
 	}
 
-	public Person getPersonByFirstnameAndLastName(String firstName, String lastName){
+	public Person getPersonByFirstnameAndLastName(String firstName, String lastName) {
 		Optional<Person> personTemp = personRepository.getPersonByFirstNameAndLastName(firstName, lastName);
-		
-		if(personTemp.isPresent()) {
+
+		if (personTemp.isPresent()) {
 			return personTemp.get();
-		}
-		else {
+		} else {
 			System.out.println("erreur");
 			return null;
 		}
 	}
-	
+
 	@Override
 	public Person getChildByAddress(String address) {
 		Optional<Person> personTemp = personRepository.getChildByAddress(address);
-		if(personTemp.isPresent()) {
+		if (personTemp.isPresent()) {
 			return personTemp.get();
-		}
-		else {
+		} else {
 			System.out.println("erreur");
 			return null;
 		}
 	}
-	
+
 	@Override
 	public List<Person> getPersonByAddress(String address) {
 		List<Person> personTemp = personRepository.getPersonByAddress(address);
 		return personTemp;
-		
-		
-	}
-	
-	@Override
-	public List<Person> getPhoneByAddress(String address){
-		List<Person> personTemp = personRepository.getPhoneByAddress(address);
-		return personTemp;
-		
+
 	}
 
-	
-	
-	
-	
+	@Override
+	public List<Person> getPhoneByAddress(String address) {
+		List<Person> personTemp = personRepository.getPhoneByAddress(address);
+		return personTemp;
+
+	}
 
 }

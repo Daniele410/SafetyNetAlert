@@ -61,8 +61,8 @@ public class AlertServiceImpl implements IAlertService {
 		List<Person> persons = personService.getPersonByLastName(lastName);
 		persons.forEach(p -> {
 			MedicalRecord medicalRecord = new MedicalRecord();
-			medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(p.getLastName(),
-					p.getFirstName());
+			medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(p.getFirstName(),
+					p.getLastName());
 			int age = ageCalculator.calculate(medicalRecord.getBirthdate());
 			personInfoDtos.add(new PersonInfoDto(p.getFirstName(), p.getLastName(), p.getAddress(), age, p.getEmail(),
 					medicalRecord.getMedications(), medicalRecord.getAllergies()));
@@ -83,12 +83,12 @@ public class AlertServiceImpl implements IAlertService {
 		List<Person> persons = personService.getPersonByAddress(address);
 
 		List<Person> childList = persons.stream()
-				.filter(p -> medicalRecordService.isChild(p.getLastName(), p.getFirstName()))
+				.filter(p -> medicalRecordService.isChild(p.getFirstName(), p.getLastName()))
 				.collect(Collectors.toList());
 		childList.forEach(c -> {
 			MedicalRecord medicalRecord = new MedicalRecord();
-			medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(c.getLastName(),
-					c.getFirstName());
+			medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(c.getFirstName(),
+					c.getLastName());
 			int age = ageCalculator.calculate(medicalRecord.getBirthdate());
 
 			List<PersonDto> listeMembersofFamily = persons.stream().filter(
@@ -141,8 +141,8 @@ public class AlertServiceImpl implements IAlertService {
 
 		List<PersonAtAddressDto> personAddressFirestation = persons.stream().map(p -> {
 			MedicalRecord medicalRecord = new MedicalRecord();
-			medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(p.getLastName(),
-					p.getFirstName());
+			medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(p.getFirstName(),
+					p.getLastName());
 			int age = ageCalculator.calculate(medicalRecord.getBirthdate());
 			return new PersonAtAddressDto(p.getFirstName(), p.getLastName(), p.getPhone(), firestation.getStation(),
 					age, medicalRecord.getMedications(), medicalRecord.getAllergies());
@@ -170,8 +170,8 @@ public class AlertServiceImpl implements IAlertService {
 			List<HouseHolderDto> houseHolderDtos = persons.stream().filter(p -> p.getAddress().equals(a)).map(ps -> {
 				MedicalRecord medicalRecord = new MedicalRecord();
 
-				medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(ps.getLastName(),
-						ps.getFirstName());
+				medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(ps.getFirstName(),
+						ps.getLastName());
 				int age = ageCalculator.calculate(medicalRecord.getBirthdate());
 
 				return new HouseHolderDto(ps.getFirstName(), ps.getLastName(), age, medicalRecord.getMedications(),
@@ -215,8 +215,8 @@ public class AlertServiceImpl implements IAlertService {
 			lightPersons.addAll(persons.stream().filter(p -> p.getAddress().equals(a)).map(ps -> {
 				MedicalRecord medicalRecord = new MedicalRecord();
 
-				medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(ps.getLastName(),
-						ps.getFirstName());
+				medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(ps.getFirstName(),
+						ps.getLastName());
 				int age = ageCalculator.calculate(medicalRecord.getBirthdate());
 				if (age <= 18) {
 					nbOfChildren++;

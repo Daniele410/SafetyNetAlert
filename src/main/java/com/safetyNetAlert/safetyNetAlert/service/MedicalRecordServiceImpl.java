@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ import com.safetyNetAlert.safetyNetAlert.utils.AgeCalculator;
 @Service
 public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
+	static final Logger logger = LogManager.getLogger(MedicalRecordServiceImpl.class);
+	
 	@Autowired
 	MedicalRecordRepository medicalRecordRepository;
 
@@ -37,7 +41,7 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 	@Override
 	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) {
 		medicalRecordRepository.updateMedicalRecord(medicalRecord);
-		return null;
+		return medicalRecord;
 	}
 
 	/**
@@ -55,7 +59,9 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 	@Override
 	public MedicalRecord deleteMedicalRecord(MedicalRecord medicalRecord) {
 		medicalRecordRepository.deleteMedicalRecord(medicalRecord);
-		return null;
+		logger.info("Deleting the person with keyname : " + medicalRecord);
+		System.out.println("This person with medical record " + " first name = " + medicalRecord.getFirstName() +" and "+" last name= "+ medicalRecord.getLastName() + " is deleted");
+		return medicalRecord;
 	}
 
 	@Override

@@ -85,19 +85,19 @@ class PersonControllerTest {
 
 	}
 
-////	@Test
-////
-////	public void testDeletePerson() throws Exception {
-////
-////		Person personTest = new Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512",
-////				"toto@gmail.com");
-////
-////		mockMvc.perform(MockMvcRequestBuilders.delete("/person").param("firstName", "Toto").param("lastName", "Tutu"))
-////				.andExpect(status().isOk());
-////
-////		verify(personService).deletePerson(personTest);
-////	}
-//	
+	@Test
+
+	public void testDeletePerson() throws Exception {
+
+		Person personTest = new Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512",
+				"toto@gmail.com");
+
+		mockMvc.perform(MockMvcRequestBuilders.delete("/person").param("firstName", "Toto").param("lastName", "Tutu"))
+				.andExpect(status().isOk());
+
+		verify(personService).deletePerson(personTest);
+	}
+	
 
 	@Test
 	public void TestGetPerson() throws Exception {
@@ -117,7 +117,11 @@ class PersonControllerTest {
 
 		Person personTest = new  Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512",
 				"toto@gmail.com");
-		when(personService.updatePerson(personTest)).thenReturn(personTest);
+		
+		Person personTest2 = new Person("Toto", "Tutu", "112 Steppes Pl", "Ghulja", "97451", "841-874-6874",
+				"memet99@gmail.com");
+		
+		when(personService.updatePerson(personTest)).thenReturn(personTest2);
 
 		mockMvc.perform(
 				MockMvcRequestBuilders.put("/person").contentType(MediaType.APPLICATION_JSON).contentType(anyString()))

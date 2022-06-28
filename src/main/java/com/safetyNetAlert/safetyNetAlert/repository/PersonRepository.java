@@ -33,11 +33,19 @@ public class PersonRepository {
 		listPerson.set(index, person);
 	}
 
-	public Person deletePerson(Person person) {
+	public void deletePerson(Person person) {
 		Person personToDelete = findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
 		int index = listPerson.indexOf(personToDelete);
-		return listPerson.remove(index);
-
+		if (person.getFirstName() == null && person.getLastName() != null) {
+			listPerson.remove(index);
+		}
+		// cas ou firestation avec adresse != null et station != null =>
+		else if (person.getFirstName() != null && person.getLastName() != null) {
+			listPerson.remove(index);
+			// cas ou firestation avec adresse != null et station = null =>
+		} else {
+			listPerson.remove(index);
+		}
 	}
 
 	private Person findByFirstNameAndLastName(String firstName, String lastName) {
