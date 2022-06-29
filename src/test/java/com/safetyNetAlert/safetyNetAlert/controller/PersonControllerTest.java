@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -39,11 +41,22 @@ class PersonControllerTest {
 	@MockBean
 	private IPersonService personService;
 
-//	@BeforeEach
-//	void setupTest() {
-//		Person personTest = new Person("Guix", "DeBrens", "150 Rue Houdan", "Sceaux,", "92330", "0630031876",
-//				"guix92@hotmail.com");
-//	}
+	@Mock
+	private Person personTest1;
+
+	@Mock
+	private Person personTest2;
+
+	@BeforeEach
+	void setup() {
+		new ObjectMapper();
+
+		personTest1 = new Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512", "toto@gmail.com");
+
+		personTest2 = new Person("Felicia", "Cooper", "112 Steppes Pl", "Ghulja", "97451", "841-874-6874",
+				"memet99@gmail.com");
+
+	}
 
 	// Format test
 	// Given
@@ -85,47 +98,46 @@ class PersonControllerTest {
 
 	}
 
-	@Test
-
-	public void testDeletePerson() throws Exception {
-
-		Person personTest = new Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512",
-				"toto@gmail.com");
-
-		mockMvc.perform(MockMvcRequestBuilders.delete("/person").param("firstName", "Toto").param("lastName", "Tutu"))
-				.andExpect(status().isOk());
-
-		verify(personService).deletePerson(personTest);
-	}
-	
 
 	@Test
 	public void TestGetPerson() throws Exception {
+		// Given
 		Person personTest = new Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512",
 				"toto@gmail.com");
-
+		
+		// Then
 		when(personService.getPersonByFirstnameAndLastName(anyString(), anyString())).thenReturn(personTest);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/person/").param("firstName", "Toto").param("lastName", "Tutu"))
+		// Then
+		mockMvc.perform(MockMvcRequestBuilders.get("/person").param("firstName", "Toto").param("lastName", "Tutu"))
 				.andExpect(status().isOk());
 
 	}
-	
 
 	@Test
 	public void testPutPerson() throws Exception {
 
-		Person personTest = new  Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512",
-				"toto@gmail.com");
-		
-		Person personTest2 = new Person("Toto", "Tutu", "112 Steppes Pl", "Ghulja", "97451", "841-874-6874",
-				"memet99@gmail.com");
-		
-		when(personService.updatePerson(personTest)).thenReturn(personTest2);
+		String personRecord = "{\"firstName\":\"Toto\",\"lastName\":\"Tutu\",\"address\":\"112 Steppes Pl\",\"city\":\"Ghulja\",\"zip\":\"97451\",\"phone\":\"841-874-6874\",\"email\":\"toto@gmail.com\"}";
+		when(personService.updatePerson(personTest1))
+				.thenReturn(personTest1);
 
-		mockMvc.perform(
-				MockMvcRequestBuilders.put("/person").contentType(MediaType.APPLICATION_JSON).contentType(anyString()))
+		mockMvc.perform(MockMvcRequestBuilders.put("/person")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(personRecord))
 				.andExpect(status().isOk());
 	}
+	
+	@Test
+	public void testDeletePerson() throws Exception {
+		// Given // When
+			mockMvc.perform(MockMvcRequestBuilders.delete("/person")
+					.content(objectMapper.writeValueAsString(personTest1))
+					.contentType(MediaType.APPLICATION_JSON))
+					.andExpect(status().isOk());
+			// Then
+			verify(personService).deletePerson(personTest1);
+		}
+
+
 
 }
