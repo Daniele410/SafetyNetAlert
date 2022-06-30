@@ -98,13 +98,12 @@ class PersonControllerTest {
 
 	}
 
-
 	@Test
-	public void TestGetPerson() throws Exception {
+	public void testGetPerson() throws Exception {
 		// Given
 		Person personTest = new Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512",
 				"toto@gmail.com");
-		
+
 		// Then
 		when(personService.getPersonByFirstnameAndLastName(anyString(), anyString())).thenReturn(personTest);
 
@@ -116,28 +115,30 @@ class PersonControllerTest {
 
 	@Test
 	public void testPutPerson() throws Exception {
-
+		// Given
 		String personRecord = "{\"firstName\":\"Toto\",\"lastName\":\"Tutu\",\"address\":\"112 Steppes Pl\",\"city\":\"Ghulja\",\"zip\":\"97451\",\"phone\":\"841-874-6874\",\"email\":\"toto@gmail.com\"}";
-		when(personService.updatePerson(personTest1))
-				.thenReturn(personTest1);
+		
+		// When
+		when(personService.updatePerson(personTest1)).thenReturn(personTest1);
 
-		mockMvc.perform(MockMvcRequestBuilders.put("/person")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(personRecord))
+		// Then
+		mockMvc.perform(
+				MockMvcRequestBuilders.put("/person").contentType(MediaType.APPLICATION_JSON).content(personRecord))
 				.andExpect(status().isOk());
 	}
-	
+
 	@Test
 	public void testDeletePerson() throws Exception {
-		// Given // When
-			mockMvc.perform(MockMvcRequestBuilders.delete("/person")
-					.content(objectMapper.writeValueAsString(personTest1))
-					.contentType(MediaType.APPLICATION_JSON))
-					.andExpect(status().isOk());
-			// Then
-			verify(personService).deletePerson(personTest1);
-		}
+		// Given
+		Person personTest = new Person("Toto", "Tutu", "1509 Culver St", "Culver", "97451", "841-874-6512",
+				"toto@gmail.com");
+		// When
+		when(personService.getPersonByFirstnameAndLastName(anyString(), anyString())).thenReturn(personTest);
 
+		// Then
+		mockMvc.perform(MockMvcRequestBuilders.delete("/person").content(objectMapper.writeValueAsString(personTest1))
+				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 
+	}
 
 }
