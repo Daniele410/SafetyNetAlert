@@ -37,13 +37,6 @@ public class PersonServiceImpl implements IPersonService {
 		return personRepository.findByLastName(lastName);
 	}
 
-	@Override
-	public Person getPersonByEmail(String email) {
-		return this.getPersonByEmail(email);
-	}
-
-	
-
 
 	@Override
 	public Person deletePerson(Person person) {

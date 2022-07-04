@@ -48,7 +48,7 @@ public class PersonRepository {
 		}
 	}
 
-	private Person findByFirstNameAndLastName(String firstName, String lastName) {
+	public Person findByFirstNameAndLastName(String firstName, String lastName) {
 		Optional<Person> personToFind = listPerson.stream()
 				.filter(person -> (person.getFirstName().equals(firstName)) && (person.getLastName().equals(lastName)))
 				.findFirst();

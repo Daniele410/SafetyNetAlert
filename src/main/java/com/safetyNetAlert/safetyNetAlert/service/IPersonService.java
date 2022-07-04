@@ -12,7 +12,7 @@ public interface IPersonService {
 
 	List<Person> getPersonByAddress(String address);
 
-	Person getPersonByEmail(String email);
+	
 
 	Person deletePerson(Person person);
 
