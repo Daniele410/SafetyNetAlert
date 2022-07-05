@@ -24,5 +24,7 @@ public interface IAlertService {
 	public List<FloodDto> getPersonsBySameAddress(String firestation);
 	
 	public PersonByFirestationDto getPersonsCoveredByStation(String stationNumber);
+	
+	
 
 }
