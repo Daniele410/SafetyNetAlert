@@ -24,6 +24,8 @@ import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 import com.safetyNetAlert.safetyNetAlert.utils.AgeCalculator;
 
+import exception.PersonNotFoundException;
+
 /**
  * @author danozzo
  */
@@ -56,7 +58,7 @@ public class AlertServiceImpl implements IAlertService {
 	// même nom, elles doivent
 	// toutes apparaître
 
-	public List<PersonInfoDto> getPersonInfo(String lastName) {
+	public List<PersonInfoDto> getPersonInfo(String lastName) throws PersonNotFoundException {
 		List<PersonInfoDto> personInfoDtos = new ArrayList<>();
 		List<Person> persons = personService.getPersonByLastName(lastName);
 		persons.forEach(p -> {

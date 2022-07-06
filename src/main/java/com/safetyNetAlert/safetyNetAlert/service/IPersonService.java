@@ -4,11 +4,13 @@ import java.util.List;
 
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 
+import exception.PersonNotFoundException;
+
 public interface IPersonService {
 
 	List<Person> getPersons();
 
-	List<Person> getPersonByLastName(String lastName);
+	List<Person> getPersonByLastName(String lastName) throws PersonNotFoundException;
 
 	List<Person> getPersonByAddress(String address);
 

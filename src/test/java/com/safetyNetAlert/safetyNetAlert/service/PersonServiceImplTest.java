@@ -1,6 +1,10 @@
 package com.safetyNetAlert.safetyNetAlert.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -9,6 +13,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +27,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 import com.safetyNetAlert.safetyNetAlert.repository.PersonRepository;
 
+import exception.PersonNotFoundException;
+
 @ExtendWith(MockitoExtension.class)
 class PersonServiceImplTest {
 
@@ -34,10 +41,6 @@ class PersonServiceImplTest {
 	@Mock
 	private PersonRepository personRepository;
 
-	@Mock
-	Person person;
-
-	@Mock
 	private List<Person> personList = new ArrayList<>();
 
 	// Format test
@@ -59,6 +62,7 @@ class PersonServiceImplTest {
 
 		// Then
 		assertThat(result).isNotNull();
+		assertEquals(result.get(0).getFirstName(), person.getFirstName());
 	}
 
 	@Test
@@ -74,6 +78,18 @@ class PersonServiceImplTest {
 		List<Person> result = personService.getPersonByLastName(anyString());
 		// Then
 		assertThat(result).isNotNull();
+	}
+
+	@Test
+	public void getPersonByLastName_ShouldReturnNull() throws Exception {
+
+		// Given // When
+		Person person = new Person();
+		personList = Arrays.asList(person);
+
+		// Then
+		assertThrows(PersonNotFoundException.class, () -> personService.getPersonByLastName(anyString()));
+
 	}
 
 	@Test
@@ -144,30 +160,72 @@ class PersonServiceImplTest {
 		verify(personRepository, Mockito.times(1)).getPersonsByCity(anyString());
 
 	}
-	
 
 	@Test
-	public void getPersonByFirstnameAndLastNameTest() {
+	public void getPersonByFirstnameAndLastName_ShouldReturnNull() {
+
+		Optional<Person> optionalPersonEmpty = Optional.empty();
+		when(personRepository.getPersonByFirstNameAndLastName(anyString(), anyString()))
+				.thenReturn(optionalPersonEmpty);
 
 		// Given // When
-		this.personService.getPersonByFirstnameAndLastName(anyString(), anyString());
+		Person result = personService.getPersonByFirstnameAndLastName(anyString(), anyString());
 
 		// Then
-		verify(personRepository, Mockito.times(1)).getPersonByFirstNameAndLastName(anyString(), anyString());
+		assertNull(result);
 
 	}
 
 	@Test
-	public void getChildByAddress() {
+	public void getPersonByFirstnameAndLastName_ShouldReturnPerson() {
+		Person person = new Person("John", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512",
+				"jaboyd@email.com");
+
+		Optional<Person> optionalPerson = Optional.of(person);
+		when(personRepository.getPersonByFirstNameAndLastName(anyString(), anyString())).thenReturn(optionalPerson);
 
 		// Given // When
-		this.personService.getChildByAddress(anyString());
+		Person result = personService.getPersonByFirstnameAndLastName(anyString(), anyString());
+
+		// Then
+		assertNotNull(result);
+
+	}
+
+	@Test
+	public void getChildByAddress_ShouldReturnChild() {
+
+		// Given
+		Person person = new Person("John", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512",
+				"jaboyd@email.com");
+
+		Optional<Person> optionalPerson = Optional.of(person);
+		// When
+		when(personRepository.getChildByAddress(anyString())).thenReturn(optionalPerson);
+		Person result = personService.getChildByAddress(anyString());
+
+		// Then
+		assertNotNull(result);
 
 		// Then
 		verify(personRepository, Mockito.times(1)).getChildByAddress(anyString());
 
 	}
-	
+
+	@Test
+	public void getChildByAddress_ShouldReturnNull() {
+
+		Optional<Person> optionalPersonEmpty = Optional.empty();
+		when(personRepository.getChildByAddress(anyString())).thenReturn(optionalPersonEmpty);
+
+		// Given // When
+		Person result = personService.getChildByAddress(anyString());
+
+		// Then
+		assertNull(result);
+
+	}
+
 	@Test
 	public void getPersonByAddressTest() {
 
@@ -178,7 +236,7 @@ class PersonServiceImplTest {
 		verify(personRepository, Mockito.times(1)).getPersonByAddress(anyString());
 
 	}
-	
+
 	@Test
 	public void getPhoneByAddressTest() {
 

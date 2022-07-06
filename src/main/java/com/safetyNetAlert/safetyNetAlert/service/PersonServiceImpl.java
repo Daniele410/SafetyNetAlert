@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 import com.safetyNetAlert.safetyNetAlert.repository.PersonRepository;
 
+import exception.PersonNotFoundException;
+
 @Service
 public class PersonServiceImpl implements IPersonService {
 
@@ -33,8 +35,14 @@ public class PersonServiceImpl implements IPersonService {
 	}
 
 	@Override
-	public List<Person> getPersonByLastName(String lastName) {
-		return personRepository.findByLastName(lastName);
+	public List<Person> getPersonByLastName(String lastName) throws PersonNotFoundException {
+		
+		List<Person> listPersonByName =  personRepository.findByLastName(lastName);
+		if(listPersonByName.isEmpty()) {
+			String errorMessage = String.format("%s not found", lastName);
+			throw new PersonNotFoundException(errorMessage);
+		}
+		return listPersonByName;
 	}
 
 

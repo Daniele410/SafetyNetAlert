@@ -9,11 +9,13 @@ import com.safetyNetAlert.safetyNetAlert.dto.PersonAtAddressDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonByFirestationDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 
+import exception.PersonNotFoundException;
+
 public interface IAlertService {
 
 	public List<String> getCommunityEmail(String city);
 
-	public List<PersonInfoDto> getPersonInfo(String lastName);
+	public List<PersonInfoDto> getPersonInfo(String lastName) throws PersonNotFoundException;
 
 	public List<ChildDto> getChildDto(String address);
 
