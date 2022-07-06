@@ -22,7 +22,7 @@ public interface IPersonService {
 
 	Person addPerson(Person person);
 
-	List<Person> getPersonsByCity(String city);
+	List<Person> getPersonsByCity(String city) throws PersonNotFoundException;
 
 	Person getPersonByFirstnameAndLastName(String firstname, String lastname);
 

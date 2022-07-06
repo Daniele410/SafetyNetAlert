@@ -47,7 +47,7 @@ public class AlertServiceImpl implements IAlertService {
 	AgeCalculator ageCalculator;
 
 	// Retourner une liste d'email de chaque habitants
-	public List<String> getCommunityEmail(String city) {
+	public List<String> getCommunityEmail(String city) throws PersonNotFoundException {
 		return personService.getPersonsByCity(city).stream().map(p -> p.getEmail()).distinct()
 				.collect(Collectors.toList());
 	}

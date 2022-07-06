@@ -13,7 +13,7 @@ import exception.PersonNotFoundException;
 
 public interface IAlertService {
 
-	public List<String> getCommunityEmail(String city);
+	public List<String> getCommunityEmail(String city) throws PersonNotFoundException;
 
 	public List<PersonInfoDto> getPersonInfo(String lastName) throws PersonNotFoundException;
 

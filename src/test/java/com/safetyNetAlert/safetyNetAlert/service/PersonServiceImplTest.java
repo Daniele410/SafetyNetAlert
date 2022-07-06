@@ -151,7 +151,7 @@ class PersonServiceImplTest {
 	}
 
 	@Test
-	public void getPersonsByCityTest() {
+	public void getPersonsByCityTest() throws PersonNotFoundException {
 
 		// Given // When
 		this.personService.getPersonsByCity(anyString());

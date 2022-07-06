@@ -27,7 +27,7 @@ public class PersonServiceImpl implements IPersonService {
 	}
 
 	@Override
-	public List<Person> getPersons() {
+	public List<Person> getPersons()  {
 		List<Person> persons = new ArrayList<>();
 		personRepository.getAllPersons().forEach(persons::add);
 		logger.info("Getting all persons");
@@ -70,10 +70,21 @@ public class PersonServiceImpl implements IPersonService {
 		this.personRepository.addPerson(person);
 		return person;
 	}
-
+//	List<Person> listPersonByName =  personRepository.findByLastName(lastName);
+//	if(listPersonByName.isEmpty()) {
+//		String errorMessage = String.format("%s not found", lastName);
+//		throw new PersonNotFoundException(errorMessage);
+//	}
+//	return listPersonByName;
+	
 	@Override
-	public List<Person> getPersonsByCity(String city) {
-		return personRepository.getPersonsByCity(city);
+	public List<Person> getPersonsByCity(String city) throws PersonNotFoundException{
+		List<Person> listPersonByCity =  personRepository.getPersonsByCity(city);
+		if(listPersonByCity.isEmpty()) {
+			String errorMessage = String.format("%s not found", city);
+			throw new PersonNotFoundException(errorMessage);
+		}
+		return listPersonByCity;
 	}
 
 	public Person getPersonByFirstnameAndLastName(String firstName, String lastName) {
