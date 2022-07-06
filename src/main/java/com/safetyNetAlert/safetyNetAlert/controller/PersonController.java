@@ -36,28 +36,21 @@ public class PersonController {
 	@PostMapping(value = "/person")
 	public ResponseEntity<Person> addPerson(@RequestBody Person person) throws Exception {
 		logger.debug("Person UPDATE request on: " + person.getFirstName() + " " + person.getLastName());
-		if (person.getFirstName() == null || person.getFirstName().isEmpty() || person.getLastName() == null
-				|| person.getLastName().isEmpty()) {
-			throw new Exception("Bad request :  missing or incomplete body request");
-		} else {
-			personService.addPerson(person);
-			logger.info("POST /person called");
-			return new ResponseEntity<>(person, HttpStatus.CREATED);
-		}
+
+		personService.addPerson(person);
+		logger.info("POST /person called");
+		return new ResponseEntity<>(person, HttpStatus.CREATED);
+
 	}
 
 	// Update a stored person
 	@PutMapping(value = "/person")
 	public ResponseEntity<Person> updatePerson(@RequestBody Person person) throws Exception {
-		if (person.getFirstName() == null || person.getFirstName().isEmpty() || person.getLastName() == null
-				|| person.getLastName().isEmpty()) {
-			throw new Exception("Bad request : missing or incomplete body request");
-		} else {
 
-			logger.info("Person PUT request - SUCCESS");
+		logger.info("Person PUT request - SUCCESS");
 
-			return new ResponseEntity<>(personService.updatePerson(person), HttpStatus.OK);
-		}
+		return new ResponseEntity<>(personService.updatePerson(person), HttpStatus.OK);
+
 	}
 
 	// The function receives a DELETE request, delete the Person with the specified
@@ -65,13 +58,10 @@ public class PersonController {
 	@DeleteMapping(value = "/person")
 	public ResponseEntity<Person> deletePerson(@RequestBody Person person) throws Exception {
 		logger.debug("Person DELETE request on : " + person);
-		if (person.getFirstName() == null || person.getFirstName().trim().length() == 0 || person.getLastName() == null
-				|| person.getLastName().trim().length() == 0) {
-			throw new Exception("Bad request : missing or incomplete parameter");
-		} else {
-			logger.info("Person DELETE request - SUCCESS");
-			return new ResponseEntity<>(personService.deletePerson(person), HttpStatus.OK);
-		}
+
+		logger.info("Person DELETE request - SUCCESS");
+		return new ResponseEntity<>(personService.deletePerson(person), HttpStatus.OK);
+
 	}
 
 }

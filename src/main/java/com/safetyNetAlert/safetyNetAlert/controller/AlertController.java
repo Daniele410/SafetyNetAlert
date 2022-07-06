@@ -31,96 +31,61 @@ public class AlertController {
 	@GetMapping(value = "/communityEmail")
 	public ResponseEntity<List<String>> getCommunityEmail(@RequestParam String city) throws Exception {
 		logger.debug("GET Request on /communityEmail with city {}", city);
-		
-		if (city.trim().length() == 0) {
-			throw new Exception("Bad request : missing city parameter");
-		}
-		
-		if (city.isBlank()) {
-			logger.error("email is blank");
-			return new ResponseEntity<List<String>>(HttpStatus.NOT_FOUND);
-		} else {
-			logger.info("List of communityEmail generated ");
-			
-			return new ResponseEntity<>(alertService.getCommunityEmail(city), HttpStatus.OK);
-		}
+		logger.info("List of communityEmail generated ");
+		return new ResponseEntity<>(alertService.getCommunityEmail(city), HttpStatus.OK);
+
 	}
 
 	@GetMapping(value = "/personInfo")
-	public ResponseEntity<List<PersonInfoDto>> getPersonInfo(@RequestParam String lastName, String firstName) throws Exception {
+	public ResponseEntity<List<PersonInfoDto>> getPersonInfo(@RequestParam String lastName, String firstName)
+			throws Exception {
 		logger.debug("GET Request on /personInfo with firstName {} and lastName {}", lastName, firstName);
-		
-		if (firstName.trim().length() == 0 || lastName.trim().length() == 0) {
-			throw new Exception("Bad request : missing identity parameters");}
-		
-		if (lastName.isBlank()) {
-			logger.error("Firstname or Lastname blank");
-			return new ResponseEntity<List<PersonInfoDto>>(HttpStatus.NOT_FOUND);
-		} else {
-			logger.info("List of Person generated - Success");
-			return new ResponseEntity<List<PersonInfoDto>>(alertService.getPersonInfo(lastName), HttpStatus.OK);
-		}
+		logger.info("List of Person generated - Success");
+		return new ResponseEntity<List<PersonInfoDto>>(alertService.getPersonInfo(lastName), HttpStatus.OK);
+
 	}
 
 	@GetMapping(value = "/childAlert")
 	public ResponseEntity<List<ChildDto>> getChildDto(@RequestParam String address) {
-		if (address.isBlank()) {
-			logger.error("address is blank");
-			return new ResponseEntity<List<ChildDto>>(HttpStatus.NOT_FOUND);
-		} else {
-			logger.info("List of childAddress generated");
-			return new ResponseEntity<List<ChildDto>>(alertService.getChildDto(address), HttpStatus.OK);
-		}
+		logger.info("List of childAddress generated");
+		return new ResponseEntity<List<ChildDto>>(alertService.getChildDto(address), HttpStatus.OK);
+
 	}
 
 	@GetMapping(value = "/phoneAlert")
 	public ResponseEntity<Set<String>> getPersonsPhoneNumberByStation(@RequestParam String firestation) {
-		if (firestation.isBlank()) {
-			logger.error("Station number is blank");
-			return new ResponseEntity<Set<String>>(HttpStatus.NOT_FOUND);
-		} else {
-			logger.info("List of PhoneAlert By Station number generated");
-			return new ResponseEntity<Set<String>>(alertService.getPersonsPhoneNumberByStation(firestation),
-					HttpStatus.OK);
-		}
+
+		logger.info("List of PhoneAlert By Station number generated");
+		return new ResponseEntity<Set<String>>(alertService.getPersonsPhoneNumberByStation(firestation), HttpStatus.OK);
 
 	}
 
 	@GetMapping(value = "/fire")
 	public ResponseEntity<List<PersonAtAddressDto>> getPersonsByAddressFromListOfStationNumber(
 			@RequestParam String address) {
-		if (address.isBlank()) {
-			logger.error("address is blank");
-			return new ResponseEntity<List<PersonAtAddressDto>>(HttpStatus.NOT_FOUND);
-		} else {
-			logger.info("List of persons By Station address generated");
-			return new ResponseEntity<List<PersonAtAddressDto>>(
-					alertService.getPersonsByAddressFromListOfStationNumber(address), HttpStatus.OK);
-		}
+
+		logger.info("List of persons By Station address generated");
+		return new ResponseEntity<List<PersonAtAddressDto>>(
+				alertService.getPersonsByAddressFromListOfStationNumber(address), HttpStatus.OK);
+
 	}
 
 	@GetMapping(value = "/flood/stations")
 	public ResponseEntity<List<FloodDto>> getPersonsBySameAddress(@RequestParam(value = "stations") String station) {
-		if (station.isBlank()) {
-			logger.error("station is blank");
-			return new ResponseEntity<List<FloodDto>>(HttpStatus.NOT_FOUND);
-		} else {
-			logger.info("List of persons By Station address generated");
-			return new ResponseEntity<List<FloodDto>>(alertService.getPersonsBySameAddress(station), HttpStatus.OK);
-		}
+
+		logger.info("List of persons By Station address generated");
+		return new ResponseEntity<List<FloodDto>>(alertService.getPersonsBySameAddress(station), HttpStatus.OK);
+
 	}
 
 	@GetMapping(value = "/firestations")
-	public ResponseEntity <PersonByFirestationDto> getPersonsCoveredByStation (
+	public ResponseEntity<PersonByFirestationDto> getPersonsCoveredByStation(
 			@RequestParam(value = "stationNumber") String stationNumber) {
-		if (stationNumber.isBlank()) {
-			logger.error("station number is blank");
-			return new ResponseEntity<PersonByFirestationDto >(HttpStatus.NOT_FOUND);
-		} else {
+		
 			logger.info("List of persons By Station address generated");
-			return new ResponseEntity<PersonByFirestationDto> (
-					alertService.getPersonsCoveredByStation(stationNumber), HttpStatus.OK);
-		}
+			return new ResponseEntity<PersonByFirestationDto>(alertService.getPersonsCoveredByStation(stationNumber),
+					HttpStatus.OK);
+		
 	}
 
 }

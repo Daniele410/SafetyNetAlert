@@ -23,8 +23,6 @@ import com.safetyNetAlert.safetyNetAlert.service.IAlertService;
 @WebMvcTest(controllers = AlertController.class)
 class AlertControllerTest {
 
-	
-	
 	@Autowired
 	MockMvc mockMvc;
 
@@ -34,12 +32,9 @@ class AlertControllerTest {
 	@MockBean
 	private IAlertService alertService;
 
-	
-
 	@BeforeEach
 	void setup() {
 		new ObjectMapper();
-		
 
 	}
 
@@ -51,11 +46,11 @@ class AlertControllerTest {
 	@Test
 	public void getPersonsCoveredByStation() throws Exception {
 
-		// Given//When
-		when(alertService.getPersonsCoveredByStation(any())).thenReturn(any());
-		//Then
-		mockMvc.perform(MockMvcRequestBuilders.get("/fireStations").contentType(MediaType.APPLICATION_JSON)
-				.param("station", "1")).andExpect(status().isOk());
+		String stationNumber = "1";
+		when(alertService.getPersonsCoveredByStation(stationNumber)).thenReturn(any());
+
+		mockMvc.perform(MockMvcRequestBuilders.get("firestations").contentType(MediaType.APPLICATION_JSON)
+				.param("stationNumber", "1")).andExpect(status().isOk());
 
 	}
 
@@ -66,18 +61,6 @@ class AlertControllerTest {
 		when(alertService.getPersonsByAddressFromListOfStationNumber(firestation.getStation())).thenReturn(any());
 		mockMvc.perform(MockMvcRequestBuilders.get("/fire").contentType(MediaType.APPLICATION_JSON).param("address",
 				"1509 Culver St")).andExpect(status().isOk());
-
-	}
-	@Disabled
-	@Test
-	public void getPersonsByAddressBlank() throws Exception {
-
-		
-		when(alertService.getPersonsByAddressFromListOfStationNumber(anyString())).thenReturn(any());
-		mockMvc.perform(MockMvcRequestBuilders.get("/fire").contentType(MediaType.APPLICATION_JSON).param("address",
-				"")).andExpect(status().isNotFound());
-		
-		
 
 	}
 

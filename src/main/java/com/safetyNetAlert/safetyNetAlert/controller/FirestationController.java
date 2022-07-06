@@ -36,9 +36,6 @@ public class FirestationController {
 	@PostMapping(value = "/firestation")
 	public ResponseEntity<Firestation> addFirestation(@RequestBody Firestation firestation) throws Exception {
 		logger.debug("Firestation UPDATE request on: " + firestation.getStation() + " " + firestation.getAddress());
-		if (firestation.getAddress() == null || firestation.getAddress().isEmpty()) {
-			throw new Exception("Bad request : missing or incomplete body request");
-		}
 		firestationService.addFirestation(firestation);
 		logger.info("POST /firestation called");
 		return new ResponseEntity<>(firestation, HttpStatus.CREATED);
@@ -46,18 +43,13 @@ public class FirestationController {
 
 	@PutMapping(value = "/firestation")
 	public ResponseEntity<Firestation> updatePerson(@RequestBody Firestation firestation) throws Exception {
-		if (firestation.getAddress() == null || firestation.getAddress().isEmpty()) {
-			throw new Exception("Bad request : missing or incomplete body request");
-		}
+		
 		logger.info("Firestation PUT request - SUCCESS");
 		return new ResponseEntity<>(firestationService.updateFirestation(firestation), HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "/firestation")
 	public ResponseEntity<Firestation> deletePerson(@RequestBody Firestation firestation) throws Exception {
-		if (firestation.getAddress() == null || firestation.getAddress().trim().length() == 0 || firestation.getStation() == null || firestation.getStation().trim().length() == 0 ) {
-			throw new Exception("Bad request : missing or incomplete parameter");
-		}
 		logger.debug("Firestation DELETE request on : " + firestation);
 		logger.info("Person DELETE request - SUCCESS");
 		return new ResponseEntity<>(firestationService.deleteFirestation(firestation), HttpStatus.OK);

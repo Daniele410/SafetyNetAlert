@@ -196,13 +196,6 @@ public class AlertServiceImpl implements IAlertService {
 	 * nombre d'enfants (tout individu âgé de 18 ans ou moins) dans la zone
 	 * desservie.
 	 */
-	/*
-	 * public class PersonByFirestationDTO { List<PersonTotoDTO> personlisteToto;
-	 * Integer nbOfAdult ; Integer nbOfChildren; }
-	 * 
-	 * public class PersonTotoDTO { private String firstname; private String
-	 * lastname; private String adress; private String phone; }
-	 */
 	int nbOfAdult;
 	int nbOfChildren;
 

@@ -86,10 +86,10 @@ class PersonServiceImplTest {
 		// Given // When
 		Person person = new Person();
 		personList = Arrays.asList(person);
-
+		
 		// Then
 		assertThrows(PersonNotFoundException.class, () -> personService.getPersonByLastName(anyString()));
-
+		
 	}
 
 	@Test

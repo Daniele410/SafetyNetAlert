@@ -138,6 +138,7 @@ class AlertServiceImplTest {
 	@Test
 	void getChildDtoTest() throws Exception {
 		// Given
+		
 		when(personService.getPersonByAddress(anyString()))
 				.thenReturn(new ArrayList<Person>(List.of(persons.get(0), persons.get(1))));
 

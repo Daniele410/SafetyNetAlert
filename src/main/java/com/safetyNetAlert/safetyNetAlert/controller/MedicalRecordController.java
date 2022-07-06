@@ -41,13 +41,9 @@ public class MedicalRecordController {
 	 */
 	@PostMapping(value = "/medicalRecord")
 	public ResponseEntity<MedicalRecord> addMedicalRecord(@RequestBody MedicalRecord medicalRecord) throws Exception {
-		if (medicalRecord.getFirstName() == null || medicalRecord.getFirstName().isEmpty()
-				|| medicalRecord.getLastName() == null || medicalRecord.getLastName().isEmpty()) {
-			throw new Exception("Bad request : missing or incomplete body request");
-		} else {
-			medicalRecordService.addMedicalRecord(medicalRecord);
-			return new ResponseEntity<>(medicalRecord, HttpStatus.CREATED);
-		}
+		medicalRecordService.addMedicalRecord(medicalRecord);
+		return new ResponseEntity<>(medicalRecord, HttpStatus.CREATED);
+
 	}
 
 	/**
@@ -56,12 +52,8 @@ public class MedicalRecordController {
 	@PutMapping(value = "/medicalRecord")
 	public ResponseEntity<MedicalRecord> updateMedicalRecord(@RequestBody MedicalRecord medicalRecord)
 			throws Exception {
-		if (medicalRecord.getFirstName() == null || medicalRecord.getFirstName().isEmpty()
-				|| medicalRecord.getLastName() == null || medicalRecord.getLastName().isEmpty()) {
-			throw new Exception("Bad request : missing or incomplete body request");
-		} else {
-			return new ResponseEntity<>(medicalRecordService.updateMedicalRecord(medicalRecord), HttpStatus.OK);
-		}
+		return new ResponseEntity<>(medicalRecordService.updateMedicalRecord(medicalRecord), HttpStatus.OK);
+
 	}
 
 	/**
@@ -70,12 +62,9 @@ public class MedicalRecordController {
 	@DeleteMapping(value = "/medicalRecord")
 	public ResponseEntity<MedicalRecord> deleteMedicalRecord(@RequestBody MedicalRecord medicalRecord)
 			throws Exception {
-		if (medicalRecord.getFirstName() == null || medicalRecord.getFirstName().trim().length() == 0
-				|| medicalRecord.getLastName() == null || medicalRecord.getLastName().trim().length() == 0) {
-			throw new Exception("Bad request : missing or incomplete parameter");
-		} else {
-			return new ResponseEntity<>(medicalRecordService.deleteMedicalRecord(medicalRecord), HttpStatus.OK);
-		}
+
+		return new ResponseEntity<>(medicalRecordService.deleteMedicalRecord(medicalRecord), HttpStatus.OK);
+
 	}
 
 }
