@@ -1,17 +1,16 @@
 package com.safetyNetAlert.safetyNetAlert.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.safetyNetAlert.safetyNetAlert.dto.ChildDto;
+import com.safetyNetAlert.safetyNetAlert.dto.PersonAtAddressDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 import com.safetyNetAlert.safetyNetAlert.model.Firestation;
 import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
@@ -53,7 +53,7 @@ class AlertServiceImplTest {
 		persons.add(
 				new Person("Jonny", "Boyd", "1509 Culver st", "Culver", "97451", "841-874-6512", "jaboyd@email.com"));
 		persons.add(new Person("Gimmy", "Boyd", "1509 Culver st", "Culver", "97451", "841-874-6513", "drk@email.com"));
-		persons.add(new Person("Toto", "Tutu", "1509 Culver st", "Culver", "97451", "841-874-6512", "reg@email.com"));
+		persons.add(new Person("Toto", "Tutu", "892 Downing Ct", "Culver", "97451", "841-874-6512", "reg@email.com"));
 		persons.add(
 				new Person("Tata", "Popo", "892 Downing Ct", "Culver", "97451", "841-874-7878", "gramps@email.com"));
 	}
@@ -119,47 +119,71 @@ class AlertServiceImplTest {
 
 	}
 
-	@Disabled
+	@Test
+	void getPersonsPhoneNumberByStationTest() throws Exception {
+
+		// Given
+		when(firestationService.getFireStationsByStation(anyString()))
+				.thenReturn(new ArrayList<Firestation>(List.of(firestations.get(0))));
+		when(personService.getPersonByAddress(anyString()))
+				.thenReturn(new ArrayList<Person>(List.of(persons.get(0), persons.get(1))));
+
+		// When
+		Set<String> result = alertService.getPersonsPhoneNumberByStation(anyString());
+
+		// Then
+		assertThat(result).contains("841-874-6512");
+		assertThat(result).contains("841-874-6513");
+		verify(personService).getPersonByAddress(anyString());
+		verify(firestationService).getFireStationsByStation(any());
+
+	}
+
 	@Test
 	void getChildDtoTest() throws Exception {
 		// Given
 		when(personService.getPersonByAddress(anyString()))
 				.thenReturn(new ArrayList<Person>(List.of(persons.get(0), persons.get(1))));
 
-		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName("Jonny", "Boyd"))
-				.thenReturn(medicalRecords.get(0));
-		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName("Gimmy", "Boyd"))
-				.thenReturn(medicalRecords.get(1));
-
-		when(ageCalculator.calculate(anyString())).thenReturn(38);
-		when(ageCalculator.calculate(anyString())).thenReturn(33);
+//		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName("Jonny", "Boyd"))
+//				.thenReturn(medicalRecords.get(0));
+//		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName("Gimmy", "Boyd"))
+//				.thenReturn(medicalRecords.get(1));
+//		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(any());
+//		when(ageCalculator.calculate("03/06/1984")).thenReturn(38);
+//		when(ageCalculator.calculate("03/06/1989")).thenReturn(33);
 
 		// When
-		List<ChildDto> result = alertService.getChildDto("1509 Culver St");
+		List<ChildDto> result = alertService.getChildDto("1509 Culver st");
 
 		// Then
 
 		assertThat(result).isEmpty();
 		verify(personService).getPersonByAddress(anyString());
-		verify(medicalRecordService, times(2)).getMedicalRecordByFirstNameAndLastName(anyString(), anyString());
+//		verify(medicalRecordService, times(1)).getMedicalRecordByFirstNameAndLastName(anyString(),anyString());
 
 	}
 
 	@Test
-	void getPersonsPhoneNumberByStation() throws Exception {
+	void getPersonsByAddressFromListOfStationNumberTest() throws Exception {
 
 		// Given
-		when(firestationService.getFireStationsByStation(anyString())).thenReturn(new ArrayList<Firestation>(List.of(firestations.get(0))));
-		when(personService.getPersonByAddress(anyString())).thenReturn(new ArrayList<Person>(List.of(persons.get(0),persons.get(1))));
+		when(personService.getPersonByAddress(anyString()))
+				.thenReturn(new ArrayList<Person>(List.of(persons.get(0), persons.get(1))));
 
-		// When
-		Set<String> result = alertService.getPersonsPhoneNumberByStation(anyString());
+		when(firestationService.getFirestationsByAddress(anyString()))
+				.thenReturn(firestationService.getFirestationsByAddress(anyString()));
 		
-		// Then
-		assertThat(result).contains("841-874-6512");
-		assertThat(result).contains("841-874-6513");
-		verify(personService).getPersonByAddress(anyString());
-		verify(firestationService).getFireStationsByStation(any());
-		
+		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString()))
+				.thenReturn(medicalRecordService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString()));
+		when(ageCalculator.calculate("03/06/1984")).thenReturn(38);
+		when(ageCalculator.calculate("03/06/1989")).thenReturn(33);
+	
+
+	// When
+	List<PersonAtAddressDto> result = alertService.getPersonsByAddressFromListOfStationNumber(anyString());
+
+	// Then
+	assertThat(result.get(0).getStation()).isEqualTo(any());
 	}
 }
