@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +49,7 @@ class PersonServiceImplTest {
 	// When
 	// Then
 	@Test
-	public void getPersonTest() throws Exception {
+	public void getPersonTest_ShouldReturnNotNull() throws Exception {
 
 		// Given
 		Person person = new Person("John", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512",
@@ -151,14 +152,33 @@ class PersonServiceImplTest {
 	}
 
 	@Test
-	public void getPersonsByCityTest() throws PersonNotFoundException {
-
+	public void getPersonsByCityTest_ShouldReturnNotNull() throws PersonNotFoundException {
+		Person person = new Person("John", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512",
+				"jaboyd@email.com");
 		// Given // When
-		this.personService.getPersonsByCity(anyString());
+		List<Person> listPersonByCity = List.of(person);
+		
+		when(personRepository.getPersonsByCity(anyString())).thenReturn(listPersonByCity);
+		List<Person> result = personService.getPersonsByCity(anyString());
 
 		// Then
 		verify(personRepository, Mockito.times(1)).getPersonsByCity(anyString());
-
+		assertNotNull(result);
+	}
+	
+	@Test
+	public void getPersonsByCityTest_ShouldReturnNull() throws PersonNotFoundException {
+		
+		// Given // When
+		List<Person> listPersonByCity = Collections.emptyList();
+		
+		//When
+		when(personRepository.getPersonsByCity(anyString())).thenReturn(listPersonByCity);
+		
+		// Then
+		assertThrows(PersonNotFoundException.class, () -> personService.getPersonsByCity(anyString()));
+		verify(personRepository, Mockito.times(1)).getPersonsByCity(anyString());
+		
 	}
 
 	@Test

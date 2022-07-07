@@ -11,7 +11,7 @@ public class PersonByFirestationDto {
 	
 	public PersonByFirestationDto(List<LightPersonDto> personByFirestationDto, Integer nbOfAdult,
 			Integer nbOfChildren) {
-		super();
+		
 		this.personByFirestationDto = personByFirestationDto;
 		this.nbOfAdult = nbOfAdult;
 		this.nbOfChildren = nbOfChildren;

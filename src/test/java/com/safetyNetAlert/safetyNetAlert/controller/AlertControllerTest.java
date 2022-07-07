@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -42,14 +41,14 @@ class AlertControllerTest {
 	// Given
 	// When
 	// Then
-	@Disabled
+	
 	@Test
 	public void getPersonsCoveredByStation() throws Exception {
 
 		String stationNumber = "1";
 		when(alertService.getPersonsCoveredByStation(stationNumber)).thenReturn(any());
 
-		mockMvc.perform(MockMvcRequestBuilders.get("firestations").contentType(MediaType.APPLICATION_JSON)
+		mockMvc.perform(MockMvcRequestBuilders.get("/firestations").contentType(MediaType.APPLICATION_JSON)
 				.param("stationNumber", "1")).andExpect(status().isOk());
 
 	}
@@ -110,5 +109,8 @@ class AlertControllerTest {
 				.param("city", "Culver")).andExpect(status().isOk());
 
 	}
+	
+	
+
 
 }

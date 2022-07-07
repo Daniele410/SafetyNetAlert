@@ -36,6 +36,7 @@ public class AlertController {
 
 	}
 
+	// http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
 	@GetMapping(value = "/personInfo")
 	public ResponseEntity<List<PersonInfoDto>> getPersonInfo(@RequestParam String lastName, String firstName)
 			throws Exception {
@@ -45,6 +46,7 @@ public class AlertController {
 
 	}
 
+	// http://localhost:8080/childAlert?address=<address>
 	@GetMapping(value = "/childAlert")
 	public ResponseEntity<List<ChildDto>> getChildDto(@RequestParam String address) {
 		logger.info("List of childAddress generated");
@@ -52,6 +54,7 @@ public class AlertController {
 
 	}
 
+	// http://localhost:8080/phoneAlert?firestation=<firestation_number>
 	@GetMapping(value = "/phoneAlert")
 	public ResponseEntity<Set<String>> getPersonsPhoneNumberByStation(@RequestParam String firestation) {
 
@@ -60,6 +63,7 @@ public class AlertController {
 
 	}
 
+	// http://localhost:8080/fire?address=<address>
 	@GetMapping(value = "/fire")
 	public ResponseEntity<List<PersonAtAddressDto>> getPersonsByAddressFromListOfStationNumber(
 			@RequestParam String address) {
@@ -70,6 +74,7 @@ public class AlertController {
 
 	}
 
+	// http://localhost:8080/flood/stations?stations=<a list of station_numbers>
 	@GetMapping(value = "/flood/stations")
 	public ResponseEntity<List<FloodDto>> getPersonsBySameAddress(@RequestParam(value = "stations") String station) {
 
@@ -78,14 +83,15 @@ public class AlertController {
 
 	}
 
+	// http://localhost:8080/firestation?stationNumber=<station_number>
 	@GetMapping(value = "/firestations")
 	public ResponseEntity<PersonByFirestationDto> getPersonsCoveredByStation(
 			@RequestParam(value = "stationNumber") String stationNumber) {
-		
-			logger.info("List of persons By Station address generated");
-			return new ResponseEntity<PersonByFirestationDto>(alertService.getPersonsCoveredByStation(stationNumber),
-					HttpStatus.OK);
-		
+
+		logger.info("List of persons By Station address generated");
+		return new ResponseEntity<PersonByFirestationDto>(alertService.getPersonsCoveredByStation(stationNumber),
+				HttpStatus.OK);
+
 	}
 
 }
