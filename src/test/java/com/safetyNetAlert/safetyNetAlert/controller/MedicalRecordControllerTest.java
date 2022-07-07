@@ -1,8 +1,9 @@
 package com.safetyNetAlert.safetyNetAlert.controller;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -41,10 +42,10 @@ class MedicalRecordControllerTest {
 	@MockBean
 	private IMedicalRecordService medicalRecordService;
 
-	@Mock
+	
 	private MedicalRecord medicalRecordTest1;
 
-	@Mock
+	
 	private MedicalRecord medicalRecordTest2;
 
 	@BeforeEach
@@ -106,6 +107,19 @@ class MedicalRecordControllerTest {
 
 	}
 
+	@Test
+	public void testPutPerson() throws Exception {
+		// Given
+//		String medicalRecord = "{\"firstName\":\"Jimmy\",\"lastName\":\"Sax\",\"birthdate\":\"03/06/1984\",\"medications\":\"aznol:350mg\",\"allergies\":\"shellfish\"}";		
+		// When
+		when(medicalRecordService.updateMedicalRecord(any())).thenReturn(any());
+
+		// Then
+		mockMvc.perform(
+				MockMvcRequestBuilders.put("/medicalRecord").contentType(MediaType.APPLICATION_JSON).content(anyString()))
+				.andExpect(status().isOk());
+	}
+	
 	@Disabled
 	@Test
 	public void testPutMedicalRecord() throws Exception {
