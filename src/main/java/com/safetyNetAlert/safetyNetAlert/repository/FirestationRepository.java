@@ -14,6 +14,10 @@ public class FirestationRepository {
 
 	private List<Firestation> listFirestation = new ArrayList<>();
 
+	public FirestationRepository(List<Firestation> firestations) {
+		this.listFirestation.addAll(firestations);
+	}
+
 	public void addFirestation(Firestation firestation) {
 		this.listFirestation.add(firestation);
 	}
@@ -22,13 +26,14 @@ public class FirestationRepository {
 		return this.listFirestation;
 	}
 
-	public void updateFirestation(Firestation firestation) {
+	public Firestation updateFirestation(Firestation firestation) {
 
 		Firestation firestationToUpdate = findByAddress(firestation.getAddress());
 
 		int index = listFirestation.indexOf(firestationToUpdate);
 		// mise à jour de la firestation grâce à l'index dans la liste
 		listFirestation.set(index, firestation);
+		return firestationToUpdate;
 	}
 
 	public void deleteFirestation(Firestation firestation) {

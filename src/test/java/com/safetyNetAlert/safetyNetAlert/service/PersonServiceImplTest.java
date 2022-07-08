@@ -87,10 +87,10 @@ class PersonServiceImplTest {
 		// Given // When
 		Person person = new Person();
 		personList = Arrays.asList(person);
-		
+
 		// Then
 		assertThrows(PersonNotFoundException.class, () -> personService.getPersonByLastName(anyString()));
-		
+
 	}
 
 	@Test
@@ -153,11 +153,12 @@ class PersonServiceImplTest {
 
 	@Test
 	public void getPersonsByCityTest_ShouldReturnNotNull() throws PersonNotFoundException {
+		
+		// Given // When
 		Person person = new Person("John", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512",
 				"jaboyd@email.com");
-		// Given // When
 		List<Person> listPersonByCity = List.of(person);
-		
+
 		when(personRepository.getPersonsByCity(anyString())).thenReturn(listPersonByCity);
 		List<Person> result = personService.getPersonsByCity(anyString());
 
@@ -165,20 +166,20 @@ class PersonServiceImplTest {
 		verify(personRepository, Mockito.times(1)).getPersonsByCity(anyString());
 		assertNotNull(result);
 	}
-	
+
 	@Test
 	public void getPersonsByCityTest_ShouldReturnNull() throws PersonNotFoundException {
-		
+
 		// Given // When
 		List<Person> listPersonByCity = Collections.emptyList();
-		
-		//When
+
+		// When
 		when(personRepository.getPersonsByCity(anyString())).thenReturn(listPersonByCity);
-		
+
 		// Then
 		assertThrows(PersonNotFoundException.class, () -> personService.getPersonsByCity(anyString()));
 		verify(personRepository, Mockito.times(1)).getPersonsByCity(anyString());
-		
+
 	}
 
 	@Test

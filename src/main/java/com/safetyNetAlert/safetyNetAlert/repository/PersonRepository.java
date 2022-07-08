@@ -12,7 +12,13 @@ import com.safetyNetAlert.safetyNetAlert.model.Person;
 @Repository
 public class PersonRepository {
 
+	
+	
 	private List<Person> listPerson = new ArrayList<>();
+
+	public PersonRepository(List<Person> persons) {
+		this.listPerson.addAll(persons);
+	}
 
 	public void addPerson(Person person) {
 		this.listPerson.add(person);
@@ -26,11 +32,10 @@ public class PersonRepository {
 		return this.listPerson.stream().filter(p -> p.getLastName().equals(lastName)).collect(Collectors.toList());
 	}
 
-	public void updatePerson(Person person) {
+	public Person updatePerson(Person person) {
 		Person personToUpdate = findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
 		int index = listPerson.indexOf(personToUpdate);
-		// mise à jour de la personne grâce à l'index dans la liste
-		listPerson.set(index, person);
+		return listPerson.set(index, person);
 	}
 
 	public void deletePerson(Person person) {

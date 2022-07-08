@@ -39,7 +39,7 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 	 * Check if there is already
 	 */
 	@Override
-	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) {
+	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord)  {
 		medicalRecordRepository.updateMedicalRecord(medicalRecord);
 		return medicalRecord;
 	}

@@ -1,9 +1,8 @@
 package com.safetyNetAlert.safetyNetAlert.controller;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Mockito.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -16,7 +15,6 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -46,7 +44,7 @@ class MedicalRecordControllerTest {
 	private MedicalRecord medicalRecordTest1;
 
 	
-	private MedicalRecord medicalRecordTest2;
+	
 
 	@BeforeEach
 	void setup() {
@@ -55,8 +53,7 @@ class MedicalRecordControllerTest {
 		medicalRecordTest1 = new MedicalRecord("Jimmy", "Sax", "03/06/1980", Arrays.asList("aznol:350mg"),
 				Arrays.asList("nillacilan"));
 
-		medicalRecordTest2 = new MedicalRecord("Toto", "Tutu", "05/21/2003", Arrays.asList("ibupurin:200mg"),
-				Arrays.asList("peanut"));
+		
 	}
 
 	@Test
@@ -107,18 +104,7 @@ class MedicalRecordControllerTest {
 
 	}
 
-	@Test
-	public void testPutPerson() throws Exception {
-		// Given
-//		String medicalRecord = "{\"firstName\":\"Jimmy\",\"lastName\":\"Sax\",\"birthdate\":\"03/06/1984\",\"medications\":\"aznol:350mg\",\"allergies\":\"shellfish\"}";		
-		// When
-		when(medicalRecordService.updateMedicalRecord(any())).thenReturn(any());
-
-		// Then
-		mockMvc.perform(
-				MockMvcRequestBuilders.put("/medicalRecord").contentType(MediaType.APPLICATION_JSON).content(anyString()))
-				.andExpect(status().isOk());
-	}
+	
 	
 	@Disabled
 	@Test

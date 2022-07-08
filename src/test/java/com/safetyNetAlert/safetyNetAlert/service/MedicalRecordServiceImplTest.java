@@ -1,7 +1,8 @@
 package com.safetyNetAlert.safetyNetAlert.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -9,6 +10,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -113,6 +115,23 @@ class MedicalRecordServiceImplTest {
 	@Test
 	public void getMedicalRecordByFirstNameAndLastNameTest() throws Exception {
 
+		String firstName= "Jimmy";
+		String lastName = "Sax";
+		// Given
+		Optional<MedicalRecord> medicalRecordTemp = medicalRecordRepository.findByFirstNameAndLastName(lastName,
+				firstName);
+		
+		// When
+		when(medicalRecordRepository.findByFirstNameAndLastName(anyString(), anyString())).thenReturn(medicalRecordTemp);
+		medicalRecordService.getMedicalRecordByFirstNameAndLastName(anyString(),anyString());
+
+		// Then
+		verify(medicalRecordRepository, Mockito.times(1)).findByFirstNameAndLastName(lastName,firstName);
+	}
+	
+	@Test
+	public void getMedicalRecordByFirstNameAndLastNameTest_ShoulMediacalRecordFirstName() throws Exception {
+
 		// Given
 		MedicalRecord medicalRecords = new MedicalRecord("Jimmy", "Sax", "03/06/1980", Arrays.asList("aznol:350mg"),
 				Arrays.asList("nillacilan"));
@@ -124,16 +143,29 @@ class MedicalRecordServiceImplTest {
 
 		// Then
 		verify(medicalRecordRepository, Mockito.times(1)).findByFirstNameAndLastName("Jimmy", "Sax");
+		assertEquals(medicalRecords.getFirstName(),"Jimmy");
+		
 	}
+	
 	@Disabled
 	@Test
 	public void isChildTest() throws Exception {
-
-		// Given
-		this.medicalRecordService.isChild(anyString(), anyString());
-		when(ageCalculator.calculate(anyString())).thenReturn(any());
+		String firstName= "Jimmy";
+		String lastName = "Sax";
+		String birthdate="23/10/1951";
 		
-		verify(medicalRecordRepository, Mockito.times(1)).findByBirthdate(anyString());
+		Optional<MedicalRecord> medicalRecordToFind = medicalRecordRepository.findByFirstNameAndLastName(lastName, firstName);
+		AgeCalculator ageCalculator= new AgeCalculator();
+		when(medicalRecordRepository.findByFirstNameAndLastName(anyString(),anyString())).thenReturn(medicalRecordToFind);
+		
+		boolean result = medicalRecordService.isChild(firstName,lastName);
+		int age =ageCalculator.calculate(birthdate);
+		
+		
+		verify(medicalRecordRepository, Mockito.times(1)).findByFirstNameAndLastName("Jimmy", "Sax");
+		assertTrue(result);
+		assertEquals(age, 71);
+		
 	}
 
 }
