@@ -18,6 +18,10 @@ public class MedicalRecordRepository {
 
 	private List<MedicalRecord> listMedicalRecord = new ArrayList<>();
 
+	public MedicalRecordRepository(List<MedicalRecord> medicalRecords) {
+		this.listMedicalRecord.addAll(medicalRecords);
+	}
+
 	public void addMedicalRecord(MedicalRecord medicalRecord) {
 		this.listMedicalRecord.add(medicalRecord);
 	}
@@ -26,14 +30,13 @@ public class MedicalRecordRepository {
 		return this.listMedicalRecord;
 	}
 
-	public void updateMedicalRecord(MedicalRecord medicalRecord) {
+	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) {
 
 		MedicalRecord medicalRecordToUpdate = findByFirstNameAndLastName(medicalRecord.getFirstName(),
 				medicalRecord.getLastName()).get();
 
 		int index = listMedicalRecord.indexOf(medicalRecordToUpdate);
-		// mise à jour de la personne grâce à l'index dans la liste
-		listMedicalRecord.set(index, medicalRecord);
+		return listMedicalRecord.set(index, medicalRecord);
 	}
 
 	public MedicalRecord findByBirthdate(String birthdate) {
