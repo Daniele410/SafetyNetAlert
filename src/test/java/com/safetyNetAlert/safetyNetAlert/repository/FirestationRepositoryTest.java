@@ -1,6 +1,7 @@
 package com.safetyNetAlert.safetyNetAlert.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
@@ -95,6 +96,18 @@ class FirestationRepositoryTest {
 		Firestation result = firestationRepository.updateFirestation(firestation);
 		// assert
 		assertNotNull(result);
+
+	}
+	
+	@Test
+	void FindByStationByStationNumber_test() {
+		// Given
+		Firestation firestation = new Firestation("644 Gershwin Cir", "1");
+		// When
+		List<Firestation> result = firestationRepository.getFireStationsByStation(firestation.getStation());
+		// Then
+		assertNotNull(result);
+		assertEquals(1, 1);
 
 	}
 

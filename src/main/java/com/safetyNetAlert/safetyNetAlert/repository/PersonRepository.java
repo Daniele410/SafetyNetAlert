@@ -12,8 +12,6 @@ import com.safetyNetAlert.safetyNetAlert.model.Person;
 @Repository
 public class PersonRepository {
 
-	
-	
 	private List<Person> listPerson = new ArrayList<>();
 
 	public PersonRepository(List<Person> persons) {
@@ -41,16 +39,8 @@ public class PersonRepository {
 	public void deletePerson(Person person) {
 		Person personToDelete = findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
 		int index = listPerson.indexOf(personToDelete);
-		if (person.getFirstName() == null && person.getLastName() != null) {
-			listPerson.remove(index);
-		}
-		// cas ou firestation avec adresse != null et station != null =>
-		else if (person.getFirstName() != null && person.getLastName() != null) {
-			listPerson.remove(index);
-			// cas ou firestation avec adresse != null et station = null =>
-		} else {
-			listPerson.remove(index);
-		}
+		listPerson.remove(index);
+
 	}
 
 	public Person findByFirstNameAndLastName(String firstName, String lastName) {

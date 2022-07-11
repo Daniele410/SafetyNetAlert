@@ -55,7 +55,7 @@ public class JsonReaderImpl implements IDataReader {
 	}
 
 	/**
-	 * add persons
+	 * load persons
 	 */
 
 	private void loadPersons() {
@@ -77,7 +77,7 @@ public class JsonReaderImpl implements IDataReader {
 	}
 
 	/**
-	 * add firestations
+	 * load firestations
 	 */
 	private void loadFirestations() {
 		JsonNode nodeFirestations = root.path("firestations");
@@ -93,7 +93,7 @@ public class JsonReaderImpl implements IDataReader {
 	}
 
 	/**
-	 * add médicalRecords
+	 * load médicalRecords
 	 */
 
 	private void loadMedicalRecords() {
@@ -112,6 +112,17 @@ public class JsonReaderImpl implements IDataReader {
 			medicalRecordRepository.addMedicalRecord(medicalRecord);
 
 		}
+		
+	}
+	/**
+	 * clearData => clear all data in repository
+	 * 
+	 * @throws IOException
+	 */
+	public void clearData() throws IOException {
+		personRepository.getAllPersons().clear();
+		firestationRepository.getAllFirestation().clear();
+		medicalRecordRepository.getAllMedicalRecords().clear();
 	}
 
 }

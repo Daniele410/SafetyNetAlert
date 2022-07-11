@@ -176,7 +176,6 @@ class AlertServiceImplTest {
 		when(ageCalculator.calculate("03/06/1984")).thenReturn(38);
 		when(ageCalculator.calculate("03/06/1989")).thenReturn(33);
 	
-
 	// When
 	List<PersonAtAddressDto> result = alertService.getPersonsByAddressFromListOfStationNumber(anyString());
 

@@ -5,14 +5,16 @@ import java.util.Optional;
 
 import com.safetyNetAlert.safetyNetAlert.model.Firestation;
 
+import exception.FirestationNotFoundException;
+
 public interface IFirestationService {
-	List<Firestation> getFirestations();
+	List<Firestation> getFirestations() throws FirestationNotFoundException;
 
 	Firestation deleteFirestation(Firestation firestation);
 
 	Firestation addFirestation(Firestation firestation);
 
-	Firestation updateFirestation(Firestation firestation);
+	Firestation updateFirestation(Firestation firestation) throws FirestationNotFoundException;
 
 	public Optional<Firestation> getFirestationsByAddress(String address);
 	

@@ -47,7 +47,7 @@ public class PersonServiceImpl implements IPersonService {
 
 
 	@Override
-	public Person deletePerson(Person person) {
+	public Person deletePerson(Person person)  throws PersonNotFoundException {
 		// rechercher si la personne existe
 		// si elle n'existe pas alors on throw une exception, PersonNotFoundException
 		personRepository.deletePerson(person);

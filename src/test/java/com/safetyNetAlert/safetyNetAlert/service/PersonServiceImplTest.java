@@ -124,7 +124,7 @@ class PersonServiceImplTest {
 	}
 
 	@Test
-	public void deletePersonTest() {
+	public void deletePersonTest() throws PersonNotFoundException {
 
 		// Given
 		Person person = mock(Person.class);

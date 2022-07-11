@@ -40,15 +40,7 @@ public class FirestationRepository {
 		Firestation firestationToDelete = findByAddressAndStation(firestation.getAddress(),firestation.getStation());
 		int index = listFirestation.indexOf(firestationToDelete);
 		listFirestation.remove(index);
-		//cas ou firestation avec adresse = null et station != null => on supprime toutes les firestations
-		if (firestation.getAddress() == null && firestation.getStation()!=null) {
-			listFirestation.remove(index);
-		}
-		//cas ou firestation avec adresse != null et station != null =>
-		else if(firestation.getAddress() != null && firestation.getStation()!=null) {
-			listFirestation.remove(index);
-		// cas ou firestation avec adresse != null et station = null =>
-		} else {listFirestation.remove(index);}
+		
 		}
 
 	private Firestation findByAddressAndStation(String address, String station) {
@@ -74,7 +66,7 @@ public class FirestationRepository {
 	}
 	
 	
-	public Firestation getAddressByStationNumber (String stationNumber) {
+	public Firestation getAddressByStationNumber (String stationNumber)  {
 		Optional<Firestation> firestationToFind = listFirestation.stream()
 				.filter(listFirestation -> listFirestation.getStation().equals(stationNumber)).findFirst();
 		if (firestationToFind.isPresent()) {

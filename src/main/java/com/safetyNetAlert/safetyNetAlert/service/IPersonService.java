@@ -16,7 +16,7 @@ public interface IPersonService {
 
 	
 
-	Person deletePerson(Person person);
+	Person deletePerson(Person person) throws PersonNotFoundException;
 
 	Person updatePerson(Person person);
 

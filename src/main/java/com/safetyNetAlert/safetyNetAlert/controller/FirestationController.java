@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.safetyNetAlert.safetyNetAlert.model.Firestation;
 import com.safetyNetAlert.safetyNetAlert.service.IFirestationService;
 
+import exception.FirestationNotFoundException;
+
 @RestController
 public class FirestationController {
 
@@ -26,7 +28,7 @@ public class FirestationController {
 	private IFirestationService firestationService;
 
 	@GetMapping(value = "/firestation")
-	public ResponseEntity<List<Firestation>> getAllFirestations() {
+	public ResponseEntity<List<Firestation>> getAllFirestations() throws FirestationNotFoundException {
 		List<Firestation> firestationsRecordsList = firestationService.getFirestations();
 		logger.info("GET request for firestation send");
 		logger.info("Response for the GET request for firestation: " + firestationsRecordsList);

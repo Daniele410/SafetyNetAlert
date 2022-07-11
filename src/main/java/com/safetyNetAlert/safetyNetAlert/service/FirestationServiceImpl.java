@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.safetyNetAlert.safetyNetAlert.model.Firestation;
 import com.safetyNetAlert.safetyNetAlert.repository.FirestationRepository;
 
+import exception.FirestationNotFoundException;
+
 @Service
 public class FirestationServiceImpl implements IFirestationService{
 
@@ -21,10 +23,15 @@ public class FirestationServiceImpl implements IFirestationService{
 	}
 
 	@Override
-	public List<Firestation> getFirestations() {
+	public List<Firestation> getFirestations() throws FirestationNotFoundException {
 		List<Firestation> firestations = new ArrayList<>();
 		firestationRepository.getAllFirestation().forEach(firestations::add);
+		if(firestations.isEmpty()) {
+			String errorMessage = String.format("%s not found", firestations);
+			throw new FirestationNotFoundException(errorMessage);
+		}
 		return firestations;
+		
 	}
 	
 	
