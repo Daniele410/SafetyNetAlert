@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import com.safetyNetAlert.safetyNetAlert.model.Firestation;
 
+import exception.FirestationNotFoundException;
+
 class FirestationRepositoryTest {
 
 	private static FirestationRepository firestationRepository;
@@ -100,7 +102,7 @@ class FirestationRepositoryTest {
 	}
 	
 	@Test
-	void FindByStationByStationNumber_test() {
+	void FindByStationByStationNumberTest_ShouldReturnStation() {
 		// Given
 		Firestation firestation = new Firestation("644 Gershwin Cir", "1");
 		// When
@@ -110,5 +112,20 @@ class FirestationRepositoryTest {
 		assertEquals(1, 1);
 
 	}
+	
+	@Test
+	void getAddressByStationNumberTest_ShoultReturnFirestationByAddress() throws FirestationNotFoundException {
+		
+		// Given //When
+		Firestation result = firestationRepository.getAddressByStationNumber(firestations.get(0).getStation());
+
+		// Then
+		assertNotNull(result);
+
+	}
+	
+	
+
+	
 
 }

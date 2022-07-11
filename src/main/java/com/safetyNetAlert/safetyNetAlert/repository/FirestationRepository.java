@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.safetyNetAlert.safetyNetAlert.model.Firestation;
 
+import exception.FirestationNotFoundException;
+
 @Repository
 public class FirestationRepository {
 
@@ -66,13 +68,14 @@ public class FirestationRepository {
 	}
 	
 	
-	public Firestation getAddressByStationNumber (String stationNumber)  {
+	public Firestation getAddressByStationNumber (String stationNumber) throws FirestationNotFoundException  {
 		Optional<Firestation> firestationToFind = listFirestation.stream()
 				.filter(listFirestation -> listFirestation.getStation().equals(stationNumber)).findFirst();
 		if (firestationToFind.isPresent()) {
 			return firestationToFind.get();
 		} else
-			return null;
+			throw new FirestationNotFoundException(
+					"firestation " + stationNumber + " not found");
 	}
 	
 	public Optional<Firestation> getFirestationsByAddress(String address){
