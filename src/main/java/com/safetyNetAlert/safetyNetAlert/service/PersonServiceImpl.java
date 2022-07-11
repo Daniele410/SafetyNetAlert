@@ -87,15 +87,15 @@ public class PersonServiceImpl implements IPersonService {
 		return listPersonByCity;
 	}
 
-	public Person getPersonByFirstnameAndLastName(String firstName, String lastName) {
+	public Person getPersonByFirstnameAndLastName(String firstName, String lastName) throws PersonNotFoundException{
 		Optional<Person> personTemp = personRepository.getPersonByFirstNameAndLastName(firstName, lastName);
 
 		if (personTemp.isPresent()) {
 			return personTemp.get();
-		} else {
-			System.out.println("erreur");
-			return null;
-		}
+		} logger.error("person {} {} not found", firstName, lastName);
+		throw new PersonNotFoundException(
+				"person " + firstName + " " + lastName + " not found");
+		
 	}
 
 	@Override

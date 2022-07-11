@@ -3,12 +3,15 @@ package com.safetyNetAlert.safetyNetAlert.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 
@@ -200,6 +203,35 @@ class PersonRepositoryTest {
 		assertThat(result).isEmpty();
 
 	}
+	
+	@Test
+	public void getPersonByFirstNameAndLastNameTest_shouldReturnPerson() {
+
+		// Given // When
+		Person person = new Person("Jacob", "Boyd", "1509 Culver st", "Culver", "97451", "841-874-6513",
+				"drk@email.com");
+		persons.add(person);
+		personRepository.getPersonByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+
+		// Then
+		assertThat(persons).contains(person);
+
+	}
+	
+	@Test
+	public void getChildByAddressTest_shouldReturnPerson() {
+
+		// Given // When
+		Person person = new Person("Jacob", "Boyd", "1509 Culver st", "Culver", "97451", "841-874-6513",
+				"drk@email.com");
+		persons.add(person);
+		personRepository.getChildByAddress(person.getAddress());
+
+		// Then
+		assertThat(persons).contains(person);
+
+	}
+	
 	
 	
 

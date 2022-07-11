@@ -24,7 +24,7 @@ public interface IPersonService {
 
 	List<Person> getPersonsByCity(String city) throws PersonNotFoundException;
 
-	Person getPersonByFirstnameAndLastName(String firstname, String lastname);
+	Person getPersonByFirstnameAndLastName(String firstname, String lastname) throws PersonNotFoundException;
 
 	Person getChildByAddress(String address);
 

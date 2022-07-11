@@ -153,7 +153,7 @@ class PersonServiceImplTest {
 
 	@Test
 	public void getPersonsByCityTest_ShouldReturnNotNull() throws PersonNotFoundException {
-		
+
 		// Given // When
 		Person person = new Person("John", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512",
 				"jaboyd@email.com");
@@ -183,22 +183,23 @@ class PersonServiceImplTest {
 	}
 
 	@Test
-	public void getPersonByFirstnameAndLastName_ShouldReturnNull() {
-
+	public void getPersonByFirstnameAndLastName_ShouldReturnNull() throws PersonNotFoundException {
+		// Given
 		Optional<Person> optionalPersonEmpty = Optional.empty();
 		when(personRepository.getPersonByFirstNameAndLastName(anyString(), anyString()))
 				.thenReturn(optionalPersonEmpty);
 
-		// Given // When
-		Person result = personService.getPersonByFirstnameAndLastName(anyString(), anyString());
+		// When
+//		Person result = personService.getPersonByFirstnameAndLastName(anyString(), anyString());
 
 		// Then
-		assertNull(result);
-
+//		assertNull(result);
+		assertThrows(PersonNotFoundException.class,
+				() -> personService.getPersonByFirstnameAndLastName(anyString(), anyString()));
 	}
 
 	@Test
-	public void getPersonByFirstnameAndLastName_ShouldReturnPerson() {
+	public void getPersonByFirstnameAndLastName_ShouldReturnPerson() throws PersonNotFoundException {
 		Person person = new Person("John", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512",
 				"jaboyd@email.com");
 
