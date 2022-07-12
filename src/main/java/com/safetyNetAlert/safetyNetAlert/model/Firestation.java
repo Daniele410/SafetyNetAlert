@@ -30,4 +30,10 @@ public class Firestation
 	public void setStation(String station) {
 		this.station = station;
 	}
+
+
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

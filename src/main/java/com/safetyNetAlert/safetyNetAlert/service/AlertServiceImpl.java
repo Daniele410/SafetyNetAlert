@@ -80,7 +80,7 @@ public class AlertServiceImpl implements IAlertService {
 	 * d'enfant, cette url peut renvoyer une chaîne vide.
 	 */
 	@Override
-	public List<ChildDto> getChildDto(String address) {
+	public List<ChildDto> getChildDto(String address) throws PersonNotFoundException {
 		List<ChildDto> childDtos = new ArrayList<>();
 		List<Person> persons = personService.getPersonByAddress(address);
 
@@ -112,7 +112,15 @@ public class AlertServiceImpl implements IAlertService {
 
 		Set<String> setPhoneByStation = firestationService.getFireStationsByStation(firestation).stream()
 				.map(Firestation::getAddress)// .map(firestation -> firestation.getAdresse)
-				.flatMap(address -> personService.getPersonByAddress(address).stream()).map(Person::getPhone)
+				.flatMap(address -> {
+					try {
+						return personService.getPersonByAddress(address).stream();
+					} catch (PersonNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					return null;
+				}).map(Person::getPhone)
 				.collect(Collectors.toSet());
 
 //		Deuxième façon de faire =>
@@ -135,7 +143,7 @@ public class AlertServiceImpl implements IAlertService {
 	 * allergies) de chaque personne
 	 */
 
-	public List<PersonAtAddressDto> getPersonsByAddressFromListOfStationNumber(String address) {
+	public List<PersonAtAddressDto> getPersonsByAddressFromListOfStationNumber(String address) throws PersonNotFoundException {
 
 		List<Person> persons = personService.getPersonByAddress(address); // je cree une liste de person avec address
 		Firestation firestation = firestationService.getFirestationsByAddress(address)
@@ -162,7 +170,7 @@ public class AlertServiceImpl implements IAlertService {
 	 * côté de chaque nom.
 	 */
 
-	public List<FloodDto> getPersonsBySameAddress(String station) {
+	public List<FloodDto> getPersonsBySameAddress(String station) throws PersonNotFoundException {
 
 		List<Person> persons = personService.getPersons();
 		List<FloodDto> floodDtos = new ArrayList<>();
@@ -200,7 +208,7 @@ public class AlertServiceImpl implements IAlertService {
 	int nbOfChildren;
 
 	@Override
-	public PersonByFirestationDto getPersonsCoveredByStation(String stationNumber) {
+	public PersonByFirestationDto getPersonsCoveredByStation(String stationNumber) throws PersonNotFoundException {
 		List<Person> persons = personService.getPersons();
 
 		List<String> address = firestationService.getAddressesCoveredByStationNumber(stationNumber);

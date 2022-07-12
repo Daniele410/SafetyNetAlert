@@ -249,7 +249,7 @@ class PersonServiceImplTest {
 	}
 
 	@Test
-	public void getPersonByAddressTest() {
+	public void getPersonByAddressTest() throws PersonNotFoundException {
 
 		// Given // When
 		this.personService.getPersonByAddress(anyString());

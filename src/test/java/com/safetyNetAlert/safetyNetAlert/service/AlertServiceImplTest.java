@@ -1,6 +1,7 @@
 package com.safetyNetAlert.safetyNetAlert.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
@@ -9,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Disabled;
@@ -160,6 +162,7 @@ class AlertServiceImplTest {
 //		verify(medicalRecordService, times(1)).getMedicalRecordByFirstNameAndLastName(anyString(),anyString());
 
 	}
+	
 	@Disabled
 	@Test
 	void getPersonsByAddressFromListOfStationNumberTest() throws Exception {
@@ -167,19 +170,21 @@ class AlertServiceImplTest {
 		// Given
 		when(personService.getPersonByAddress(anyString()))
 				.thenReturn(new ArrayList<Person>(List.of(persons.get(0), persons.get(1))));
-
-		when(firestationService.getFirestationsByAddress(anyString()))
-				.thenReturn(firestationService.getFirestationsByAddress(anyString()));
-		
-		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString()))
-				.thenReturn(medicalRecordService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString()));
+		Optional<Firestation> firestations = (firestationService.getFirestationsByAddress("1509 Culver st"));
+		when(firestationService.getFirestationsByAddress(firestations.get().getAddress())).thenReturn(any());
+		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName("Jonny", "Boyd"))
+				.thenReturn(medicalRecords.get(0));
+		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName("Gimmy", "Boyd"))
+		.thenReturn(medicalRecords.get(1));
 		when(ageCalculator.calculate("03/06/1984")).thenReturn(38);
 		when(ageCalculator.calculate("03/06/1989")).thenReturn(33);
 	
 	// When
-	List<PersonAtAddressDto> result = alertService.getPersonsByAddressFromListOfStationNumber(anyString());
-
+	List<PersonAtAddressDto> result = alertService.getPersonsByAddressFromListOfStationNumber("1509 Culver st");
+	
 	// Then
-	assertThat(result.get(0).getStation()).isEqualTo(any());
+	assertNotNull(result);
+	
 	}
+	
 }

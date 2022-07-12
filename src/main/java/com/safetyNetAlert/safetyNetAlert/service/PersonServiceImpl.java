@@ -27,10 +27,16 @@ public class PersonServiceImpl implements IPersonService {
 	}
 
 	@Override
-	public List<Person> getPersons()  {
+	public List<Person> getPersons() throws PersonNotFoundException  {
 		List<Person> persons = new ArrayList<>();
 		personRepository.getAllPersons().forEach(persons::add);
 		logger.info("Getting all persons");
+		if(persons.isEmpty()) {
+			String errorMessage = String.format("%s not found", persons);
+			throw new PersonNotFoundException(errorMessage);
+		}
+		
+		
 		return persons;
 	}
 
@@ -47,7 +53,7 @@ public class PersonServiceImpl implements IPersonService {
 
 
 	@Override
-	public Person deletePerson(Person person)  throws PersonNotFoundException {
+	public Person deletePerson(Person person) {
 		// rechercher si la personne existe
 		// si elle n'existe pas alors on throw une exception, PersonNotFoundException
 		personRepository.deletePerson(person);
@@ -67,7 +73,9 @@ public class PersonServiceImpl implements IPersonService {
 
 	@Override
 	public Person addPerson(Person person) {
+		
 		this.personRepository.addPerson(person);
+		
 		return person;
 	}
 //	List<Person> listPersonByName =  personRepository.findByLastName(lastName);

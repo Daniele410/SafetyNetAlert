@@ -19,6 +19,8 @@ import com.safetyNetAlert.safetyNetAlert.dto.PersonByFirestationDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 import com.safetyNetAlert.safetyNetAlert.service.IAlertService;
 
+import exception.PersonNotFoundException;
+
 @RestController
 public class AlertController {
 
@@ -48,7 +50,7 @@ public class AlertController {
 
 	// http://localhost:8080/childAlert?address=<address>
 	@GetMapping(value = "/childAlert")
-	public ResponseEntity<List<ChildDto>> getChildDto(@RequestParam String address) {
+	public ResponseEntity<List<ChildDto>> getChildDto(@RequestParam String address) throws PersonNotFoundException {
 		logger.info("List of childAddress generated");
 		return new ResponseEntity<List<ChildDto>>(alertService.getChildDto(address), HttpStatus.OK);
 
@@ -66,7 +68,7 @@ public class AlertController {
 	// http://localhost:8080/fire?address=<address>
 	@GetMapping(value = "/fire")
 	public ResponseEntity<List<PersonAtAddressDto>> getPersonsByAddressFromListOfStationNumber(
-			@RequestParam String address) {
+			@RequestParam String address) throws PersonNotFoundException {
 
 		logger.info("List of persons By Station address generated");
 		return new ResponseEntity<List<PersonAtAddressDto>>(
@@ -76,7 +78,7 @@ public class AlertController {
 
 	// http://localhost:8080/flood/stations?stations=<a list of station_numbers>
 	@GetMapping(value = "/flood/stations")
-	public ResponseEntity<List<FloodDto>> getPersonsBySameAddress(@RequestParam(value = "stations") String station) {
+	public ResponseEntity<List<FloodDto>> getPersonsBySameAddress(@RequestParam(value = "stations") String station) throws PersonNotFoundException {
 
 		logger.info("List of persons By Station address generated");
 		return new ResponseEntity<List<FloodDto>>(alertService.getPersonsBySameAddress(station), HttpStatus.OK);
@@ -86,7 +88,7 @@ public class AlertController {
 	// http://localhost:8080/firestation?stationNumber=<station_number>
 	@GetMapping(value = "/firestations")
 	public ResponseEntity<PersonByFirestationDto> getPersonsCoveredByStation(
-			@RequestParam(value = "stationNumber") String stationNumber) {
+			@RequestParam(value = "stationNumber") String stationNumber) throws PersonNotFoundException {
 
 		logger.info("List of persons By Station address generated");
 		return new ResponseEntity<PersonByFirestationDto>(alertService.getPersonsCoveredByStation(stationNumber),

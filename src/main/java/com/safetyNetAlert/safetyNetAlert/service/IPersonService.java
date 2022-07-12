@@ -8,11 +8,11 @@ import exception.PersonNotFoundException;
 
 public interface IPersonService {
 
-	List<Person> getPersons();
+	List<Person> getPersons() throws PersonNotFoundException;
 
 	List<Person> getPersonByLastName(String lastName) throws PersonNotFoundException;
 
-	List<Person> getPersonByAddress(String address);
+	List<Person> getPersonByAddress(String address) throws PersonNotFoundException;
 
 	
 

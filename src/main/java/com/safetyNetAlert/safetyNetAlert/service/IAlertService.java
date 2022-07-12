@@ -17,15 +17,15 @@ public interface IAlertService {
 
 	public List<PersonInfoDto> getPersonInfo(String lastName) throws PersonNotFoundException;
 
-	public List<ChildDto> getChildDto(String address);
+	public List<ChildDto> getChildDto(String address) throws PersonNotFoundException;
 
 	public Set<String> getPersonsPhoneNumberByStation(String station);
 	
-	public List<PersonAtAddressDto> getPersonsByAddressFromListOfStationNumber(String address);
+	public List<PersonAtAddressDto> getPersonsByAddressFromListOfStationNumber(String address) throws PersonNotFoundException;
 	
-	public List<FloodDto> getPersonsBySameAddress(String firestation);
+	public List<FloodDto> getPersonsBySameAddress(String firestation) throws PersonNotFoundException;
 	
-	public PersonByFirestationDto getPersonsCoveredByStation(String stationNumber);
+	public PersonByFirestationDto getPersonsCoveredByStation(String stationNumber) throws PersonNotFoundException;
 	
 	
 

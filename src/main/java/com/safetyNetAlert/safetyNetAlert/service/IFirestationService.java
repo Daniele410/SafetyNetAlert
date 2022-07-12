@@ -10,7 +10,7 @@ import exception.FirestationNotFoundException;
 public interface IFirestationService {
 	List<Firestation> getFirestations() throws FirestationNotFoundException;
 
-	Firestation deleteFirestation(Firestation firestation);
+	Firestation deleteFirestation(Firestation firestation) throws FirestationNotFoundException;
 
 	Firestation addFirestation(Firestation firestation);
 

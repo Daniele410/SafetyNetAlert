@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 import com.safetyNetAlert.safetyNetAlert.service.IPersonService;
 
+import exception.PersonNotFoundException;
+
 @RestController
 public class PersonController {
 
@@ -26,7 +28,7 @@ public class PersonController {
 	private IPersonService personService;
 
 	@GetMapping(value = "/person")
-	public ResponseEntity<List<Person>> getAllPersons() {
+	public ResponseEntity<List<Person>> getAllPersons() throws PersonNotFoundException {
 		logger.info("GET /person called");
 
 		return new ResponseEntity<>(personService.getPersons(), HttpStatus.OK);
