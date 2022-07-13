@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
 import com.safetyNetAlert.safetyNetAlert.service.IMedicalRecordService;
 
+import exception.MedicalRecordNotFoundException;
+
 @RestController
 public class MedicalRecordController {
 
@@ -27,9 +29,10 @@ public class MedicalRecordController {
 
 	/**
 	 * Get stored medicalRecord.
+	 * @throws MedicalRecordNotFoundException 
 	 */
 	@GetMapping(value = "/medicalRecord")
-	public ResponseEntity<List<MedicalRecord>> getAllMedicalRecords() {
+	public ResponseEntity<List<MedicalRecord>> getAllMedicalRecords() throws MedicalRecordNotFoundException {
 		List<MedicalRecord> medicalRecordsList = medicalRecordService.getMedicalRecords();
 		logger.info("GET request for medicalRecord send");
 		logger.info("Response for the GET request for medicalRecord: " + medicalRecordsList);

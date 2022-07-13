@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +15,8 @@ import com.safetyNetAlert.safetyNetAlert.model.Person;
 @Repository
 public class PersonRepository {
 
+	static final Logger logger = LogManager.getLogger(PersonRepository.class);
+	
 	private List<Person> listPerson = new ArrayList<>();
 
 	public PersonRepository(List<Person> persons) {
@@ -31,15 +36,27 @@ public class PersonRepository {
 	}
 
 	public Person updatePerson(Person person) {
-		Person personToUpdate = findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
-		int index = listPerson.indexOf(personToUpdate);
-		return listPerson.set(index, person);
+		logger.debug("updating person {}", person);
+		Person personUpdate = findByFirstNameAndLastName(person.getFirstName(),
+				person.getLastName());
+		if (personUpdate != null) {
+			deletePerson(personUpdate);
+			addPerson(person);
+			return person;
+		}else
+		return null;
+//		Person personToUpdate = findByFirstNameAndLastName(person.getFirstName(), person.getLastName());//dans le service, si pas présent on trhow
+//		int index = listPerson.indexOf(personToUpdate);
+//		return listPerson.set(index, person);
 	}
 
 	public void deletePerson(Person person) {
-		Person personToDelete = findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
-		int index = listPerson.indexOf(personToDelete);
-		listPerson.remove(index);
+		logger.debug("delete person {}", person);
+		this.listPerson.remove(person);
+//		
+//		Person personToDelete = findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+//		int index = listPerson.indexOf(personToDelete);
+//		listPerson.remove(index);
 
 	}
 

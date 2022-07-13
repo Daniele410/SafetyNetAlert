@@ -12,13 +12,13 @@ public interface IPersonService {
 
 	List<Person> getPersonByLastName(String lastName) throws PersonNotFoundException;
 
-	List<Person> getPersonByAddress(String address) throws PersonNotFoundException;
+	List<Person> getPersonByAddress(String address);
 
 	
 
 	Person deletePerson(Person person) throws PersonNotFoundException;
 
-	Person updatePerson(Person person);
+	Person updatePerson(Person person) throws PersonNotFoundException;
 
 	Person addPerson(Person person);
 

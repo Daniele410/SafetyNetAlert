@@ -1,6 +1,7 @@
 package com.safetyNetAlert.safetyNetAlert.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -49,7 +50,7 @@ class PersonServiceImplTest {
 	// When
 	// Then
 	@Test
-	public void getPersonTest_ShouldReturnNotNull() throws Exception {
+	public void getPersonTest_ShouldReturnPerson() throws Exception {
 
 		// Given
 		Person person = new Person("John", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512",
@@ -65,6 +66,17 @@ class PersonServiceImplTest {
 		assertThat(result).isNotNull();
 		assertEquals(result.get(0).getFirstName(), person.getFirstName());
 	}
+	
+	@Test
+	public void getPersonTest_ShouldReturnException() throws PersonNotFoundException {
+
+		// Given // When
+				Person person = new Person();
+				personList = Arrays.asList(person);
+
+				// Then
+				assertThrows(PersonNotFoundException.class, () -> personService.getPersons());
+	}
 
 	@Test
 	public void getPersonByLastName() throws Exception {
@@ -76,13 +88,24 @@ class PersonServiceImplTest {
 
 		// When
 		when(personRepository.findByLastName(anyString())).thenReturn(personList);
-		List<Person> result = personService.getPersonByLastName(anyString());
+		List<Person> result = personService.getPersonByLastName(person.getLastName());
 		// Then
 		assertThat(result).isNotNull();
+
 	}
 
 	@Test
-	public void getPersonByLastName_ShouldReturnNull() throws Exception {
+	public void getPersonByLastName_verifyContainsString() throws PersonNotFoundException {
+		// Given
+		// When
+		// Then
+		assertThrows(PersonNotFoundException.class, () -> personService.getPersonByLastName(anyString()));
+		containsString("%s not found");
+
+	}
+
+	@Test
+	public void getPersonByLastName_ShouldReturnNull() throws PersonNotFoundException {
 
 		// Given // When
 		Person person = new Person();
@@ -102,7 +125,9 @@ class PersonServiceImplTest {
 		personList = Arrays.asList(person);
 
 		// When
-		personRepository.updatePerson(person);
+		when(personRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName()))
+				.thenReturn(personList.get(0));
+		personService.updatePerson(person);
 
 		// Then
 		verify(personRepository, Mockito.times(1)).updatePerson(person);
@@ -110,16 +135,14 @@ class PersonServiceImplTest {
 	}
 
 	@Test
-	public void updatePersonTest2() throws Exception {
+	public void updatePersonTest_shouldReturnException() throws PersonNotFoundException {
 
-		// Given
-		Person person = mock(Person.class);
-
-		// When
-		this.personService.updatePerson(person);
+		// Given // When
+		Person person = new Person();
+		personList = Arrays.asList(person);
 
 		// Then
-		verify(personRepository, Mockito.times(1)).updatePerson(person);
+		assertThrows(PersonNotFoundException.class, () -> personService.updatePerson(person));
 
 	}
 
@@ -127,13 +150,28 @@ class PersonServiceImplTest {
 	public void deletePersonTest() throws PersonNotFoundException {
 
 		// Given
-		Person person = mock(Person.class);
+		Person person = new Person("John", "Boyd", "1509 Culver St", "Culver", "97451", "841-874-6512",
+				"jaboyd@email.com");
+		personList = Arrays.asList(person);
 
 		// When
-		this.personService.deletePerson(person);
+		when(personRepository.findByFirstNameAndLastName(anyString(), anyString())).thenReturn(personList.get(0));
+		personService.deletePerson(person);
 
 		// Then
 		verify(personRepository, Mockito.times(1)).deletePerson(person);
+
+	}
+
+	@Test
+	public void deletePersonTest_shouldReturnException() throws PersonNotFoundException {
+
+		// Given // When
+		Person person = new Person();
+		personList = Arrays.asList(person);
+
+		// Then
+		assertThrows(PersonNotFoundException.class, () -> personService.deletePerson(person));
 
 	}
 

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import exception.FirestationNotFoundException;
 @Service
 public class FirestationServiceImpl implements IFirestationService{
 
+	static final Logger logger = LogManager.getLogger(FirestationServiceImpl.class);
+	
 	@Autowired
 	FirestationRepository firestationRepository;
 	
@@ -34,12 +38,14 @@ public class FirestationServiceImpl implements IFirestationService{
 		
 	}
 	
-	
-	
 	@Override
-	public Firestation updateFirestation(Firestation firestation) {
-		firestationRepository.updateFirestation(firestation);
-		return null;
+	public Firestation updateFirestation(Firestation firestation) throws FirestationNotFoundException {
+		Firestation firestationToUpdate = firestationRepository.findByAddress(firestation.getAddress());
+		if(firestationToUpdate != null) {
+			return firestationRepository.updateFirestation(firestation);
+		}else
+		logger.error("The " + firestation + " is not present");
+		throw new FirestationNotFoundException("the "+ firestation + " is not update: "+" "+ "insert a existing address" );
 	}
 
 	@Override

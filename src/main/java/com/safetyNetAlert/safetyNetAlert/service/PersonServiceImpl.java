@@ -35,8 +35,6 @@ public class PersonServiceImpl implements IPersonService {
 			String errorMessage = String.format("%s not found", persons);
 			throw new PersonNotFoundException(errorMessage);
 		}
-		
-		
 		return persons;
 	}
 
@@ -53,22 +51,31 @@ public class PersonServiceImpl implements IPersonService {
 
 
 	@Override
-	public Person deletePerson(Person person) {
+	public Person deletePerson(Person person) throws PersonNotFoundException {
 		// rechercher si la personne existe
 		// si elle n'existe pas alors on throw une exception, PersonNotFoundException
-		personRepository.deletePerson(person);
-		logger.info("Deleting the person with keyname : " + person);
-		System.out.println("This person " + "first name = " + person.getFirstName() +" and "+" last name= "+ person.getLastName() + " is deleted");
-		return null;
+		person  = personRepository.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+		if (person != null) {
+			personRepository.deletePerson(person);
+			return person;
+		}
+		String errorMessage = String.format("the person is not delete"+" "+ "insert a existing name");
+		throw new PersonNotFoundException(errorMessage);
 	}
 
 	@Override
-	public Person updatePerson(Person person) {
+	public Person updatePerson(Person person) throws PersonNotFoundException {
 		// Vérifier si la Person existe
-
-		personRepository.updatePerson(person);
-		logger.info("Saving the person : " + person);
-		return person;
+		Person personToUpdate = personRepository
+				.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+		if (personToUpdate != null) {
+			return personRepository.updatePerson(person);
+		}
+		logger.error("The " + person + " is not present");
+		throw new PersonNotFoundException("the "+ person+ " is not update"+" "+ "insert a existing name" );
+//		personRepository.updatePerson(person);
+//		logger.info("Saving the person : " + person);
+//		return person;
 	}
 
 	@Override
@@ -100,9 +107,12 @@ public class PersonServiceImpl implements IPersonService {
 
 		if (personTemp.isPresent()) {
 			return personTemp.get();
-		} logger.error("person {} {} not found", firstName, lastName);
-		throw new PersonNotFoundException(
-				"person " + firstName + " " + lastName + " not found");
+		} else {
+			logger.error("person {} {} not found", firstName, lastName);
+			throw new PersonNotFoundException(
+					"person " + firstName + " " + lastName + " not found");
+		}
+		
 		
 	}
 

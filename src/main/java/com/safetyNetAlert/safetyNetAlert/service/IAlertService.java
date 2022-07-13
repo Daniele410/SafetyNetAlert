@@ -19,7 +19,7 @@ public interface IAlertService {
 
 	public List<ChildDto> getChildDto(String address) throws PersonNotFoundException;
 
-	public Set<String> getPersonsPhoneNumberByStation(String station);
+	public Set<String> getPersonsPhoneNumberByStation(String station) throws PersonNotFoundException;
 	
 	public List<PersonAtAddressDto> getPersonsByAddressFromListOfStationNumber(String address) throws PersonNotFoundException;
 	

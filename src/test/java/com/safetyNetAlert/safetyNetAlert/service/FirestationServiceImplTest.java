@@ -1,6 +1,8 @@
 package com.safetyNetAlert.safetyNetAlert.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -21,6 +23,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.safetyNetAlert.safetyNetAlert.model.Firestation;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 import com.safetyNetAlert.safetyNetAlert.repository.FirestationRepository;
+
+import exception.FirestationNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
 class FirestationServiceImplTest {
@@ -61,18 +65,41 @@ class FirestationServiceImplTest {
 	}
 	
 	@Test
-	public void updateFirestationTest() throws Exception {
+	public void getFirestationTest_shouldReturnException() throws Exception {
 
-		// Given
-		Firestation firestations = new Firestation("1509 Culver St", "1");
-		firestationList = Arrays.asList(firestations);
-
-		// When
-		firestationService.updateFirestation(firestations);
+		Firestation firestation = new Firestation();
+		firestationList = Arrays.asList(firestation);
 
 		// Then
-		verify(firestationRepository, Mockito.times(1)).updateFirestation(firestations);
+		assertThrows(FirestationNotFoundException.class, () -> firestationService.getFirestations());
+		containsString("%s not found");
+		
+	}
+	
+	@Test
+	public void updateFirestationTest() throws FirestationNotFoundException {
 
+		// Given
+				Firestation firestation = new Firestation("1509 Culver St", "1");
+				firestationList = Arrays.asList(firestation);
+				
+				// When
+				when(firestationRepository.findByAddress(anyString())).thenReturn(firestationList.get(0));
+				firestationService.updateFirestation(firestation);
+
+				// Then
+				verify(firestationRepository, Mockito.times(1)).updateFirestation(firestation);
+	}
+	
+	@Test
+	public void updateFirestationTest_shouldReturnException() throws FirestationNotFoundException {
+
+		// Given // When
+				Firestation firestation = new Firestation();
+				firestationList = Arrays.asList(firestation);
+
+				// Then
+				assertThrows(FirestationNotFoundException.class, () -> firestationService.updateFirestation(firestation));
 	}
 	
 	@Test

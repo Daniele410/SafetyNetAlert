@@ -58,7 +58,7 @@ public class AlertController {
 
 	// http://localhost:8080/phoneAlert?firestation=<firestation_number>
 	@GetMapping(value = "/phoneAlert")
-	public ResponseEntity<Set<String>> getPersonsPhoneNumberByStation(@RequestParam String firestation) {
+	public ResponseEntity<Set<String>> getPersonsPhoneNumberByStation(@RequestParam String firestation) throws PersonNotFoundException {
 
 		logger.info("List of PhoneAlert By Station number generated");
 		return new ResponseEntity<Set<String>>(alertService.getPersonsPhoneNumberByStation(firestation), HttpStatus.OK);

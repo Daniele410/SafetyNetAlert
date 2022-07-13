@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
 
+import exception.MedicalRecordNotFoundException;
+
 public interface IMedicalRecordService {
-List <MedicalRecord> getMedicalRecords();
+List <MedicalRecord> getMedicalRecords() throws MedicalRecordNotFoundException;
 
 MedicalRecord deleteMedicalRecord(MedicalRecord medicalRecord);
 

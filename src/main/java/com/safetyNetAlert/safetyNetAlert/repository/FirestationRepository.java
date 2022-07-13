@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.safetyNetAlert.safetyNetAlert.model.Firestation;
@@ -13,6 +15,8 @@ import exception.FirestationNotFoundException;
 
 @Repository
 public class FirestationRepository {
+	
+	static final Logger logger = LogManager.getLogger(FirestationRepository.class);
 
 	private List<Firestation> listFirestation = new ArrayList<>();
 
@@ -29,13 +33,19 @@ public class FirestationRepository {
 	}
 
 	public Firestation updateFirestation(Firestation firestation) {
-
-		Firestation firestationToUpdate = findByAddress(firestation.getAddress());
-
-		int index = listFirestation.indexOf(firestationToUpdate);
-		// mise à jour de la firestation grâce à l'index dans la liste
-		listFirestation.set(index, firestation);
-		return firestationToUpdate;
+		logger.debug("updating firestation {}", firestation);
+		Firestation firestationUpdate = findByAddress(firestation.getAddress());
+		if (firestationUpdate != null) {
+			deleteFirestation(firestationUpdate);
+			addFirestation(firestation);
+			return firestation;
+		}else
+		return null;
+//		Firestation firestationToUpdate = findByAddress(firestation.getAddress());
+//		int index = listFirestation.indexOf(firestationToUpdate);
+//		// mise à jour de la firestation grâce à l'index dans la liste
+//		listFirestation.set(index, firestation);
+//		return firestationToUpdate;
 	}
 
 	public void deleteFirestation(Firestation firestation) {
@@ -56,7 +66,7 @@ public class FirestationRepository {
 			return this.findByAddressAndStation(address, station);
 	}
 	
-	private Firestation findByAddress(String address) {
+	public Firestation findByAddress(String address) {
 
 		Optional<Firestation> firestationToFind = listFirestation.stream().filter(
 				firestation -> (firestation.getAddress().equals(address)))
@@ -64,7 +74,7 @@ public class FirestationRepository {
 		if (firestationToFind.isPresent()) {
 			return firestationToFind.get();
 		} else
-			return this.findByAddress(address);
+			return null;
 	}
 	
 	

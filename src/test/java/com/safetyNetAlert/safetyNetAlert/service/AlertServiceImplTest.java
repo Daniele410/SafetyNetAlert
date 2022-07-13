@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,6 +46,8 @@ class AlertServiceImplTest {
 
 	@Mock
 	private AgeCalculator ageCalculator;
+	
+//	private static LogCaptor logcaptor;
 
 	private static List<Person> persons = new ArrayList<>();
 	static {
@@ -80,6 +83,12 @@ class AlertServiceImplTest {
 	// When
 	// Then
 
+	@BeforeEach
+	public void setup() {
+//		logcaptor = LogCaptor.forName("AlertServiceImpl");
+//		logcaptor.setLogLevelToInfo();
+	}
+	
 	@Test
 	void getCommunityEmailTest() throws Exception {
 
@@ -185,6 +194,11 @@ class AlertServiceImplTest {
 	// Then
 	assertNotNull(result);
 	
+	}
+	
+	@Test
+	public void testerror() {
+//		assertThat(logcaptor.getErrorLogs()).contains("Error parsing user input for type of vehicle");
 	}
 	
 }

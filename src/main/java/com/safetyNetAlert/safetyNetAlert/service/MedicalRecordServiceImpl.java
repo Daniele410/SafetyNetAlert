@@ -13,6 +13,8 @@ import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
 import com.safetyNetAlert.safetyNetAlert.repository.MedicalRecordRepository;
 import com.safetyNetAlert.safetyNetAlert.utils.AgeCalculator;
 
+import exception.MedicalRecordNotFoundException;
+
 @Service
 public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
@@ -29,9 +31,14 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 	}
 
 	@Override
-	public List<MedicalRecord> getMedicalRecords() {
+	public List<MedicalRecord> getMedicalRecords() throws MedicalRecordNotFoundException {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecordRepository.getAllMedicalRecords().forEach(medicalRecords::add);
+		logger.info("Getting all medicalRecords");
+		if(medicalRecords.isEmpty()) {
+			String errorMessage = String.format("%s not found", medicalRecords);
+			throw new MedicalRecordNotFoundException(errorMessage);
+		}
 		return medicalRecords;
 	}
 

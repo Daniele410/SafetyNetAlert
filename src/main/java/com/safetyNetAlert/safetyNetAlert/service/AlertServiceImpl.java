@@ -45,6 +45,9 @@ public class AlertServiceImpl implements IAlertService {
 
 	@Autowired
 	AgeCalculator ageCalculator;
+	
+	int nbOfAdult;
+	int nbOfChildren;
 
 	// Retourner une liste d'email de chaque habitants
 	public List<String> getCommunityEmail(String city) throws PersonNotFoundException {
@@ -108,19 +111,12 @@ public class AlertServiceImpl implements IAlertService {
 	 * d'urgence à des foyers spécifiques.
 	 */
 
-	public Set<String> getPersonsPhoneNumberByStation(String firestation) {
+	public Set<String> getPersonsPhoneNumberByStation(String firestation) throws PersonNotFoundException{
 
 		Set<String> setPhoneByStation = firestationService.getFireStationsByStation(firestation).stream()
 				.map(Firestation::getAddress)// .map(firestation -> firestation.getAdresse)
-				.flatMap(address -> {
-					try {
-						return personService.getPersonByAddress(address).stream();
-					} catch (PersonNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					return null;
-				}).map(Person::getPhone)
+				.flatMap(address ->	personService.getPersonByAddress(address).stream())
+				.map(Person::getPhone)
 				.collect(Collectors.toSet());
 
 //		Deuxième façon de faire =>
@@ -133,6 +129,9 @@ public class AlertServiceImpl implements IAlertService {
 //				
 //		Set<String> allPhoneNumberByStation = listPersonByAdresses.stream().map(Person::getPhone).collect(Collectors.toSet());
 
+		if (setPhoneByStation.isEmpty()) {
+			throw new PersonNotFoundException("");
+		}
 		return setPhoneByStation;
 	}
 	/*
@@ -204,8 +203,7 @@ public class AlertServiceImpl implements IAlertService {
 	 * nombre d'enfants (tout individu âgé de 18 ans ou moins) dans la zone
 	 * desservie.
 	 */
-	int nbOfAdult;
-	int nbOfChildren;
+	
 
 	@Override
 	public PersonByFirestationDto getPersonsCoveredByStation(String stationNumber) throws PersonNotFoundException {
