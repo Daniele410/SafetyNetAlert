@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +15,8 @@ import com.safetyNetAlert.safetyNetAlert.utils.AgeCalculator;
 @Repository
 public class MedicalRecordRepository {
 
+	static final Logger logger = LogManager.getLogger(MedicalRecordRepository.class);
+	
 	@Autowired
 	AgeCalculator ageCalculator;
 
@@ -31,12 +35,23 @@ public class MedicalRecordRepository {
 	}
 
 	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) {
+		logger.debug("updating firestation {}", medicalRecord);
+		Optional<MedicalRecord> medicalRecordsToUpdate = findByFirstNameAndLastName(
+				medicalRecord.getFirstName(),
+				medicalRecord.getLastName());
+		if (medicalRecordsToUpdate != null) {
+			deleteMedicalRecord(medicalRecordsToUpdate.get());
+			addMedicalRecord(medicalRecord);
+			return medicalRecord;
+		}
+		return null;
+		
 
-		MedicalRecord medicalRecordToUpdate = findByFirstNameAndLastName(medicalRecord.getFirstName(),
-				medicalRecord.getLastName()).get();
-
-		int index = listMedicalRecord.indexOf(medicalRecordToUpdate);
-		return listMedicalRecord.set(index, medicalRecord);
+//		MedicalRecord medicalRecordToUpdate = findByFirstNameAndLastName(medicalRecord.getFirstName(),
+//				medicalRecord.getLastName()).get();
+//
+//		int index = listMedicalRecord.indexOf(medicalRecordToUpdate);
+//		return listMedicalRecord.set(index, medicalRecord);
 	}
 
 	public MedicalRecord findByBirthdate(String birthdate) {

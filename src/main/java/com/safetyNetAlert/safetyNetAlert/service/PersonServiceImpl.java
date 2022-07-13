@@ -70,7 +70,7 @@ public class PersonServiceImpl implements IPersonService {
 				.findByFirstNameAndLastName(person.getFirstName(), person.getLastName());
 		if (personToUpdate != null) {
 			return personRepository.updatePerson(person);
-		}
+		}else
 		logger.error("The " + person + " is not present");
 		throw new PersonNotFoundException("the "+ person+ " is not update"+" "+ "insert a existing name" );
 //		personRepository.updatePerson(person);

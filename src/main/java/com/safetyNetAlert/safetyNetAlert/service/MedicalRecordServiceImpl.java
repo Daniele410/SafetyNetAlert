@@ -44,11 +44,20 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
 	/**
 	 * Check if there is already
+	 * @throws MedicalRecordNotFoundException 
 	 */
 	@Override
-	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord)  {
-		medicalRecordRepository.updateMedicalRecord(medicalRecord);
-		return medicalRecord;
+	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) throws MedicalRecordNotFoundException  {
+		Optional<MedicalRecord> medicalRecordToUpdate = medicalRecordRepository.findByFirstNameAndLastName(
+				medicalRecord.getFirstName(),
+				medicalRecord.getLastName());
+		if (medicalRecordToUpdate.isPresent()) {
+			return medicalRecordRepository.updateMedicalRecord(medicalRecord);
+		}else
+		logger.error("The " + medicalRecord + " is not present");
+		throw new MedicalRecordNotFoundException("the "+ medicalRecord + " is not update: "+" "+ "insert a existing firstName and lastName");
+//		medicalRecordRepository.updateMedicalRecord(medicalRecord);
+//		return medicalRecord;
 	}
 
 	/**

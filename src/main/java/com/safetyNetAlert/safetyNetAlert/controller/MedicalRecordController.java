@@ -29,7 +29,8 @@ public class MedicalRecordController {
 
 	/**
 	 * Get stored medicalRecord.
-	 * @throws MedicalRecordNotFoundException 
+	 * 
+	 * @throws MedicalRecordNotFoundException
 	 */
 	@GetMapping(value = "/medicalRecord")
 	public ResponseEntity<List<MedicalRecord>> getAllMedicalRecords() throws MedicalRecordNotFoundException {
@@ -43,7 +44,8 @@ public class MedicalRecordController {
 	 * Adds a new medicalRecord.
 	 */
 	@PostMapping(value = "/medicalRecord")
-	public ResponseEntity<MedicalRecord> addMedicalRecord(@RequestBody MedicalRecord medicalRecord) throws Exception {
+	public ResponseEntity<MedicalRecord> addMedicalRecord(@RequestBody MedicalRecord medicalRecord)
+			throws MedicalRecordNotFoundException {
 		medicalRecordService.addMedicalRecord(medicalRecord);
 		return new ResponseEntity<>(medicalRecord, HttpStatus.CREATED);
 
@@ -53,8 +55,8 @@ public class MedicalRecordController {
 	 * Update stored medicalRecord.
 	 */
 	@PutMapping(value = "/medicalRecord")
-	public ResponseEntity<MedicalRecord> updateMedicalRecord(@RequestBody MedicalRecord medicalRecord)
-			throws Exception {
+	public ResponseEntity <MedicalRecord> updateMedicalRecord(@RequestBody MedicalRecord medicalRecord)
+			throws MedicalRecordNotFoundException {
 		return new ResponseEntity<>(medicalRecordService.updateMedicalRecord(medicalRecord), HttpStatus.OK);
 
 	}

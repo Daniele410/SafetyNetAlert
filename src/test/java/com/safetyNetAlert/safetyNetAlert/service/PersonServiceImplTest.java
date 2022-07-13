@@ -66,16 +66,16 @@ class PersonServiceImplTest {
 		assertThat(result).isNotNull();
 		assertEquals(result.get(0).getFirstName(), person.getFirstName());
 	}
-	
+
 	@Test
 	public void getPersonTest_ShouldReturnException() throws PersonNotFoundException {
 
 		// Given // When
-				Person person = new Person();
-				personList = Arrays.asList(person);
+		Person person = new Person();
+		personList = Arrays.asList(person);
 
-				// Then
-				assertThrows(PersonNotFoundException.class, () -> personService.getPersons());
+		// Then
+		assertThrows(PersonNotFoundException.class, () -> personService.getPersons());
 	}
 
 	@Test

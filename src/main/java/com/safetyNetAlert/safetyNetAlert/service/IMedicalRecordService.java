@@ -13,7 +13,7 @@ MedicalRecord deleteMedicalRecord(MedicalRecord medicalRecord);
 
 MedicalRecord addMedicalRecord(MedicalRecord medicalRecord);
 
-MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord);
+MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) throws MedicalRecordNotFoundException ;
 
 MedicalRecord getMedicalRecordByFirstNameAndLastName(String firstName, String lastName);
 

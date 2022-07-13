@@ -19,6 +19,7 @@ import com.safetyNetAlert.safetyNetAlert.dto.PersonByFirestationDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 import com.safetyNetAlert.safetyNetAlert.service.IAlertService;
 
+import exception.MedicalRecordNotFoundException;
 import exception.PersonNotFoundException;
 
 @RestController
@@ -68,7 +69,7 @@ public class AlertController {
 	// http://localhost:8080/fire?address=<address>
 	@GetMapping(value = "/fire")
 	public ResponseEntity<List<PersonAtAddressDto>> getPersonsByAddressFromListOfStationNumber(
-			@RequestParam String address) throws PersonNotFoundException {
+			@RequestParam String address) throws PersonNotFoundException, MedicalRecordNotFoundException {
 
 		logger.info("List of persons By Station address generated");
 		return new ResponseEntity<List<PersonAtAddressDto>>(
@@ -88,7 +89,7 @@ public class AlertController {
 	// http://localhost:8080/firestation?stationNumber=<station_number>
 	@GetMapping(value = "/firestations")
 	public ResponseEntity<PersonByFirestationDto> getPersonsCoveredByStation(
-			@RequestParam(value = "stationNumber") String stationNumber) throws PersonNotFoundException {
+			@RequestParam(value = "stationNumber") String stationNumber) throws PersonNotFoundException, MedicalRecordNotFoundException {
 
 		logger.info("List of persons By Station address generated");
 		return new ResponseEntity<PersonByFirestationDto>(alertService.getPersonsCoveredByStation(stationNumber),

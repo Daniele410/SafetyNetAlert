@@ -34,9 +34,9 @@ public class FirestationRepository {
 
 	public Firestation updateFirestation(Firestation firestation) {
 		logger.debug("updating firestation {}", firestation);
-		Firestation firestationUpdate = findByAddress(firestation.getAddress());
-		if (firestationUpdate != null) {
-			deleteFirestation(firestationUpdate);
+		Firestation firestatiToUpdate = findByAddress(firestation.getAddress());
+		if (firestatiToUpdate != null) {
+			deleteFirestation(firestatiToUpdate);
 			addFirestation(firestation);
 			return firestation;
 		}else
