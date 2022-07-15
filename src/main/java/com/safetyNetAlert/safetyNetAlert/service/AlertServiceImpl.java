@@ -2,7 +2,6 @@ package com.safetyNetAlert.safetyNetAlert.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,6 +23,7 @@ import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 import com.safetyNetAlert.safetyNetAlert.utils.AgeCalculator;
 
+import exception.FirestationNotFoundException;
 import exception.PersonNotFoundException;
 
 /**
@@ -130,7 +130,7 @@ public class AlertServiceImpl implements IAlertService {
 //		Set<String> allPhoneNumberByStation = listPersonByAdresses.stream().map(Person::getPhone).collect(Collectors.toSet());
 
 		if (setPhoneByStation.isEmpty()) {
-			throw new PersonNotFoundException("");
+			throw new PersonNotFoundException("The list is empty, try again");
 		}
 		return setPhoneByStation;
 	}
@@ -142,11 +142,11 @@ public class AlertServiceImpl implements IAlertService {
 	 * allergies) de chaque personne
 	 */
 
-	public List<PersonAtAddressDto> getPersonsByAddressFromListOfStationNumber(String address) throws PersonNotFoundException {
+	public List<PersonAtAddressDto> getPersonsByAddressFromListOfStationNumber(String address) throws PersonNotFoundException, FirestationNotFoundException {
 
 		List<Person> persons = personService.getPersonByAddress(address); // je cree une liste de person avec address
 		Firestation firestation = firestationService.getFirestationsByAddress(address)
-				.orElseThrow(() -> new NoSuchElementException("Firestation not found"));
+				.orElseThrow(() -> new FirestationNotFoundException("Firestation not found"));
 
 		List<PersonAtAddressDto> personAddressFirestation = persons.stream().map(p -> {
 			MedicalRecord medicalRecord = new MedicalRecord();

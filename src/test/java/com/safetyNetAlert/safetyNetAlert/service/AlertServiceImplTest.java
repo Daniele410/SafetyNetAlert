@@ -1,7 +1,8 @@
 package com.safetyNetAlert.safetyNetAlert.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
@@ -10,11 +11,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,12 +21,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.safetyNetAlert.safetyNetAlert.dto.ChildDto;
-import com.safetyNetAlert.safetyNetAlert.dto.PersonAtAddressDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 import com.safetyNetAlert.safetyNetAlert.model.Firestation;
 import com.safetyNetAlert.safetyNetAlert.model.MedicalRecord;
 import com.safetyNetAlert.safetyNetAlert.model.Person;
 import com.safetyNetAlert.safetyNetAlert.utils.AgeCalculator;
+
+import exception.MedicalRecordNotFoundException;
+import exception.PersonNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
 class AlertServiceImplTest {
@@ -46,7 +47,7 @@ class AlertServiceImplTest {
 
 	@Mock
 	private AgeCalculator ageCalculator;
-	
+
 //	private static LogCaptor logcaptor;
 
 	private static List<Person> persons = new ArrayList<>();
@@ -54,7 +55,7 @@ class AlertServiceImplTest {
 		persons.add(
 				new Person("Jonny", "Boyd", "1509 Culver st", "Culver", "97451", "841-874-6512", "jaboyd@email.com"));
 		persons.add(new Person("Gimmy", "Boyd", "1509 Culver st", "Culver", "97451", "841-874-6513", "drk@email.com"));
-		persons.add(new Person("Toto", "Tutu", "892 Downing Ct", "Culver", "97451", "841-874-6512", "reg@email.com"));
+		persons.add(new Person("Mike", "Boyd", "1509 Culver st", "Culver", "97451", "841-874-6512", "reg@email.com"));
 		persons.add(
 				new Person("Tata", "Popo", "892 Downing Ct", "Culver", "97451", "841-874-7878", "gramps@email.com"));
 	}
@@ -76,6 +77,12 @@ class AlertServiceImplTest {
 		medicalRecords.add(new MedicalRecord("Gimmy", "Boyd", "03/06/1989",
 				new ArrayList<String>(List.of("pharmacol:5000mg", "terazine:10mg", "noznazol:250mg")),
 				new ArrayList<String>()));
+		medicalRecords.add(new MedicalRecord("Mike", "Boyd", "03/03/2015",
+				new ArrayList<String>(List.of("pharmacol:5000mg", "terazine:10mg", "noznazol:250mg")),
+				new ArrayList<String>()));
+		medicalRecords.add(new MedicalRecord("Tata", "Popo", "03/04/2016",
+				new ArrayList<String>(List.of("pharmacol:5000mg", "terazine:10mg", "noznazol:250mg")),
+				new ArrayList<String>()));
 	}
 
 	// Format test
@@ -88,7 +95,7 @@ class AlertServiceImplTest {
 //		logcaptor = LogCaptor.forName("AlertServiceImpl");
 //		logcaptor.setLogLevelToInfo();
 	}
-	
+
 	@Test
 	void getCommunityEmailTest() throws Exception {
 
@@ -105,7 +112,7 @@ class AlertServiceImplTest {
 	}
 
 	@Test
-	void getPersonInfoTest() throws Exception {
+	void getPersonInfoTest() throws PersonNotFoundException {
 		// Given
 		when(personService.getPersonByLastName(anyString()))
 				.thenReturn(new ArrayList<Person>(List.of(persons.get(0), persons.get(1))));
@@ -113,8 +120,8 @@ class AlertServiceImplTest {
 				.thenReturn(medicalRecords.get(0));
 		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName("Gimmy", "Boyd"))
 				.thenReturn(medicalRecords.get(1));
-		when(ageCalculator.calculate(anyString())).thenReturn(38);
-		when(ageCalculator.calculate(anyString())).thenReturn(33);
+		ageCalculator.calculate(medicalRecords.get(0).getBirthdate());
+		ageCalculator.calculate(medicalRecords.get(1).getBirthdate());
 
 		// When
 		List<PersonInfoDto> result = alertService.getPersonInfo(anyString());
@@ -147,58 +154,74 @@ class AlertServiceImplTest {
 	}
 
 	@Test
-	void getChildDtoTest() throws Exception {
-		// Given
-		
-		when(personService.getPersonByAddress(anyString()))
-				.thenReturn(new ArrayList<Person>(List.of(persons.get(0), persons.get(1))));
+	void getPersonsPhoneNumberByStationTest_ShouldReturnException() throws PersonNotFoundException {
 
+		//Given // When // Then
+		assertThrows(PersonNotFoundException.class, () -> alertService.getPersonsPhoneNumberByStation(any()));
+		containsString("The list is empty, try again");
+
+	}
+
+	@Test
+	void getChildrenByAddress_Test() throws PersonNotFoundException, MedicalRecordNotFoundException {
+		when(personService.getPersonByAddress(anyString()))
+				.thenReturn(new ArrayList<Person>(List.of(persons.get(0), persons.get(1), persons.get(2))));
+
+		when(medicalRecordService.isChild(persons.get(0).getFirstName(), persons.get(0).getLastName()))
+				.thenReturn(false);
+		when(medicalRecordService.isChild(persons.get(1).getFirstName(), persons.get(1).getLastName()))
+				.thenReturn(false);
+		when(medicalRecordService.isChild(persons.get(2).getFirstName(), persons.get(0).getLastName()))
+				.thenReturn(true);
+
+		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName("Jonny", "Boyd"))
+				.thenReturn(medicalRecords.get(0));
+
+		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName("Mike", "Boyd"))
+				.thenReturn(medicalRecords.get(2));
+		ageCalculator.calculate(medicalRecordService.getMedicalRecordByFirstNameAndLastName(
+				medicalRecords.get(0).getFirstName(), medicalRecords.get(0).getLastName()).getBirthdate());
+		ageCalculator.calculate(medicalRecordService.getMedicalRecordByFirstNameAndLastName(
+				medicalRecords.get(0).getFirstName(), medicalRecords.get(1).getLastName()).getBirthdate());
+		ageCalculator.calculate(medicalRecordService.getMedicalRecordByFirstNameAndLastName(
+				medicalRecords.get(0).getFirstName(), medicalRecords.get(2).getLastName()).getBirthdate());
+
+		List<ChildDto> result = alertService.getChildDto("1509 Culver St");
+
+		verify(personService).getPersonByAddress(anyString());
+		verify(medicalRecordService, times(3)).getMedicalRecordByFirstNameAndLastName("Jonny", "Boyd");
+		assertThat(result.size()).isEqualTo(1);
+	}
+
+//	@Test
+//	void getPersonsByAddressFromListOfStationNumberTest() throws PersonNotFoundException, FirestationNotFoundException {
+//
+//		// Given
+//		
+//		when(personService.getPersonByAddress(anyString()))
+//				.thenReturn(new ArrayList<Person>(List.of(persons.get(0), persons.get(1))));
+//		Optional<Firestation> firestations = (firestationService.getFirestationsByAddress("1509 Culver st"));
+//		when(firestationService.getFirestationsByAddress(anyString())).thenReturn(new Optional<Firestation>firestationOpt(firestations.get(0).getAddress())); 
+//		when(firestationService.getFirestationsByAddress(firestations.get().getAddress())).thenReturn(fireOptional);
 //		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName("Jonny", "Boyd"))
 //				.thenReturn(medicalRecords.get(0));
 //		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName("Gimmy", "Boyd"))
-//				.thenReturn(medicalRecords.get(1));
-//		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).thenReturn(any());
-//		when(ageCalculator.calculate("03/06/1984")).thenReturn(38);
-//		when(ageCalculator.calculate("03/06/1989")).thenReturn(33);
+//		.thenReturn(medicalRecords.get(1));
+//		ageCalculator.calculate("03/06/1984");
+//		ageCalculator.calculate("03/06/1989");
+//	
+//	// When
+//	List<PersonAtAddressDto> result = alertService.getPersonsByAddressFromListOfStationNumber("1509 Culver st");
+//	
+//	// Then
+//	assertNotNull(result);
+//	
+//	
+//	}
 
-		// When
-		List<ChildDto> result = alertService.getChildDto("1509 Culver st");
-
-		// Then
-
-		assertThat(result).isEmpty();
-		verify(personService).getPersonByAddress(anyString());
-//		verify(medicalRecordService, times(1)).getMedicalRecordByFirstNameAndLastName(anyString(),anyString());
-
-	}
-	
-	@Disabled
-	@Test
-	void getPersonsByAddressFromListOfStationNumberTest() throws Exception {
-
-		// Given
-		when(personService.getPersonByAddress(anyString()))
-				.thenReturn(new ArrayList<Person>(List.of(persons.get(0), persons.get(1))));
-		Optional<Firestation> firestations = (firestationService.getFirestationsByAddress("1509 Culver st"));
-		when(firestationService.getFirestationsByAddress(firestations.get().getAddress())).thenReturn(any());
-		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName("Jonny", "Boyd"))
-				.thenReturn(medicalRecords.get(0));
-		when(medicalRecordService.getMedicalRecordByFirstNameAndLastName("Gimmy", "Boyd"))
-		.thenReturn(medicalRecords.get(1));
-		when(ageCalculator.calculate("03/06/1984")).thenReturn(38);
-		when(ageCalculator.calculate("03/06/1989")).thenReturn(33);
-	
-	// When
-	List<PersonAtAddressDto> result = alertService.getPersonsByAddressFromListOfStationNumber("1509 Culver st");
-	
-	// Then
-	assertNotNull(result);
-	
-	}
-	
 	@Test
 	public void testerror() {
 //		assertThat(logcaptor.getErrorLogs()).contains("Error parsing user input for type of vehicle");
 	}
-	
+
 }

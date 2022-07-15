@@ -9,6 +9,7 @@ import com.safetyNetAlert.safetyNetAlert.dto.PersonAtAddressDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonByFirestationDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 
+import exception.FirestationNotFoundException;
 import exception.PersonNotFoundException;
 
 public interface IAlertService {
@@ -21,7 +22,7 @@ public interface IAlertService {
 
 	public Set<String> getPersonsPhoneNumberByStation(String station) throws PersonNotFoundException;
 	
-	public List<PersonAtAddressDto> getPersonsByAddressFromListOfStationNumber(String address) throws PersonNotFoundException;
+	public List<PersonAtAddressDto> getPersonsByAddressFromListOfStationNumber(String address) throws PersonNotFoundException, FirestationNotFoundException;
 	
 	public List<FloodDto> getPersonsBySameAddress(String firestation) throws PersonNotFoundException;
 	
