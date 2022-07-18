@@ -53,6 +53,21 @@ class PersonRepositoryTest {
 		// Then
 		assertThat(persons).contains(person);
 	}
+	
+	@Test
+	void updatePersonTest_ShouldReturnNull() {
+
+		// Given
+		Person personNull = new Person(null, null, "1986 Culver st", "Culver", "97451", "841-874-2222",
+				"jboyd@email.com");
+
+		// When
+		Person result = personRepository.updatePerson(personNull);
+		
+
+		// Then
+		assertNull(result);
+	}
 
 	@Test
 	void deletePersonTest_shouldRemovePerson() {
@@ -172,6 +187,8 @@ class PersonRepositoryTest {
 		assertNotNull(result);
 	}
 	
+	
+	
 
 	@Test
 	void findByAddressTest_shouldReturnListPersonLivingInTheAddress() {
@@ -228,6 +245,7 @@ class PersonRepositoryTest {
 		assertThat(persons).contains(person);
 
 	}
+	
 	
 	
 	

@@ -3,6 +3,8 @@ package com.safetyNetAlert.safetyNetAlert.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +37,10 @@ class FirestationRepositoryTest {
 
 	@Test
 	void findAll_test() {
-		
+
 		// Given //When
 		List<Firestation> result = firestationRepository.getAllFirestation();
-		
+
 		// Then
 		assertThat(result).isEqualTo(firestations);
 
@@ -46,24 +48,24 @@ class FirestationRepositoryTest {
 
 	@Test
 	void addFireStation_test() {
-		// arrange
+		// Given
 		Firestation firestation = new Firestation("112 Steppes Pl", "4");
-		// act
+		// When
 		firestationRepository.addFirestation(firestation);
-		// assert
+		// Then
 		assertNotNull(firestation);
 
 	}
 
 	@Test
 	void deleteFireStation_test() {
-		
+
 		// Given
 		Firestation fireStation = new Firestation("1509 Culver St", "3");
-		
+
 		// When
 		firestationRepository.deleteFirestation(fireStation);
-		
+
 		// Then
 		assertThat(firestations).doesNotContain(fireStation);
 
@@ -92,15 +94,25 @@ class FirestationRepositoryTest {
 
 	@Test
 	void updateFireStation_test() {
-		// arrange
+		// Given
 		Firestation firestation = new Firestation("748 Townings Dr", "1");
-		// act
+		// When
 		Firestation result = firestationRepository.updateFirestation(firestation);
-		// assert
+		// Then
 		assertNotNull(result);
 
 	}
-	
+
+	@Test
+	void updateFireStationTest_ShouldReturnNull() {
+
+		Firestation firestation = new Firestation(null, null);
+		// Given // When // Then
+		Firestation result = firestationRepository.updateFirestation(firestation);
+
+		assertNull(result);
+	}
+
 	@Test
 	void FindByStationByStationNumberTest_ShouldReturnStation() {
 		// Given
@@ -112,10 +124,10 @@ class FirestationRepositoryTest {
 		assertEquals(1, 1);
 
 	}
-	
+
 	@Test
 	void getAddressByStationNumberTest_ShoultReturnFirestationByAddress() throws FirestationNotFoundException {
-		
+
 		// Given //When
 		Firestation result = firestationRepository.getAddressByStationNumber(firestations.get(0).getStation());
 
@@ -123,9 +135,18 @@ class FirestationRepositoryTest {
 		assertNotNull(result);
 
 	}
-	
-	
 
-	
+	@Test
+	void getAddressByStationNumberTest_ShoultReturnFirestationNotFoundException() throws FirestationNotFoundException {
+
+		// Given //When //Then
+
+		Firestation firestation = new Firestation("644 Gershwin Cir", "");
+		
+		assertThrows(FirestationNotFoundException.class,
+				() -> firestationRepository.getAddressByStationNumber(firestation.getStation()));
+		
+
+	}
 
 }

@@ -106,6 +106,10 @@ class MedicalRecordRepositoryTest {
 		assertThat(result.getAllergies()).isEqualTo(medicalRecord.getAllergies());
 
 	}
+	
+	
+	
 
+	
 
 }

@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,29 +105,29 @@ class MedicalRecordControllerTest {
 
 	
 	
-	@Disabled
-	@Test
-	public void testPutMedicalRecord() throws Exception {
-
-		// Given
-		String medicalRecord = "{\"firstName\":\"Jimmy\",\"lastName\":\"Sax\",\"birthdate\":\"03/06/1984\",\"medications\":\"aznol:350mg\",\"allergies\":\"shellfish\"}";
-
-		MedicalRecord medicalRecord1 = new MedicalRecord("Jimmy", "Sax", "03/06/1980", Arrays.asList("aznol:350mg"),
-				Arrays.asList("peanut"));
-		List<MedicalRecord> medicalRecordList = new ArrayList<>(Arrays.asList(medicalRecord1));
-		// When
-		when(medicalRecordService.addMedicalRecord(medicalRecord1)).thenReturn(medicalRecord1);
-
-		mockMvc.perform(post("/medicalRecord").content(objectMapper.writeValueAsString(medicalRecordList))
-
-				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
-		when(medicalRecordService.updateMedicalRecord(medicalRecordTest1)).thenReturn(medicalRecordTest1);
-
-		// Then
-		mockMvc.perform(MockMvcRequestBuilders.put("/medicalRecord").contentType(MediaType.APPLICATION_JSON)
-				.param("firstName", "Jimmy").param("lastName", "Sax").content(medicalRecord))
-				.andExpect(status().isOk());
-	}
+//	@Disabled
+//	@Test
+//	public void testPutMedicalRecord() throws Exception {
+//
+//		// Given
+//		String medicalRecord = "{\"firstName\":\"Jimmy\",\"lastName\":\"Sax\",\"birthdate\":\"03/06/1984\",\"medications\":\"aznol:350mg\",\"allergies\":\"shellfish\"}";
+//
+//		MedicalRecord medicalRecord1 = new MedicalRecord("Jimmy", "Sax", "03/06/1980", Arrays.asList("aznol:350mg"),
+//				Arrays.asList("peanut"));
+//		List<MedicalRecord> medicalRecordList = new ArrayList<>(Arrays.asList(medicalRecord1));
+//		// When
+//		when(medicalRecordService.addMedicalRecord(medicalRecord1)).thenReturn(medicalRecord1);
+//
+//		mockMvc.perform(post("/medicalRecord").content(objectMapper.writeValueAsString(medicalRecordList))
+//
+//				.contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
+//		when(medicalRecordService.updateMedicalRecord(medicalRecordTest1)).thenReturn(medicalRecordTest1);
+//
+//		// Then
+//		mockMvc.perform(MockMvcRequestBuilders.put("/medicalRecord").contentType(MediaType.APPLICATION_JSON)
+//				.param("firstName", "Jimmy").param("lastName", "Sax").content(medicalRecord))
+//				.andExpect(status().isOk());
+//	}
 
 	@Test
 	public void testDeleteMedicalRecord() throws Exception {
