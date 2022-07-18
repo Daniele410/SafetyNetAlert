@@ -222,7 +222,7 @@ public class AlertServiceImpl implements IAlertService {
 				if (age <= 18) {
 					nbOfChildren++;
 				} else {
-//					nbOfAdult++;
+					nbOfAdult++;
 				}
 				return new LightPersonDto(ps.getFirstName(), ps.getLastName(), a, ps.getPhone(), age);
 			}).collect(Collectors.toList()));
