@@ -92,7 +92,6 @@ class MedicalRecordRepositoryTest {
 	}
 
 	@Test
-
 	void updateMedicalRecordTest_ShouldReturnMedicalRecordUpload() {
 
 		// Given
@@ -106,6 +105,7 @@ class MedicalRecordRepositoryTest {
 		assertThat(result.getAllergies()).isEqualTo(medicalRecord.getAllergies());
 
 	}
+	
 	
 	
 	

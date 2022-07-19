@@ -90,6 +90,9 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 		} else {
 			System.out.println("erreur");
 			return null;
+			
+//			logger.error("The " + lastName +" and " + firstName + " is not present");
+//			throw new MedicalRecordNotFoundException("the "+ medicalRecordTemp + " is not update: "+" "+ "insert a existing firstName and lastName");
 		}
 	}
 
@@ -106,5 +109,7 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
 			return false;
 	}
+	
+	
 
 }

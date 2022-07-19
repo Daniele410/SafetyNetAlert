@@ -10,6 +10,7 @@ import com.safetyNetAlert.safetyNetAlert.dto.PersonByFirestationDto;
 import com.safetyNetAlert.safetyNetAlert.dto.PersonInfoDto;
 
 import exception.FirestationNotFoundException;
+import exception.MedicalRecordNotFoundException;
 import exception.PersonNotFoundException;
 
 public interface IAlertService {
@@ -26,7 +27,7 @@ public interface IAlertService {
 	
 	public List<FloodDto> getPersonsBySameAddress(String firestation) throws PersonNotFoundException;
 	
-	public PersonByFirestationDto getPersonsCoveredByStation(String stationNumber) throws PersonNotFoundException;
+	public PersonByFirestationDto getPersonsCoveredByStation(String stationNumber) throws PersonNotFoundException, MedicalRecordNotFoundException;
 	
 	
 

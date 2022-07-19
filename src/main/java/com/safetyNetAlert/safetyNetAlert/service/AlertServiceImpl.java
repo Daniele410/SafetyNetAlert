@@ -176,7 +176,7 @@ public class AlertServiceImpl implements IAlertService {
 		List<String> address = firestationService.getAddressesCoveredByStationNumber(station);
 
 		address.stream().forEach(a -> {
-			List<HouseHolderDto> houseHolderDtos = persons.stream().filter(p -> p.getAddress().equals(a)).map(ps -> {
+			List<HouseHolderDto> houseHolderDtos = persons.stream().filter(p -> p.getAddress().toString().equals(a.toString())).map(ps -> {
 				MedicalRecord medicalRecord = new MedicalRecord();
 
 				medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(ps.getFirstName(),

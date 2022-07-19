@@ -42,9 +42,9 @@ public class MedicalRecordRepository {
 		if (medicalRecordsToUpdate != null) {
 			deleteMedicalRecord(medicalRecordsToUpdate.get());
 			addMedicalRecord(medicalRecord);
-			return medicalRecord;
+			
 		}
-		return null;
+		return medicalRecord;
 		
 
 //		MedicalRecord medicalRecordToUpdate = findByFirstNameAndLastName(medicalRecord.getFirstName(),
@@ -54,9 +54,9 @@ public class MedicalRecordRepository {
 //		return listMedicalRecord.set(index, medicalRecord);
 	}
 
-	public MedicalRecord findByBirthdate(String birthdate) {
-		return this.findByBirthdate(birthdate);
-	}
+//	public MedicalRecord findByBirthdate(String birthdate) {
+//		return this.findByBirthdate(birthdate);
+//	}
 
 	public void deleteMedicalRecord(MedicalRecord medicalRecord) {
 		MedicalRecord medicalRecordToDelete = findByFirstNameAndLastName(medicalRecord.getFirstName(),

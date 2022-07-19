@@ -2,6 +2,8 @@ package com.safetyNetAlert.safetyNetAlert.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -42,10 +44,10 @@ class MedicalRecordServiceImplTest {
 	@Mock
 	private MedicalRecordRepository medicalRecordRepository;
 
-	@Mock
+	
 	MedicalRecord medicalRecord;
 
-	@Mock
+	
 	private List<MedicalRecord> medicalRecordsList = new ArrayList<>();
 
 	// Format test
@@ -108,15 +110,6 @@ class MedicalRecordServiceImplTest {
 				() -> medicalRecordService.updateMedicalRecord(medicalRecord));
 	}
 
-//	@Test
-//	public void updateMedicalRecordTest_shouldReturnException() throws MedicalRecordNotFoundException {
-//
-//		MedicalRecord medicalRecord = new MedicalRecord();
-//		medicalRecordsList = Arrays.asList(medicalRecord);
-//
-//		// Then
-//		assertThrows(MedicalRecordNotFoundException.class, () -> medicalRecordService.updateMedicalRecord(medicalRecord));
-//	}
 
 	@Test
 	public void addMedicalRecordTest() throws Exception {
@@ -183,28 +176,41 @@ class MedicalRecordServiceImplTest {
 		assertEquals(medicalRecords.getFirstName(), "Jimmy");
 
 	}
+	
+	
 
-//	@Disabled
-//	@Test
-//	public void isChildTest() {
-//		MedicalRecord medicalRecords = new MedicalRecord("Jimmy", "Sax", "03/06/1951", Arrays.asList("aznol:350mg"),
-//				Arrays.asList("nillacilan"));
-//		Optional<MedicalRecord> optionalMedicalRecord = Optional.of(medicalRecords);
-//
-//		when(medicalRecordRepository.findByFirstNameAndLastName(medicalRecords.getLastName(),
-//				medicalRecords.getFirstName())).thenReturn(optionalMedicalRecord);
-//		boolean result = medicalRecordService.isChild(optionalMedicalRecord.get().getLastName(),
-//				optionalMedicalRecord.get().getFirstName());
-//
-//		assertTrue(result);
-//		AgeCalculator ageCalculator = new AgeCalculator();
-//		String birthdate = "03/06/1951";
-//		// act
-//		int result = ageCalculator.calculate(birthdate);
-//		// assert
-//		System.out.println(result);
-//		assertThat(result).isEqualTo(38);
+	
+	@Test
+	public void isChildTestShouldReturnFalse() {
+		MedicalRecord medicalRecords = new MedicalRecord("Jimmy", "Sax", "03/06/1951", Arrays.asList("aznol:350mg"),
+				Arrays.asList("nillacilan"));
+		Optional<MedicalRecord> medicalBox = Optional.of(medicalRecords);
 
+		when(medicalRecordRepository.findByFirstNameAndLastName(anyString(),
+				anyString())).thenReturn(medicalBox);
+		medicalRecordService.ageCalculator = new AgeCalculator();
+		//When
+		boolean result = medicalRecordService.isChild("Jimmy", "Sax");
+		
+		//THEN
+		assertFalse(result);
+	}
+	
+	@Test
+	public void isChildTestShouldReturnTrue() {
+		MedicalRecord medicalRecords = new MedicalRecord("Bob", "DylanKid", "03/06/2021", Arrays.asList("aznol:350mg"),
+				Arrays.asList("nillacilan"));
+		Optional<MedicalRecord> medicalBox = Optional.of(medicalRecords);
+
+		when(medicalRecordRepository.findByFirstNameAndLastName(anyString(),
+				anyString())).thenReturn(medicalBox);
+		medicalRecordService.ageCalculator = new AgeCalculator();
+		//When
+		boolean result = medicalRecordService.isChild("Bob", "DylanKid");
+		
+		//THEN
+		assertTrue(result);
+	}
 //		MedicalRecord medicalRecords = new MedicalRecord("Jimmy", "Sax", "03/06/1951", Arrays.asList("aznol:350mg"),
 //				Arrays.asList("nillacilan"));
 //		Optional<MedicalRecord> optionalMedicalRecord = Optional.of(medicalRecords);

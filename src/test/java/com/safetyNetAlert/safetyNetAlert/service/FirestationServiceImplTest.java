@@ -38,10 +38,10 @@ class FirestationServiceImplTest {
 	@Mock
 	private FirestationRepository firestationRepository;
 
-	@Mock
+	
 	Person person;
 
-	@Mock
+	
 	private List<Firestation> firestationList = new ArrayList<>();
 
 	// Format test
