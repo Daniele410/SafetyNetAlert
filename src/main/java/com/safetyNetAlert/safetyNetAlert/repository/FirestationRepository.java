@@ -41,11 +41,6 @@ public class FirestationRepository {
 			return firestation;
 		}else
 		return null;
-//		Firestation firestationToUpdate = findByAddress(firestation.getAddress());
-//		int index = listFirestation.indexOf(firestationToUpdate);
-//		// mise à jour de la firestation grâce à l'index dans la liste
-//		listFirestation.set(index, firestation);
-//		return firestationToUpdate;
 	}
 
 	public void deleteFirestation(Firestation firestation) {
@@ -56,7 +51,7 @@ public class FirestationRepository {
 		}
 
 	private Firestation findByAddressAndStation(String address, String station) {
-
+		logger.debug("findByAddressAndStation {}", station);
 		Optional<Firestation> firestationToFind = listFirestation.stream().filter(
 				firestation -> (firestation.getAddress().equals(address)) && (firestation.getStation().equals(station)))
 				.findFirst();

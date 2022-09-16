@@ -1,7 +1,6 @@
 package com.safetyNetAlert.safetyNetAlert.model;
 
-public class Firestation
- {
+public class Firestation {
 	private String address;
 	private String station;
 
@@ -10,7 +9,7 @@ public class Firestation
 	}
 
 	public Firestation(String address, String station) {
-		super();
+
 		this.address = address;
 		this.station = station;
 	}
@@ -31,6 +30,4 @@ public class Firestation
 		this.station = station;
 	}
 
-
-	
 }

@@ -16,7 +16,7 @@ import com.safetyNetAlert.safetyNetAlert.utils.AgeCalculator;
 public class MedicalRecordRepository {
 
 	static final Logger logger = LogManager.getLogger(MedicalRecordRepository.class);
-	
+
 	@Autowired
 	AgeCalculator ageCalculator;
 
@@ -36,27 +36,16 @@ public class MedicalRecordRepository {
 
 	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) {
 		logger.debug("updating firestation {}", medicalRecord);
-		Optional<MedicalRecord> medicalRecordsToUpdate = findByFirstNameAndLastName(
-				medicalRecord.getFirstName(),
+		Optional<MedicalRecord> medicalRecordsToUpdate = findByFirstNameAndLastName(medicalRecord.getFirstName(),
 				medicalRecord.getLastName());
 		if (medicalRecordsToUpdate != null) {
 			deleteMedicalRecord(medicalRecordsToUpdate.get());
 			addMedicalRecord(medicalRecord);
-			
+
 		}
 		return medicalRecord;
-		
 
-//		MedicalRecord medicalRecordToUpdate = findByFirstNameAndLastName(medicalRecord.getFirstName(),
-//				medicalRecord.getLastName()).get();
-//
-//		int index = listMedicalRecord.indexOf(medicalRecordToUpdate);
-//		return listMedicalRecord.set(index, medicalRecord);
 	}
-
-//	public MedicalRecord findByBirthdate(String birthdate) {
-//		return this.findByBirthdate(birthdate);
-//	}
 
 	public void deleteMedicalRecord(MedicalRecord medicalRecord) {
 		MedicalRecord medicalRecordToDelete = findByFirstNameAndLastName(medicalRecord.getFirstName(),

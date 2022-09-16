@@ -1,13 +1,11 @@
 package com.safetyNetAlert.safetyNetAlert.dto;
 
 public class PhoneDto {
-	
+
 	String phone;
 
-	
-	
 	public PhoneDto(String phone) {
-		super();
+
 		this.phone = phone;
 	}
 
@@ -18,9 +16,5 @@ public class PhoneDto {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
-	
-	
-	
-	
+
 }

@@ -8,7 +8,7 @@ public class PersonDto {
 	private String phone;
 	
 	public PersonDto(String firstName, String lastName, String address, String phone) {
-		super();
+		
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;

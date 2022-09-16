@@ -7,21 +7,17 @@ public class ChildDto {
 	private String firstName;
 	private String lastName;
 	private int age;
-	private List<PersonDto> listeMembersofFamily;
+	private List<PersonDto> membersOfFamily;
 	
 	
 	
 	
-	public ChildDto(String firstName, String lastName, int age, List<PersonDto> listeMembersofFamily) {
+	public ChildDto(String firstName, String lastName, int age, List<PersonDto> membersOfFamily) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
-		this.listeMembersofFamily = listeMembersofFamily;
-	}
-	
-	public ChildDto() {
-		// TODO Auto-generated constructor stub
+		this.membersOfFamily = membersOfFamily;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -41,16 +37,14 @@ public class ChildDto {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	public List<PersonDto> getListeMembersofFamily() {
-		return listeMembersofFamily;
+	public List<PersonDto> getMembersOfFamily() {
+		return membersOfFamily;
 	}
-	public void setListeMembersofFamily(List<PersonDto> listeMembersofFamily) {
-		this.listeMembersofFamily = listeMembersofFamily;
-	};
+	public void setMembersOfFamily(List<PersonDto> membersOfFamily) {
+		this.membersOfFamily = membersOfFamily;
+	}
+
 	
 	
-	
+
 }
-	
-	
-	

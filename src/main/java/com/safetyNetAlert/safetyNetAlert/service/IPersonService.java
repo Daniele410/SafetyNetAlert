@@ -14,8 +14,6 @@ public interface IPersonService {
 
 	List<Person> getPersonByAddress(String address);
 
-	
-
 	Person deletePerson(Person person) throws PersonNotFoundException;
 
 	Person updatePerson(Person person) throws PersonNotFoundException;

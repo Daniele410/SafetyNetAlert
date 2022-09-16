@@ -14,7 +14,7 @@ public class HouseHolderDto {
 	
 	public HouseHolderDto(String firstName, String lastName, int age, List<String> medications,
 			List<String> allergies) {
-		super();
+		
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;

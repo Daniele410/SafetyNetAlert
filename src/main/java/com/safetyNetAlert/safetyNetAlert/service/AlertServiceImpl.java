@@ -96,11 +96,11 @@ public class AlertServiceImpl implements IAlertService {
 					c.getLastName());
 			int age = ageCalculator.calculate(medicalRecord.getBirthdate());
 
-			List<PersonDto> listeMembersofFamily = persons.stream().filter(
+			List<PersonDto> membersOfFamily = persons.stream().filter(
 					p -> !(p.getFirstName().equals(c.getFirstName()) && (p.getLastName().equals(c.getLastName()))))
 					.map(p -> new PersonDto(p.getFirstName(), p.getLastName(), p.getAddress(), p.getPhone()))
 					.collect(Collectors.toList());
-			childDtos.add(new ChildDto(c.getFirstName(), c.getLastName(), age, listeMembersofFamily));
+			childDtos.add(new ChildDto(c.getFirstName(), c.getLastName(), age, membersOfFamily));
 		});
 		return childDtos;
 	}

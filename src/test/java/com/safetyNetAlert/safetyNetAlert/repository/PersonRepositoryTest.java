@@ -53,7 +53,7 @@ class PersonRepositoryTest {
 		// Then
 		assertThat(persons).contains(person);
 	}
-	
+
 	@Test
 	void updatePersonTest_ShouldReturnNull() {
 
@@ -63,7 +63,6 @@ class PersonRepositoryTest {
 
 		// When
 		Person result = personRepository.updatePerson(personNull);
-		
 
 		// Then
 		assertNull(result);
@@ -97,12 +96,12 @@ class PersonRepositoryTest {
 
 	@Test
 	void findPersonByNameTest_shouldReturnNull() {
-		
+
 		// Given
 		Person person = new Person("Sophia", "Zemicks", "892 Downing Ct", "Culver", "97451", "841-874-7878",
 				"soph@email.com");
-		
-		//When
+
+		// When
 		Person result = personRepository.findByFirstNameAndLastName(person.getLastName(), person.getLastName());
 
 		// Then
@@ -112,10 +111,10 @@ class PersonRepositoryTest {
 
 	@Test
 	void findPersonByName_test_withAnUnregisteredPerson_shouldReturnNull() {
-		
+
 		// Given // When
 		Person result = personRepository.findByFirstNameAndLastName("lola", "laod");
-		
+
 		// Then
 		assertThat(result).isNull();
 
@@ -138,10 +137,10 @@ class PersonRepositoryTest {
 
 	@Test
 	void findPersonsByLastName_withNon_ExistentName_returnEmptyList() {
-		
+
 		// Given
 		List<Person> result = personRepository.findByLastName("Pippo");
-		
+
 		// When
 		assertThat(result).isEmpty();
 	}
@@ -164,10 +163,10 @@ class PersonRepositoryTest {
 
 	@Test
 	void findByCityTest_withAnUnregisteredCity_returnEmptyList() {
-		
+
 		// Given //When
 		List<Person> result = personRepository.getPersonsByCity("Rome");
-		
+
 		// Then
 		assertThat(result).isEmpty();
 	}
@@ -186,21 +185,18 @@ class PersonRepositoryTest {
 		// Then
 		assertNotNull(result);
 	}
-	
-	
-	
 
 	@Test
 	void findByAddressTest_shouldReturnListPersonLivingInTheAddress() {
-		
+
 		// Then
 		Person person = new Person("Jacob", "Boyd", "1509 Culver st", "Culver", "97451", "841-874-6513",
 				"drk@email.com");
-		
+
 		// When
 		persons.add(person);
 		List<Person> result = personRepository.getPersonByAddress(person.getAddress());
-		
+
 		// Then
 		assertThat(persons).contains(person);
 		assertNotNull(result);
@@ -209,15 +205,15 @@ class PersonRepositoryTest {
 
 	@Test
 	void findByAddress_withAnUnregisteredAddress_retunNull() {
-		
+
 		// Given //When
 		List<Person> result = personRepository.getPhoneByAddress("152 francisco st");
-		
+
 		// Then
 		assertThat(result).isEmpty();
 
 	}
-	
+
 	@Test
 	public void getPersonByFirstNameAndLastNameTest_shouldReturnPerson() {
 
@@ -231,7 +227,7 @@ class PersonRepositoryTest {
 		assertThat(persons).contains(person);
 
 	}
-	
+
 	@Test
 	public void getChildByAddressTest_shouldReturnPerson() {
 
@@ -245,9 +241,5 @@ class PersonRepositoryTest {
 		assertThat(persons).contains(person);
 
 	}
-	
-	
-	
-	
 
 }

@@ -11,7 +11,6 @@ public class FloodDto {
 	
 	
 	public FloodDto(String address, List<HouseHolderDto> holderDtos) {
-		super();
 		this.address = address;
 		this.holderDtos = holderDtos;
 	}
