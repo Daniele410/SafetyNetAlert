@@ -85,12 +85,10 @@ GET http://localhost:8080/personInfo?firstName=`firstName`&lastName=`lastName` :
 
 GET http://localhost:8080/childAlert?address=`address` : This url should return a list of children (any individual aged 18 or under) living at this address.
 
-GET http://localhost:8080/firestation?stationNumber=`station_number` : Cette url doit retourner une liste des personnes couvertes par la caserne de pompiers correspondante.
+GET http://localhost:8080/phoneAlert?firestation=`firestation_number` : This url should return a list of phone numbers of residents served by the fire station.
+
+GET http://localhost:8080/firestation?stationNumber=`station_number` : This url should return a list of people covered by the corresponding fire station.
 
 GET http://localhost:8080/fire?address=`address` : This url must return the list of inhabitants living at the given address as well as the number of the fire station serving it.
 
 GET http://localhost:8080/flood/stations?stations=`a_list_ofStation_numbers` : This url should return a list of all households served by the barracks. This list must group people by address.
-
-GET http://localhost:8080/phoneAlert?firestation=`firestation_number` : Cette url doit retourner une liste des numéros de téléphone des résidents desservis par la caserne de pompiers.
-
-
