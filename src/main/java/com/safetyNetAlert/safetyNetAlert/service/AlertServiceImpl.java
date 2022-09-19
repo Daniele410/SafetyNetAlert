@@ -45,22 +45,26 @@ public class AlertServiceImpl implements IAlertService {
 
 	@Autowired
 	AgeCalculator ageCalculator;
-	
+
 	int nbOfAdult;
 	int nbOfChildren;
 
-	// Retourner une liste d'email de chaque habitants
+	/*
+	 * http://localhost:8080/communityEmail?city=<city>
+	 * Retourner une liste d'email
+	 * de chaque habitants
+	 */
 	public List<String> getCommunityEmail(String city) throws PersonNotFoundException {
 		return personService.getPersonsByCity(city).stream().map(p -> p.getEmail()).distinct()
 				.collect(Collectors.toList());
 	}
 
-	// Cette url doit retourner le nom, l'adresse, l'âge, l'adresse mail et les
-	// antécédents médicaux (médicaments,
-	// posologie, allergies) de chaque habitant. Si plusieurs personnes portent le
-	// même nom, elles doivent
-	// toutes apparaître
-
+	/*
+	 * http://localhost:8080/personInfo?lastName=<lastName> Cette url doit retourner
+	 * le nom, l'adresse, l'âge, l'adresse mail et les antécédents médicaux
+	 * (médicaments, posologie, allergies) de chaque habitant. Si plusieurs
+	 * personnes portent le même nom, elles doivent toutes apparaître
+	 */
 	public List<PersonInfoDto> getPersonInfo(String lastName) throws PersonNotFoundException {
 		List<PersonInfoDto> personInfoDtos = new ArrayList<>();
 		List<Person> persons = personService.getPersonByLastName(lastName);
@@ -77,7 +81,7 @@ public class AlertServiceImpl implements IAlertService {
 
 	/*
 	 * http://localhost:8080/childAlert?address=<address> Cette url doit retourner
-	 * -Une liste d'enfants (tout individu âgé de 18 ans ou moins) habitant à cette
+	 * Une liste d'enfants (tout individu âgé de 18 ans ou moins) habitant à cette
 	 * adresse. -La liste doit comprendre le prénom et le nom de famille de chaque
 	 * enfant, son âge et une liste des autres membres du foyer. S'il n'y a pas
 	 * d'enfant, cette url peut renvoyer une chaîne vide.
@@ -111,12 +115,11 @@ public class AlertServiceImpl implements IAlertService {
 	 * d'urgence à des foyers spécifiques.
 	 */
 
-	public Set<String> getPersonsPhoneNumberByStation(String firestation) throws PersonNotFoundException{
+	public Set<String> getPersonsPhoneNumberByStation(String firestation) throws PersonNotFoundException {
 
 		Set<String> setPhoneByStation = firestationService.getFireStationsByStation(firestation).stream()
 				.map(Firestation::getAddress)// .map(firestation -> firestation.getAdresse)
-				.flatMap(address ->	personService.getPersonByAddress(address).stream())
-				.map(Person::getPhone)
+				.flatMap(address -> personService.getPersonByAddress(address).stream()).map(Person::getPhone)
 				.collect(Collectors.toSet());
 
 //		Deuxième façon de faire =>
@@ -142,7 +145,8 @@ public class AlertServiceImpl implements IAlertService {
 	 * allergies) de chaque personne
 	 */
 
-	public List<PersonAtAddressDto> getPersonsByAddressFromListOfStationNumber(String address) throws PersonNotFoundException, FirestationNotFoundException {
+	public List<PersonAtAddressDto> getPersonsByAddressFromListOfStationNumber(String address)
+			throws PersonNotFoundException, FirestationNotFoundException {
 
 		List<Person> persons = personService.getPersonByAddress(address); // je cree une liste de person avec address
 		Firestation firestation = firestationService.getFirestationsByAddress(address)
@@ -176,16 +180,17 @@ public class AlertServiceImpl implements IAlertService {
 		List<String> address = firestationService.getAddressesCoveredByStationNumber(station);
 
 		address.stream().forEach(a -> {
-			List<HouseHolderDto> houseHolderDtos = persons.stream().filter(p -> p.getAddress().toString().equals(a.toString())).map(ps -> {
-				MedicalRecord medicalRecord = new MedicalRecord();
+			List<HouseHolderDto> houseHolderDtos = persons.stream()
+					.filter(p -> p.getAddress().toString().equals(a.toString())).map(ps -> {
+						MedicalRecord medicalRecord = new MedicalRecord();
 
-				medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(ps.getFirstName(),
-						ps.getLastName());
-				int age = ageCalculator.calculate(medicalRecord.getBirthdate());
+						medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(ps.getFirstName(),
+								ps.getLastName());
+						int age = ageCalculator.calculate(medicalRecord.getBirthdate());
 
-				return new HouseHolderDto(ps.getFirstName(), ps.getLastName(), age, medicalRecord.getMedications(),
-						medicalRecord.getAllergies());
-			}).collect(Collectors.toList());
+						return new HouseHolderDto(ps.getFirstName(), ps.getLastName(), age,
+								medicalRecord.getMedications(), medicalRecord.getAllergies());
+					}).collect(Collectors.toList());
 			floodDtos.add(new FloodDto(a, houseHolderDtos));
 		});
 
@@ -203,7 +208,6 @@ public class AlertServiceImpl implements IAlertService {
 	 * nombre d'enfants (tout individu âgé de 18 ans ou moins) dans la zone
 	 * desservie.
 	 */
-	
 
 	@Override
 	public PersonByFirestationDto getPersonsCoveredByStation(String stationNumber) throws PersonNotFoundException {

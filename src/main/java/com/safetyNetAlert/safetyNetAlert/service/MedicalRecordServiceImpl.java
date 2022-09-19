@@ -19,7 +19,7 @@ import exception.MedicalRecordNotFoundException;
 public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
 	static final Logger logger = LogManager.getLogger(MedicalRecordServiceImpl.class);
-	
+
 	@Autowired
 	MedicalRecordRepository medicalRecordRepository;
 
@@ -35,7 +35,7 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		medicalRecordRepository.getAllMedicalRecords().forEach(medicalRecords::add);
 		logger.info("Getting all medicalRecords");
-		if(medicalRecords.isEmpty()) {
+		if (medicalRecords.isEmpty()) {
 			String errorMessage = String.format("%s not found", medicalRecords);
 			throw new MedicalRecordNotFoundException(errorMessage);
 		}
@@ -44,18 +44,19 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
 	/**
 	 * Check if there is already
-	 * @throws MedicalRecordNotFoundException 
+	 * 
+	 * @throws MedicalRecordNotFoundException
 	 */
 	@Override
-	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) throws MedicalRecordNotFoundException  {
-		Optional<MedicalRecord> medicalRecordToUpdate = medicalRecordRepository.findByFirstNameAndLastName(
-				medicalRecord.getFirstName(),
-				medicalRecord.getLastName());
+	public MedicalRecord updateMedicalRecord(MedicalRecord medicalRecord) throws MedicalRecordNotFoundException {
+		Optional<MedicalRecord> medicalRecordToUpdate = medicalRecordRepository
+				.findByFirstNameAndLastName(medicalRecord.getFirstName(), medicalRecord.getLastName());
 		if (medicalRecordToUpdate.isPresent()) {
 			return medicalRecordRepository.updateMedicalRecord(medicalRecord);
-		}else
-		logger.error("The " + medicalRecord + " is not present");
-		throw new MedicalRecordNotFoundException("the "+ medicalRecord + " is not update: "+" "+ "insert a existing firstName and lastName");
+		} else
+			logger.error("The " + medicalRecord + " is not present");
+		throw new MedicalRecordNotFoundException(
+				"the " + medicalRecord + " is not update: " + " " + "insert a existing firstName and lastName");
 //		medicalRecordRepository.updateMedicalRecord(medicalRecord);
 //		return medicalRecord;
 	}
@@ -76,7 +77,8 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 	public MedicalRecord deleteMedicalRecord(MedicalRecord medicalRecord) {
 		medicalRecordRepository.deleteMedicalRecord(medicalRecord);
 		logger.info("Deleting the person with keyname : " + medicalRecord);
-		System.out.println("This person with medical record " + " first name = " + medicalRecord.getFirstName() +" and "+" last name= "+ medicalRecord.getLastName() + " is deleted");
+		System.out.println("This person with medical record " + " first name = " + medicalRecord.getFirstName()
+				+ " and " + " last name= " + medicalRecord.getLastName() + " is deleted");
 		return medicalRecord;
 	}
 
@@ -90,7 +92,7 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 		} else {
 			System.out.println("erreur");
 			return null;
-			
+
 //			logger.error("The " + lastName +" and " + firstName + " is not present");
 //			throw new MedicalRecordNotFoundException("the "+ medicalRecordTemp + " is not update: "+" "+ "insert a existing firstName and lastName");
 		}
@@ -109,7 +111,5 @@ public class MedicalRecordServiceImpl implements IMedicalRecordService {
 
 			return false;
 	}
-	
-	
 
 }
