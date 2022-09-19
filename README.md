@@ -57,7 +57,9 @@ PUT http://localhost:8080/person/firstName/LastName : Update a Person
 
 DELETE http://localhost:8080/person/firstName/LastName: delete a Person
 
-## Firestation endpoints GET http://localhost:8080/firestations : get All FireStations
+## Firestation endpoints 
+
+GET http://localhost:8080/firestations : get All FireStations
 
 GET http://localhost:8080/firestation/stationNumber : get all FireStations with the station number
 
@@ -67,7 +69,9 @@ PUT http://localhost:8080/firestation/address : update a Firestation
 
 DELETE http://localhost:8080/firestation/address : delete a Firestation
 
-## Medical record endpoints GET http://localhost:8080/medicalRecord : get All MedicalRecords
+## Medical record endpoints 
+
+GET http://localhost:8080/medicalRecord : get All MedicalRecords
 
 GET http://localhost:8080/medicalRecord/lastName : get all MedicalRecords with the last name
 
