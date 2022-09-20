@@ -25,7 +25,7 @@ import com.safetyNetAlert.safetyNetAlert.repository.PersonRepository;
 @Service
 public class JsonReaderImpl implements IDataReader {
 	
-	private static final Logger logger = LogManager.getLogger("JsonReaderImpl");
+	static final Logger logger = LogManager.getLogger(JsonReaderImpl.class);
 
 	private ObjectMapper mapper = new ObjectMapper();
 
@@ -55,7 +55,7 @@ public class JsonReaderImpl implements IDataReader {
 			loadFirestations();
 			loadMedicalRecords();
 		} catch (FileNotFoundException e) {
-			logger.error("File not found");
+			logger.info("File not found, choose new path and try again");
 		}
 	}
 
