@@ -72,7 +72,7 @@ public class PersonServiceImpl implements IPersonService {
 			return personRepository.updatePerson(person);
 		}else
 		logger.error("The " + person + " is not present");
-		throw new PersonNotFoundException("the "+ person+ " is not update"+" "+ "insert a existing name" );
+		throw new PersonNotFoundException("the "+ person+ " is not update"+" "+ "insert a existing firstName and lastName" );
 //		personRepository.updatePerson(person);
 //		logger.info("Saving the person : " + person);
 //		return person;

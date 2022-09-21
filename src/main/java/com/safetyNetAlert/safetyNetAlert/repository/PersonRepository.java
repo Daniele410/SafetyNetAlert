@@ -37,8 +37,14 @@ public class PersonRepository {
 
 	public Person updatePerson(Person person) {
 		logger.debug("updating person {}", person);
-		return findByFirstNameAndLastName(person.getFirstName(),
+		Person personToUpdate = findByFirstNameAndLastName(person.getFirstName(),
 				person.getLastName());
+		if  (personToUpdate != null) {
+			deletePerson(personToUpdate);
+			addPerson(person);
+			return person;
+		}else
+			return null;
 		
 //		Person personToUpdate = findByFirstNameAndLastName(person.getFirstName(), person.getLastName());//dans le service, si pas présent on trhow
 //		int index = listPerson.indexOf(personToUpdate);
